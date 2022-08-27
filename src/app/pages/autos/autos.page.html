@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Autos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Searchbar with value -->
+  <h1>Conductores disponibles</h1>
+  <ion-card>
+    <ion-avatar class="imagen">
+      <img src="../assets/Imagenes/Oliva.webp" style="align-self: center;" />
+    </ion-avatar>
+    <ion-card-content>
+      <ion-card-title>
+        Mr. Oliva
+      </ion-card-title>
+      <ion-card-subtitle>
+        <ion-icon name="car-sport-outline"></ion-icon>
+        Hyundai elantra 2018
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        <ion-icon name="barcode-outline"></ion-icon>
+        KK-DF-32
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        <ion-icon name="man-outline"></ion-icon>
+        4
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        <ion-icon name="map-outline"></ion-icon>
+        Til-til
+      </ion-card-subtitle>
+      <div class="si">
+        <ion-button class="boton" [routerLink]="['/tomarauto']" ><ion-icon name="car-outline"></ion-icon> Tomar viaje</ion-button>
+      </div>
+  
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-avatar class="imagen">
+      <img src="../assets/Imagenes/toreto.jpg" style="align-self: center;" />
+    </ion-avatar>
+    <ion-card-content>
+      <ion-card-title>
+        Toreto 
+      </ion-card-title>
+      <ion-card-subtitle>
+        <ion-icon name="car-sport-outline"></ion-icon>
+        Nissan Skyline
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        <ion-icon name="barcode-outline"></ion-icon>
+        FA-MI-LY
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        <ion-icon name="man-outline"></ion-icon>
+        4
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        <ion-icon name="map-outline"></ion-icon>
+        Til-til
+      </ion-card-subtitle>
+      <div class="si">
+        <ion-button class="boton" routerLink=""><ion-icon name="car-outline"></ion-icon> Tomar viaje</ion-button>
+      </div>
+  
+    </ion-card-content>
+  </ion-card>
+  <div class="si">
+    <ion-button class="boton" routerLink="/viajeactivo">Viaje Activo</ion-button>
+  </div>
+</ion-content>

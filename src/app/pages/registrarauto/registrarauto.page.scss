@@ -1,0 +1,29 @@
+.items{
+    margin-bottom: 15px;
+}
+.ion-toolbar{
+    --background:rgb(0,0,0,0);
+}
+.boton{
+    text-align: center;
+    margin-top: 20px;
+}
+
+ion-content {
+    --background: #ffffff;
+    text-align: center;
+}
+
+ion-toolbar{
+    --background: #74121D;
+    --color: #fff;
+}
+ion-item{
+    --background: #ffffff;
+    --placeholder-color: #fff;
+}
+ion-button{
+    --background: #74121D;
+    --color: #fff;
+    --background-hover: #777777;
+}

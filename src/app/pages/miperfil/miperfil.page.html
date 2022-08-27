@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-avatar class="imagen">
+      <img src="../assets/Imagenes/Perfil.png" style="align-self: center;" />
+    </ion-avatar>
+    <ion-card-content>
+      <ion-card-title>
+        Hugo Toro
+      </ion-card-title>
+    </ion-card-content>
+  </ion-card>
+  <!--Botón editar perfil-->
+  <ion-row>
+    <ion-col col-2>
+      <h1>Información</h1>
+    </ion-col>
+  </ion-row>
+
+  <!--Datos del perfil-->
+  <ion-row>
+    <ion-col col-8>
+      <ion-item>
+        <ion-label>
+          {{Nombre}}
+          
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="person-outline"></ion-icon>
+          <p style="font-size: 11px;">Nombre</p>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          {{Correo}}
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="mail-outline"></ion-icon>
+          <p style="font-size: 11px;">Correo E.</p>
+        </div>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          {{Telefono}}
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="call-outline"></ion-icon>
+          <p style="font-size: 11px;">Teléfono</p>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          {{Direccion}}
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="home-outline"></ion-icon>
+          <p style="font-size: 11px;">Dirección</p>
+        </div>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <div class="si">
+    <ion-button class="boton" routerLink="/configuracion">
+      <ion-icon name="pencil-outline" slot="start"></ion-icon>Editar
+    </ion-button>
+  </div>
+  <div class="si">
+    <ion-button class="boton" routerLink="/inicio-sesion">
+      <ion-icon name="log-out-outline"></ion-icon> Cerrar sesión
+    </ion-button>
+  </div>
+</ion-content>

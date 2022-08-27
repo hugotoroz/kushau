@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Tomar viaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h1 style="text-align: center;">Conductor</h1>
+  <ion-avatar class="imagen">
+    <img src="../assets/Imagenes/Oliva.webp" style="align-self: center;" />
+  </ion-avatar>
+  <h1 style="text-align: center;">Mr. Oliva</h1>
+    <!-- <b>Descripción:</b> El auto es de color rojo y está al frente de el sector de cancha. -->
+  <ion-item>
+    
+    <ion-label>
+      Hyundai Elantra
+    </ion-label>
+    <div class="ictxt">
+      <ion-icon name="car-sport-outline" slot="end"></ion-icon>      
+      <p style="font-size: 11px;">Vehículo</p>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      KK-DF-32
+    </ion-label>
+    <div class="ictxt">
+      <ion-icon name="barcode-outline"slot="end" ></ion-icon>
+      <p style="font-size: 11px;">Patente</p>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      4 disponibles
+    </ion-label>
+    <div class="ictxt">
+      <ion-icon name="man-outline" slot="end"></ion-icon>
+      <p style="font-size: 11px;">Asientos</p>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      Fila 6
+    </ion-label>
+    <div class="ictxt">
+      <ion-icon name="location-outline"slot="end"></ion-icon>      
+      <p style="font-size: 11px;">Ubicación</p>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      Til-til
+    </ion-label>
+    <div class="ictxt">
+      <ion-icon name="map-outline" slot="end"></ion-icon>      
+      <p style="font-size: 11px;">Dirección</p>
+    </div>
+  </ion-item>
+
+  <ion-item style="margin-top: 5px; margin-bottom: 5px;">
+    <ion-text-area>
+      El auto es de color amarillo y está cerca del sector de las canchas.
+    </ion-text-area>
+    <div class="ictxt">
+      <ion-icon name="chatbubble-outline"></ion-icon>      
+      <p style="font-size: 11px;">Descripción</p>
+    </div>
+  </ion-item>
+
+  <ion-img *ngIf="Desplegarimagen" src="assets/Imagenes/Screenshot_1.jpg" alt="" class="imgmap"></ion-img>
+  <div style="text-align: center;">
+    <ion-button (click)="desplegarImgen()" class="boton"><ion-icon name="location-outline"></ion-icon> {{estado}}</ion-button>
+  </div>
+
+  <div style="text-align: center;">
+    <ion-button class="boton" routerLink="/viajeactivo">Tomar viaje</ion-button>
+  </div>
+
+  
+</ion-content>

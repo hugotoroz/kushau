@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align:center ;">Tu viaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h1 style="text-align: center;">¡Viaje tomado con éxito!</h1>
+  <p style="text-align: center;">Este es el viaje que tienes activo:</p>
+  <ion-grid>
+    <!--Es solo una imagen no es el mapa-->
+    <ion-img src="assets/Imagenes/mapa.jpeg" class="imgmap" ></ion-img>
+  </ion-grid>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>
+          Mr. Oliva
+        </ion-label>
+        <div class="ictxt">
+          <p style="font-size: 11px;">Conductor</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Hyundai Elantra
+        </ion-label>
+        <div class="ictxt">
+          <p style="font-size: 11px;">Vehículo</p>
+        </div>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>
+          KK-DF-32
+        </ion-label>
+        <div class="ictxt">
+          <p style="font-size: 11px;">Patente</p>
+        </div>
+    
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>
+          Fila 6
+        </ion-label>
+        <div class="ictxt">
+          <p style="font-size: 11px;">Ubicación</p>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          Til-til
+        </ion-label>
+        <div class="ictxt">
+          <p style="font-size: 11px;">Dirección</p>
+        </div>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  
+  
+  <div style="text-align: center;">
+    <ion-button class="boton" routerLink="/viajeactivo">Menú principal</ion-button>
+  </div>
+  <div style="text-align: center;">
+    <ion-button class="boton" routerLink="/viajeactivo" (click)="alerta()">Cancelar viaje</ion-button>
+  </div>
+</ion-content>

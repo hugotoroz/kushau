@@ -1,0 +1,26 @@
+ion-content{
+    --background: #74121D;
+    //--background: url('/assets/Imagenes/Inicio.png') no-repeat;
+}
+
+ion-img {
+  height: 70vh;
+  width: auto;
+  margin: auto;
+  display: block;
+  
+}
+.pedir{
+    width: 50%;
+}
+.boton{
+    text-align: center;
+    height: 10px;
+}
+
+ion-badge{
+    --background: #A51C30;
+}
+ion-tab-bar{
+    --background: #eeeeee;
+}

@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-avatar class="imagen">
+    <img src="../assets/Imagenes/Perfil.png" style="align-self: center;" />
+  </ion-avatar>
+  <ion-icon name="camera-outline"></ion-icon>
+  <div>
+    <ion-item class="items">
+      <ion-label color="sucess" class="bold">Nombre</ion-label>
+      <ion-input [(ngModel)]="Nombre"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label color="sucess" class="bold">Apellidos</ion-label>
+      <ion-input [(ngModel)]="Apellidos"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label color="sucess" class="bold">Dirección</ion-label>
+      <ion-input [(ngModel)]="Direccion"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label color="sucess" class="bold">Número de teléfono</ion-label>
+      <br>
+      <ion-input [(ngModel)]="Telefono">{{area}}</ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="sucess" class="bold">Correo</ion-label>
+      <ion-input [(ngModel)]="Correo" ></ion-input>
+    </ion-item>
+    <div class="si">
+      <ion-button class="boton" (click)="validarEditar()">Guardar Cambios</ion-button>
+    </div>
+  </div>
+
+
+</ion-content>
