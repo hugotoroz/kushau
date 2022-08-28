@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, ToggleChangeEventDetail } from '@ionic/angular';
 
 @Component({
   selector: 'app-registrarse',
@@ -16,10 +16,13 @@ export class RegistrarsePage implements OnInit {
   telefono : number=null;
   element: boolean = false;
   usuario1: string = "";
+  conductor: boolean = false;
 
+  
 
+  constructor(public toastController: ToastController,private alertController: AlertController) { 
 
-  constructor(public toastController: ToastController,private alertController: AlertController) { }
+  }
   validarUsuario(){
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (this.clave != this.clave1) {
@@ -37,13 +40,13 @@ export class RegistrarsePage implements OnInit {
       
     }
   } 
-  verdatos(){
+  toggleChanged(event){
+    if(this.conductor){
+      this.element = true
+    }
+    else{
+      this.element = false
 
-    this.element = !this.element;
-    this.usuario1 = 'Usuario'
-
-    if(this.element){
-      this.element=true
     }
   }
   ngOnInit() {
