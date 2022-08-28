@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { InicioSesionPageRoutingModule } from './inicio-sesion-routing.module';
+import { MainconductorPageRoutingModule } from './mainconductor-routing.module';
 
-import { InicioSesionPage } from './inicio-sesion.page';
+import { MainconductorPage } from './mainconductor.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    InicioSesionPageRoutingModule
+    MainconductorPageRoutingModule
   ],
-  declarations: [InicioSesionPage]
+  declarations: [MainconductorPage]
 })
-export class InicioSesionPageModule {}
+export class MainconductorPageModule {}

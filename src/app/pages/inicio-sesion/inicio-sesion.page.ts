@@ -18,16 +18,19 @@ export class InicioSesionPage implements OnInit {
   }
 
   validarUsuario(){
-    if (this.usuario != "") {
-      this.presentToast();
+    if ((this.usuario == "u") && (this.clave == "2")) {
+      
+      this.router.navigate(['/tabs'])
     
     }
-    else if (this.clave != "") {
-      this.presentToast();
-      
+    else if ((this.usuario == "si") && (this.clave =="1")){
+
+      this.router.navigate(['/mainconductor'])
+
     }
     else{
-      this.router.navigate(['/tabs'])
+      this.presentToast();
+    
     }
 
   }
