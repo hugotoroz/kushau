@@ -8,12 +8,14 @@ import { InicioSesionPageRoutingModule } from './inicio-sesion-routing.module';
 
 import { InicioSesionPage } from './inicio-sesion.page';
 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    InicioSesionPageRoutingModule
+    InicioSesionPageRoutingModule,
+    MatProgressSpinnerModule
   ],
   declarations: [InicioSesionPage]
 })

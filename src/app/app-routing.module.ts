@@ -47,9 +47,10 @@ const routes: Routes = [
     path: 'conductor',
     loadChildren: () => import('./pages/conductor/conductor.module').then( m => m.ConductorPageModule)
   },
-  
-
-
+  {
+    path: 'mainconductor',
+    loadChildren: () => import('./pages/mainconductor/mainconductor.module').then( m => m.MainconductorPageModule)
+  },
 
 
 ];
