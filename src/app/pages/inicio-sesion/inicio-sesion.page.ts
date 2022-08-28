@@ -25,7 +25,7 @@ export class InicioSesionPage implements OnInit {
     }
     else if ((this.usuario == "si") && (this.clave =="1")){
 
-      this.router.navigate(['/mainconductor'])
+      this.router.navigate(['/tabconductor'])
 
     }
     else{

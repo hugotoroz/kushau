@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController, ToastController, ToggleChangeEventDetail } from '@ionic/angular';
 
 @Component({
@@ -20,7 +21,7 @@ export class RegistrarsePage implements OnInit {
 
   
 
-  constructor(public toastController: ToastController,private alertController: AlertController) { 
+  constructor(public toastController: ToastController,private alertController: AlertController,private router: Router) { 
 
   }
   validarUsuario(){
@@ -39,6 +40,15 @@ export class RegistrarsePage implements OnInit {
       this.Corre();
       
     }
+    else if(this.conductor){
+      this.router.navigate(['/tabconductor'])
+
+    }
+    else if(this.conductor == false){
+      this.router.navigate(['/tabs'])
+
+    }
+
   } 
   toggleChanged(event){
     if(this.conductor){
