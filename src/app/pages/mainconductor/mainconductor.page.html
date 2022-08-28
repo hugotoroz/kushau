@@ -1,12 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>mainconductor</ion-title>
+
+    <ion-title>Iniciar viaje</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-grid>
+    <!--Es solo una imagen no es el mapa-->
+    <ion-img src="assets/Imagenes/mapa.jpeg" class="imgmap" ></ion-img>
+  </ion-grid>
   <div class="boton">
-    <ion-button class="inicia" (click)="validarUsuario()" type="submit">Iniciar viaje</ion-button>
+    <ion-button class="inicia" routerLink="/formv" type="submit">Iniciar viaje</ion-button>
   </div>
 </ion-content>

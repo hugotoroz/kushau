@@ -54,6 +54,10 @@ const routes: Routes = [
     path: 'tabconductor',
     loadChildren: () => import('./pages/tabconductor/tabconductor.module').then( m => m.TabconductorPageModule)
   },
+  {
+    path: 'formv',
+    loadChildren: () => import('./pages/formv/formv.module').then( m => m.FormvPageModule)
+  },
 
 
 

@@ -1,6 +1,6 @@
 .boton{
     text-align: center;
-    margin-top: 70px;
+    margin-top: 30px;
 }
 .inicia{
     width: 50%;
@@ -13,4 +13,13 @@ ion-content {
 ion-toolbar{
     --background: #74121D;
     --color: #fff;
+}
+.imgmap{
+    margin: auto; 
+    width: 96%;
+    height: 96%; 
+    margin-top: 10px; 
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0,0.35);
+    border-radius: 10px;
+
 }
