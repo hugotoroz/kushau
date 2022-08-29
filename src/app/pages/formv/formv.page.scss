@@ -1,3 +1,25 @@
+
+.boton{
+    text-align: center;
+    margin-top: 30px;
+    
+}
+.boton{
+    width: auto;
+    --background: #74121D;
+    margin-top: 20px;
+}
+.imgmap{
+    margin: auto; 
+    width: 90%; 
+    margin-top: 20px; 
+    border: #807f7f dashed 1px;
+}
+ion-button{
+    --background: #74121D;
+    --color: #fff;
+    --background-hover: #777777;
+}
 ion-content {
     --background: #ffffff;
     text-align: center;
@@ -6,18 +28,4 @@ ion-content {
 ion-toolbar{
     --background: #74121D;
     --color: #fff;
-}
-.boton{
-    text-align: center;
-    margin-top: 30px;
-
-}
-.inicia{
-    width: 50%;
-    --background: #74121D;
-}
-.botonn{
-    width: auto;
-    --background: #74121D;
-    margin-top: 20px;
 }

@@ -1,18 +1,10 @@
 .boton{
     text-align: center;
     margin-top: 30px;
+    
 }
 .inicia{
     width: 50%;
-}
-ion-content {
-    --background: #ffffff;
-    text-align: center;
-}
-
-ion-toolbar{
-    --background: #74121D;
-    --color: #fff;
 }
 .imgmap{
     margin: auto; 
@@ -22,4 +14,19 @@ ion-toolbar{
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0,0.35);
     border-radius: 10px;
 
+}
+ion-button{
+    --background: #74121D;
+    --color: #fff;
+    --background-hover: #777777;
+}
+
+ion-content {
+    --background: #ffffff;
+    text-align: center;
+}
+
+ion-toolbar{
+    --background: #74121D;
+    --color: #fff;
 }

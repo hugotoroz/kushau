@@ -63,7 +63,7 @@ export class RegistrarsePage implements OnInit {
   }
   async Corre() {
     const toast = await this.toastController.create({
-      message: 'Correo invalido',
+      message: 'Escriba un correo válido.',
       duration: 4000
     });
     toast.present();
@@ -71,7 +71,7 @@ export class RegistrarsePage implements OnInit {
   async Contra() {
     const alert = await this.alertController.create({
       header: 'Error',
-      message: 'Contraseña no coinciden',
+      message: 'Las contraseñas no coinciden.',
       buttons: ['OK'],
     });
 
@@ -79,14 +79,14 @@ export class RegistrarsePage implements OnInit {
   }
   async Largo() {
     const toast = await this.toastController.create({
-      message: 'Largo contraseña no valido debe ser mayor a 8',
+      message: 'El largo contraseña debe ser mayor a 8 caracteres.',
       duration: 4000
     });
     toast.present();
   }
   async Vacio() {
     const toast = await this.toastController.create({
-      message: 'Debe llenar los campos',
+      message: 'Debe completar todos los campos.',
       duration: 4000
     });
     toast.present();
