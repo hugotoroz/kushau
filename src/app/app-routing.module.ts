@@ -58,6 +58,10 @@ const routes: Routes = [
     path: 'formv',
     loadChildren: () => import('./pages/formv/formv.module').then( m => m.FormvPageModule)
   },
+  {
+    path: 'viajeactivo-cond',
+    loadChildren: () => import('./pages/viajeactivo-cond/viajeactivo-cond.module').then( m => m.ViajeactivoCondPageModule)
+  },
 
 
 
