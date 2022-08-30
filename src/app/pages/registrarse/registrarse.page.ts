@@ -18,7 +18,12 @@ export class RegistrarsePage implements OnInit {
   element: boolean = false;
   usuario1: string = "";
   conductor: boolean = false;
+  Patente: string="";
+  Marca: string="";
+  Modelo: string ="";
 
+
+  
   
 
   constructor(public toastController: ToastController,private alertController: AlertController,private router: Router) { 
@@ -41,7 +46,16 @@ export class RegistrarsePage implements OnInit {
       
     }
     else if(this.conductor){
+      if (this.Patente.length != 6){
+        this.Largop();
+
+      }
+      else if(this.Marca == "" || this.Modelo == "" || this.Patente == ""){
+        this.Vacio();
+      }
+      else{
       this.router.navigate(['/tabconductor'])
+      }
 
     }
     else if(this.conductor == false){
@@ -50,6 +64,13 @@ export class RegistrarsePage implements OnInit {
     }
 
   } 
+  async Largop() {
+    const toast = await this.toastController.create({
+      message: 'La patente no cumple con el largo',
+      duration: 4000
+    });
+    toast.present();
+  }
   toggleChanged(event){
     if(this.conductor){
       this.element = true

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -12,20 +12,20 @@ export class InicioSesionPage implements OnInit {
   usuario: string="";
   clave: string="";
 
-  constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController) { }
+  constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController) { }
 
   ngOnInit() {
   }
 
-  validarUsuario(){
+  async validarUsuario(){
     if ((this.usuario == "u") && (this.clave == "2")) {
-      
-      this.router.navigate(['/tabs'])
+      await this.loadingUI();
+       this.router.navigate(['/tabs'])
     
     }
     else if ((this.usuario == "si") && (this.clave =="1")){
-
-      this.router.navigate(['/tabconductor'])
+      await this.loadingUI();
+      await this.router.navigate(['/tabconductor'])
 
     }
     else{
@@ -50,6 +50,17 @@ export class InicioSesionPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async loadingUI() {
+
+    let loadingUI = await this.loading.create({
+      message: 'Iniciando Sesión',
+      duration: 500
+      
+    });
+    return await loadingUI.present();
+
   }
 
 }
