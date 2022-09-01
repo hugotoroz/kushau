@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <div>
+  <div >
     <ion-avatar class="imagen">
       <img src="../assets/Imagenes/Perfil.png" style="align-self: center;" />
     </ion-avatar>
@@ -23,46 +23,46 @@
       </ion-label>
     </ion-item>
 
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label position="floating" color="sucess">Nombre</ion-label>
       <ion-input [(ngModel)]="nombre"></ion-input>
     </ion-item>
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label position="floating" color="sucess">Apellido</ion-label>
       <ion-input [(ngModel)]="apellido"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label position="floating" color="sucess">Correo</ion-label>
       <ion-input [(ngModel)]="correo" type="email"></ion-input>
     </ion-item>
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label position="floating" color="sucess">Dirección</ion-label>
       <ion-input [(ngModel)]="direccion"></ion-input>
     </ion-item>
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label position="floating" color="sucess">Número de teléfono</ion-label>
       <ion-input [(ngModel)]="telefono"></ion-input>
     </ion-item>
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label position="floating" color="sucess">Contraseña</ion-label>
       <ion-input type="password" class="inputc" [(ngModel)]="clave"></ion-input>
     </ion-item>
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label position="floating" color="sucess">Repetir contraseña</ion-label>
       <ion-input type="password" class="inputc" [(ngModel)]="clave1"></ion-input>
     </ion-item>
 
     <!--PARA OCULTAR CAMPOS-->
     <div *ngIf="element">
-      <ion-item class="items">
+      <ion-item class="items" matRipple [matRippleCentered]="centered">
         <ion-label position="floating" color="sucess">Marca</ion-label>
         <ion-input [(ngModel)]="Marca"></ion-input>
       </ion-item>
-      <ion-item class="items">
+      <ion-item class="items" matRipple [matRippleCentered]="centered">
         <ion-label position="floating" color="sucess">Modelo</ion-label>
         <ion-input [(ngModel)]="Modelo"></ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item class="items" matRipple [matRippleCentered]="centered">
         <ion-label position="floating" color="sucess">Patente</ion-label>
         <ion-input [(ngModel)]="Patente"></ion-input>
       </ion-item>

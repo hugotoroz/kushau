@@ -13,24 +13,24 @@
   </ion-avatar>
   <ion-icon name="camera-outline"></ion-icon>
   <div>
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Nombre</ion-label>
       <ion-input [(ngModel)]="Nombre"></ion-input>
     </ion-item>
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Apellidos</ion-label>
       <ion-input [(ngModel)]="Apellidos"></ion-input>
     </ion-item>
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Dirección</ion-label>
       <ion-input [(ngModel)]="Direccion"></ion-input>
     </ion-item>
-    <ion-item class="items">
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Número de teléfono</ion-label>
       <br>
       <ion-input [(ngModel)]="Telefono">{{area}}</ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Correo</ion-label>
       <ion-input [(ngModel)]="Correo" ></ion-input>
     </ion-item>

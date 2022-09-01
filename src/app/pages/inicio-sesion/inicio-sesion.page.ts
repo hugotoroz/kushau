@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 
@@ -12,7 +12,7 @@ export class InicioSesionPage implements OnInit {
   
   usuario: string="";
   clave: string="";
-
+  u: string="";
   constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController) { }
 
   ngOnInit() {

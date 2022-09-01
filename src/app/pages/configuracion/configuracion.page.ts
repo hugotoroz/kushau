@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class ConfiguracionPage implements OnInit {
   Correo: string="algo@dominio.algo"
   area: string=" +569"
   
-  constructor(public toastController: ToastController,private router: Router) { }
+  constructor(public toastController: ToastController,private router: Router,public navCtrl: NavController,private alertController: AlertController) { }
   validarEditar(){
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
@@ -31,10 +31,17 @@ export class ConfiguracionPage implements OnInit {
       
     }
     else{
-      this.router.navigate(['/miperfil'])
-
+      this.router.navigate(['tabs/'])
+      this.presentToast();
     }
 
+  }
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Tu perfil ha sido modificado correctamente.',
+      duration: 2000
+    });
+    toast.present();
   }
   async Largo() {
     const toast = await this.toastController.create({

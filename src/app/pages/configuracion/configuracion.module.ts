@@ -7,13 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { ConfiguracionPageRoutingModule } from './configuracion-routing.module';
 
 import { ConfiguracionPage } from './configuracion.page';
+import {MatRippleModule} from '@angular/material/core';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ConfiguracionPageRoutingModule
+    ConfiguracionPageRoutingModule,
+    MatRippleModule
   ],
   declarations: [ConfiguracionPage]
 })

@@ -50,7 +50,8 @@ const routes: Routes = [
   {
     path: 'mainconductor',
     loadChildren: () => import('./pages/mainconductor/mainconductor.module').then( m => m.MainconductorPageModule)
-  },  {
+  },
+  {
     path: 'tabconductor',
     loadChildren: () => import('./pages/tabconductor/tabconductor.module').then( m => m.TabconductorPageModule)
   },
@@ -66,8 +67,6 @@ const routes: Routes = [
     path: 'recuperarpass',
     loadChildren: () => import('./pages/recuperarpass/recuperarpass.module').then( m => m.RecuperarpassPageModule)
   },
-
-
 
 ];
 

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { RegistrarsePageRoutingModule } from './registrarse-routing.module';
 
 import { RegistrarsePage } from './registrarse.page';
+import {MatRippleModule} from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { RegistrarsePage } from './registrarse.page';
     FormsModule,
     IonicModule,
     RegistrarsePageRoutingModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatRippleModule
   ],
   declarations: [RegistrarsePage]
 })

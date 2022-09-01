@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { AlertController, ToastController, ToggleChangeEventDetail } from '@ionic/angular';
 
 @Component({
@@ -59,7 +59,13 @@ export class RegistrarsePage implements OnInit {
 
     }
     else if(this.conductor == false){
+      let navigationExtras: NavigationExtras = {
+        state: {
+          usu: this.nombre
+        }
+      }
       this.router.navigate(['/tabs'])
+      this.router.navigate(['/tabs'], navigationExtras);
 
     }
 
