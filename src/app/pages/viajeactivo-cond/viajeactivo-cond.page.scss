@@ -1,3 +1,16 @@
+.imgmap{
+    margin: auto; 
+    width: 96%;
+    height: 96%; 
+    margin-top: 20px; 
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0,0.35);
+    border-radius: 10px;
+}
+.boton{
+    width: auto;
+    --background: #74121D;
+    margin-top: 20px;
+}
 ion-content {
     --background: #ffffff;
     text-align: center;
@@ -6,4 +19,24 @@ ion-content {
 ion-toolbar{
     --background: #74121D;
     --color: #fff;
+    text-align: center;
+}
+ion-img {
+    height: 70vh;
+    width: auto;
+    margin: auto;
+    display: block;
+}
+ion-badge{
+    --background: #A51C30;
+}
+ion-toolbar{
+    --background: #74121D;
+    --color: #fff;
+    text-align: center;
+}
+
+ion-card{
+    --background: #fff;
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0,0.35);
 }

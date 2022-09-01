@@ -9,6 +9,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./inicio-sesion.page.scss'],
 })
 export class InicioSesionPage implements OnInit {
+  
   usuario: string="";
   clave: string="";
 
@@ -21,11 +22,15 @@ export class InicioSesionPage implements OnInit {
     if ((this.usuario == "u") && (this.clave == "2")) {
       await this.loadingUI();
        this.router.navigate(['/tabs'])
+       this.usuario=""
+       this.clave=""
     
     }
     else if ((this.usuario == "si") && (this.clave =="1")){
       await this.loadingUI();
       await this.router.navigate(['/tabconductor'])
+      this.usuario=""
+      this.clave=""
 
     }
     else{

@@ -38,7 +38,7 @@ export class FormvPage implements OnInit {
     }
     else{
       this.Viaje();
-      this.router.navigate(['/tabconductor'])
+      this.router.navigate(['/viajeactivo-cond'])
     }
   }
 

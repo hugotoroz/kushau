@@ -64,7 +64,15 @@
       <p style="font-size: 11px;">Dirección</p>
     </div>
   </ion-item>
-
+  <ion-item>
+    <ion-label>
+      $2000
+    </ion-label>
+    <div class="ictxt">
+      <ion-icon name="cash-outline"></ion-icon>
+      <p style="font-size: 11px;">Precio</p>
+    </div>
+  </ion-item>
   <ion-item style="margin-top: 5px; margin-bottom: 5px;">
     <ion-text-area>
       El auto es de color amarillo y está cerca del sector de las canchas.
@@ -77,7 +85,11 @@
 
   <ion-img *ngIf="Desplegarimagen" src="assets/Imagenes/Screenshot_1.jpg" alt="" class="imgmap"></ion-img>
   <div style="text-align: center;">
-    <ion-button (click)="desplegarImgen()" class="boton"><ion-icon name="location-outline"></ion-icon> {{estado}}</ion-button>
+    <ion-button mat-raised-button
+        matTooltip="Presione para mostrar las filas del estacionamiento."
+        aria-label="Button that displays a tooltip when focused or hovered over" (click)="desplegarImgen()" class="boton">
+        {{estado}}
+    </ion-button>
   </div>
 
   <div style="text-align: center;">
