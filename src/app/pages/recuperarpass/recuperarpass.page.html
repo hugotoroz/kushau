@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recuperar contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="element == false">
+  <ion-item>
+    <ion-label position="floating" color="sucess">Correo</ion-label>
+    <ion-input [(ngModel)]="correo" type="email"></ion-input>
+  </ion-item>
+</div>
+  <div *ngIf="element">
+  <ion-item class="items">
+    <ion-label position="floating" color="sucess">Contraseña</ion-label>
+    <ion-input type="password" class="inputc" [(ngModel)]="clave"></ion-input>
+  </ion-item>
+  <ion-item class="items">
+    <ion-label position="floating" color="sucess">Repetir contraseña</ion-label>
+    <ion-input type="password" class="inputc" [(ngModel)]="clave1"></ion-input>
+  </ion-item>
+  </div>
+
+  <div class="boton" *ngIf="element == false">
+    <ion-button (click)="validarUsuario()" type="submit">Continuar</ion-button>
+  </div>
+  <div class="boton" *ngIf="element">
+    <ion-button (click)="validarCampos()" type="submit">Cambiar clave</ion-button>
+  </div>
+</ion-content>

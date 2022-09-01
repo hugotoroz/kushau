@@ -35,7 +35,7 @@ export class RegistrarsePage implements OnInit {
 
       this.Contra();
     }
-    else if(this.clave.length != 8){
+    else if(this.clave.length < 8){
       this.Largo();
     }
     else if(this.clave == "" || this.nombre == "" || this.apellido == "" || this.direccion == "" || this.telefono == null || this.correo == ""){

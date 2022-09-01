@@ -62,6 +62,10 @@ const routes: Routes = [
     path: 'viajeactivo-cond',
     loadChildren: () => import('./pages/viajeactivo-cond/viajeactivo-cond.module').then( m => m.ViajeactivoCondPageModule)
   },
+  {
+    path: 'recuperarpass',
+    loadChildren: () => import('./pages/recuperarpass/recuperarpass.module').then( m => m.RecuperarpassPageModule)
+  },
 
 
 

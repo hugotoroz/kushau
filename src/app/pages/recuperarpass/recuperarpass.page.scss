@@ -1,0 +1,48 @@
+//Colores utilizados.
+$bg-primario: #74121D;
+:root{
+    --color-principal: #{$bg-primario};
+}
+
+.titulo{
+    margin-top: 20px;
+    color: #000;
+}
+.logo{
+    margin: auto;
+    width: 100px;
+}
+.items{
+    margin-top: 60px;
+}
+.boton{
+    text-align: center;
+    margin-top: 30px;
+}
+.inicia{
+    width: 50%;
+}
+.registrar{
+    text-align: center;
+    margin-top: 10px;
+    color:#000;
+}
+
+ion-content{
+    --background: #ffffff;
+    //--background: url('/assets/Imagenes/Inicio.png') no-repeat;
+}
+ion-item{
+    --background: #ffffff;
+    --color: #000;
+}
+ion-button{
+    --background: #74121D;
+    --color: #ffffff;
+    --background-hover: #777777;
+}
+ion-toolbar{
+    --background: #74121D;
+    --color: #fff;
+    text-align: center;
+}
