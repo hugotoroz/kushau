@@ -3,26 +3,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-miperfil',
-  templateUrl: './miperfil.page.html',
-  styleUrls: ['./miperfil.page.scss'],
+  selector: 'app-miperfil-conductor',
+  templateUrl: './miperfil-conductor.page.html',
+  styleUrls: ['./miperfil-conductor.page.scss'],
 })
-export class MiperfilPage implements OnInit {
-  Nombre: string="Hugo Salas Messi";
-  Direccion: string="Estero 228";
+export class MiperfilConductorPage implements OnInit {
+  Nombre: string="Ignacio Salas Messi";
+  Direccion: string="Estero Si";
   Telefono: string="+569 12345678";
-  Correo: string="algo@dominio.algo";
-  u:string="";
-  ap:string="";
-  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router) { 
-    this.activedRouter.queryParams.subscribe(params =>{
-      if(this.router.getCurrentNavigation().extras.state){
-        this.u= this.router.getCurrentNavigation().extras.state.usu;
-        this.ap= this.router.getCurrentNavigation().extras.state.app;
-        
-      }
-    })
-  }
+  Correo: string="si@dominio.si";
+  vehiculo: string="Nissan Skyline GTR 32";
+  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
   }
@@ -43,7 +34,7 @@ export class MiperfilPage implements OnInit {
           text: 'No, no deseo cerrar sesión.',
           cssClass: 'alert-button-confirm',
           handler: () => {
-            this.navCtrl.navigateRoot('/tabs/miperfil');
+            this.navCtrl.navigateRoot('/tabconductor/miperfil-conductor');
           }
         },
         {
@@ -56,7 +47,6 @@ export class MiperfilPage implements OnInit {
 
      ]
     });
-
     await alert.present();
   }
 }

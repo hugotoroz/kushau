@@ -19,14 +19,14 @@ export class InicioSesionPage implements OnInit {
   }
 
   async validarUsuario(){
-    if ((this.usuario == "u") && (this.clave == "2")) {
+    if ((this.usuario == "usuario") && (this.clave == "usuario")) {
       await this.loadingUI();
        this.router.navigate(['/tabs'])
        this.usuario=""
        this.clave=""
     
     }
-    else if ((this.usuario == "si") && (this.clave =="1")){
+    else if ((this.usuario == "conductor") && (this.clave =="conductor")){
       await this.loadingUI();
       await this.router.navigate(['/tabconductor'])
       this.usuario=""

@@ -7,11 +7,11 @@
 <ion-content>
   <ion-card>
     <ion-avatar class="imagen">
-      <img src="../assets/Imagenes/usuario.jpeg" style="align-self: center;" />
+      <img src="../assets/Imagenes/shalas.jpg" style="align-self: center;" />
     </ion-avatar>
     <ion-card-content>
       <ion-card-title>
-        Hugo Salas Messi
+        {{Nombre}}
       </ion-card-title>
     </ion-card-content>
   </ion-card>
@@ -66,10 +66,19 @@
           <p style="font-size: 11px;">Dirección</p>
         </div>
       </ion-item>
+      <ion-item>
+        <ion-label>
+          {{vehiculo}}
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="car-outline"></ion-icon>          
+          <p style="font-size: 11px;">Automóvil</p>
+        </div>
+      </ion-item>
     </ion-col>
   </ion-row>
   <div class="si">
-    <ion-button class="boton" routerLink="/configuracion">
+    <ion-button class="boton" routerLink="/configuracion-conductor">
       <ion-icon name="pencil-outline" slot="start"></ion-icon>Editar
     </ion-button>
   </div>

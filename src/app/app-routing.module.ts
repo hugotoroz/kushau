@@ -67,6 +67,16 @@ const routes: Routes = [
     path: 'recuperarpass',
     loadChildren: () => import('./pages/recuperarpass/recuperarpass.module').then( m => m.RecuperarpassPageModule)
   },
+  {
+    path: 'billetera',
+    loadChildren: () => import('./pages/billetera/billetera.module').then( m => m.BilleteraPageModule)
+  },  {
+    path: 'configuracion-conductor',
+    loadChildren: () => import('./pages/configuracion-conductor/configuracion-conductor.module').then( m => m.ConfiguracionConductorPageModule)
+  },
+
+
+
 
 ];
 

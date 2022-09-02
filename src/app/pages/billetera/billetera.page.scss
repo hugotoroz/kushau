@@ -1,0 +1,31 @@
+.imagen {
+    height: 130px;
+    width: 130px;
+    margin: auto;
+    margin-top: 15px;
+    border: #000 solid 1px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0,0.2);
+
+}
+ion-content{
+    --background: #ffffff;
+}
+ion-item{
+    --background: #ffffff;
+    --color: #000;
+}
+ion-button{
+    --background: #74121D;
+    --color: #ffffff;
+    --background-hover: #777777;
+}
+ion-toolbar{
+    --background: #74121D;
+    --color: #fff;
+    text-align: center;
+}
+ion-card{
+    --background: #fff;
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0,0.35);
+    
+}

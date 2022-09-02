@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Billetera</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-card>
+    
+      <ion-avatar class="imagen">
+        <img src="../assets/Imagenes/shalas.jpg" style="align-self: center;" />
+      </ion-avatar>
+      <ion-card-content>
+        <ion-card-title style="text-align: center;">
+          Ignacio Salas Messi
+        </ion-card-title>
+      </ion-card-content>
+    <ion-card-header>
+      <ion-card-subtitle>Saldo actual</ion-card-subtitle>
+      <ion-card-title><h1>{{ num | currency: 'CLP' }}</h1></ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      El pago se verá reflejado el <b>31 de cada mes</b> en la cuenta bancaria la cual fue asociada.  
+    </ion-card-content>
+  </ion-card>
+  
+</ion-content>

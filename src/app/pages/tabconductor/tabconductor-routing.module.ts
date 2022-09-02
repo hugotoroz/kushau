@@ -12,11 +12,16 @@ const routes: Routes = [
         path: '',
         children: [
           {
-            path: 'cuenta',
-            loadChildren: () => import('../../pages/miperfil/miperfil.module').then(m => m.MiperfilPageModule)
-          },  {
             path: 'mainconductor',
             loadChildren: () => import('../../pages/mainconductor/mainconductor.module').then( m => m.MainconductorPageModule)
+          },
+          {
+            path: 'billetera',
+            loadChildren: () => import('../../pages/billetera/billetera.module').then( m => m.BilleteraPageModule)
+          },
+          {
+            path: 'miperfil-conductor',
+            loadChildren: () => import('../../pages/miperfil-conductor/miperfil-conductor.module').then( m => m.MiperfilConductorPageModule)
           }
         ]
       }/*,

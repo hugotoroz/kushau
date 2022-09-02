@@ -14,7 +14,7 @@ export class RegistrarsePage implements OnInit {
   clave1: string="";
   correo: string="";
   direccion: string="";
-  telefono : number=null;
+  telefono : string="";
   element: boolean = false;
   usuario1: string = "";
   conductor: boolean = false;
@@ -31,6 +31,8 @@ export class RegistrarsePage implements OnInit {
   }
   validarUsuario(){
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var tel=/^([0-9]+){8}$/;//<--- con esto vamos a validar el numero
+
     if (this.clave != this.clave1) {
 
       this.Contra();
@@ -40,6 +42,10 @@ export class RegistrarsePage implements OnInit {
     }
     else if(this.clave == "" || this.nombre == "" || this.apellido == "" || this.direccion == "" || this.telefono == null || this.correo == ""){
       this.Vacio();
+    }
+    else if (!tel.test(this.telefono) || this.telefono.length != 8){
+      this.tele();
+
     }
     else if(!re.test(this.correo)) {
       this.Corre();
@@ -61,7 +67,8 @@ export class RegistrarsePage implements OnInit {
     else if(this.conductor == false){
       let navigationExtras: NavigationExtras = {
         state: {
-          usu: this.nombre
+          usu: this.nombre,
+          app: this.apellido
         }
       }
       this.router.navigate(['/tabs'])
@@ -107,6 +114,13 @@ export class RegistrarsePage implements OnInit {
   async Largo() {
     const toast = await this.toastController.create({
       message: 'El largo contraseña debe ser mayor a 8 caracteres.',
+      duration: 4000
+    });
+    toast.present();
+  }
+  async tele() {
+    const toast = await this.toastController.create({
+      message: 'El numero de telefono no es válido.',
       duration: 4000
     });
     toast.present();

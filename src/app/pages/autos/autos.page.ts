@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-autos',
@@ -8,11 +8,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AutosPage implements OnInit {
   u:string="";
+  ap:string="";
   constructor(private activedRouter: ActivatedRoute, private router: Router ) {
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
         this.u= this.router.getCurrentNavigation().extras.state.usu;
-        
+        this.ap= this.router.getCurrentNavigation().extras.state.app;
         
       }
     })
@@ -22,3 +23,4 @@ export class AutosPage implements OnInit {
   }
 
 }
+
