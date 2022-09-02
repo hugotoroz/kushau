@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tomarauto.page.scss'],
 })
 export class TomarautoPage implements OnInit {
+  num: number= 2000;
   // variable
   estado: string="Mostrar Filas";
   private Desplegarimagen: boolean = false;

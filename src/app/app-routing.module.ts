@@ -44,10 +44,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/viajeactivo/viajeactivo.module').then( m => m.ViajeactivoPageModule)
   },
   {
-    path: 'conductor',
-    loadChildren: () => import('./pages/conductor/conductor.module').then( m => m.ConductorPageModule)
-  },
-  {
     path: 'mainconductor',
     loadChildren: () => import('./pages/mainconductor/mainconductor.module').then( m => m.MainconductorPageModule)
   },
@@ -70,7 +66,8 @@ const routes: Routes = [
   {
     path: 'billetera',
     loadChildren: () => import('./pages/billetera/billetera.module').then( m => m.BilleteraPageModule)
-  },  {
+  },
+  {
     path: 'configuracion-conductor',
     loadChildren: () => import('./pages/configuracion-conductor/configuracion-conductor.module').then( m => m.ConfiguracionConductorPageModule)
   },

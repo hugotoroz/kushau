@@ -30,10 +30,15 @@
       <br>
       <ion-input [(ngModel)]="Telefono">{{area}}</ion-input>
     </ion-item>
+    <p class="suggestions"> 
+      * Debe escribir 8 dígitos <b>(sin el dígito verificador).</b><br> 
+      * Ejemplo: 12345678
+    </p>
     <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Correo</ion-label>
       <ion-input [(ngModel)]="Correo" ></ion-input>
     </ion-item>
+    <p class="suggestions"> * Ejemplo: correo@dominio.com</p>
     <div class="si">
       <ion-button class="boton" (click)="validarEditar()">Guardar Cambios</ion-button>
     </div>

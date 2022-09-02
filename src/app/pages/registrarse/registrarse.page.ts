@@ -51,6 +51,9 @@ export class RegistrarsePage implements OnInit {
       this.Corre();
       
     }
+    else if(!/[A-Z]/.test(this.clave) || !/[0-9]/.test(this.clave)){
+      this.Seguridad();
+    }
     else if(this.conductor){
       if (this.Patente.length != 6){
         this.Largop();
@@ -142,7 +145,13 @@ export class RegistrarsePage implements OnInit {
       nombre: 'Usuario'
     }
   ]
-  
+  async Seguridad() {
+    const toast = await this.toastController.create({
+      message: 'La contraseña debe tener una mayúscula y un número.',
+      duration: 4000
+    });
+    toast.present();
+  }
   
 
 }

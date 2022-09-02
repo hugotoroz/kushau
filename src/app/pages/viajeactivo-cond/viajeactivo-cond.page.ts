@@ -7,7 +7,7 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
   styleUrls: ['./viajeactivo-cond.page.scss'],
 })
 export class ViajeactivoCondPage implements OnInit {
-
+  num: number= 2000;
   constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController) { }
 
   ngOnInit() {

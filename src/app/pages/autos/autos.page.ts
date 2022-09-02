@@ -9,6 +9,8 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 export class AutosPage implements OnInit {
   u:string="";
   ap:string="";
+  num1: number= 2000;
+  num2: number= 5000;
   constructor(private activedRouter: ActivatedRoute, private router: Router ) {
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){

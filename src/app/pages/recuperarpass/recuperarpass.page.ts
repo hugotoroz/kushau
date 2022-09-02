@@ -73,14 +73,14 @@ export class RecuperarpassPage implements OnInit {
   }  
   async invalido() {
     const toast = await this.toastController.create({
-      message: 'Correo no existe o es invalido',
+      message: 'Correo no existe o es inválido.',
       duration: 4000
     });
     toast.present();
   }
   async correcto() {
     const toast = await this.toastController.create({
-      message: 'Se ha cambiado la contraseña correctamente',
+      message: 'Su contraseña se ha cambiado exitosamente.',
       duration: 4000
     });
     toast.present();

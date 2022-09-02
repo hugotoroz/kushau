@@ -33,7 +33,7 @@
       </ion-card-subtitle>
       <ion-card-subtitle>
         <ion-icon name="cash-outline"></ion-icon>
-        $2000
+        {{ num1 | currency: 'CLP' }}
       </ion-card-subtitle>
       <div class="si">
         <ion-button class="boton" [routerLink]="['/tomarauto']" ><ion-icon name="car-outline"></ion-icon> Tomar viaje</ion-button>
@@ -67,7 +67,7 @@
       </ion-card-subtitle>
       <ion-card-subtitle>
         <ion-icon name="cash-outline"></ion-icon>
-        $5000
+        {{ num2 | currency: 'CLP' }}
       </ion-card-subtitle>
       <div class="si">
         <ion-button class="boton" [routerLink]="['/tomarauto']"><ion-icon name="car-outline"></ion-icon> Tomar viaje</ion-button>

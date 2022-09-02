@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
 export class ViajeactivoPage implements OnInit {
 
   constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController) { }
-
+  num: number= 2000;
   ngOnInit() {
   }
   async presentToast() {

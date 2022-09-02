@@ -27,7 +27,12 @@ $bg-primario: #74121D;
     margin-top: 10px;
     color:#000;
 }
-
+.suggestions{
+    font-size: 13px;
+    font-style: italic;
+    text-align: left;
+    margin-left: 10px;
+}
 ion-content{
     --background: #ffffff;
     //--background: url('/assets/Imagenes/Inicio.png') no-repeat;
