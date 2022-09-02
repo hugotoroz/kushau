@@ -9,7 +9,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class FormvPage implements OnInit {
   direccion: string="";
-  fila: string="";
+  fila: number=NaN;
   precio: number=NaN;
   descrip: string="";
   // variable
@@ -30,8 +30,12 @@ export class FormvPage implements OnInit {
     }
   }
   validar(){
-    if(this.direccion == "" || this.fila == "" || this.precio == NaN || this.descrip == ""){
+    if(this.direccion == "" || this.fila == NaN || this.precio == NaN || this.descrip == ""){
       this.Vacio();
+    }
+    else if (this.fila < 1 || this.fila >8){
+      this.Filas();
+
     }
     else if(this.precio < 1000){
       this.Precio();
@@ -59,6 +63,13 @@ export class FormvPage implements OnInit {
   async Viaje() {
     const toast = await this.toastController.create({
       message: 'Viaje iniciado con éxito.',
+      duration: 4000
+    });
+    toast.present();
+  }
+  async Filas() {
+    const toast = await this.toastController.create({
+      message: 'Fila no valida,fila desde la 1 a la 8',
       duration: 4000
     });
     toast.present();
