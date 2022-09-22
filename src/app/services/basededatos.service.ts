@@ -10,9 +10,9 @@ export class BasededatosService {
   // variable para manipular la conexion a la base de datos
   public database: SQLiteObject;
   //tabala conductor
-  tablaConductor: string = "CREATE TABLE IF NOT EXISTS conductor(correo_conductor VARCHAR(150) PRIMARY KEY NOT NULL, Nombre VARCHAR(40) NOT NULL,Apellido VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, id_c VARCHAR(40) NOT NULL);";
+  tablaConductor: string = "CREATE TABLE IF NOT EXISTS conductor(correo_conductor VARCHAR(150) PRIMARY KEY NOT NULL, Nombre VARCHAR(40) NOT NULL,Apellido VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_c VARCHAR(40) NOT NULL);";
   //tabla usuario
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo_usuario VARCHAR(150) PRIMARY KEY NOT NULL, Nombre VARCHAR(40) NOT NULL,Apellido VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, id_u VARCHAR(40) NOT NULL);";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo_usuario VARCHAR(150) PRIMARY KEY NOT NULL, Nombre VARCHAR(40) NOT NULL,Apellido VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_u VARCHAR(40) NOT NULL);";
   //tabla bonificacion
   tablaBono: string = "CREATE TABLE IF NOT EXISTS bonificacion(id_boni INTEGER PRIMARY KEY autoincrement, bonificacion INTEGER NOT NULL,correo  VARCHAR(150) ,FOREIGN KEY(correo) REFERENCES conductor(correo_conductor));";
   //tabla viaje
@@ -40,5 +40,15 @@ export class BasededatosService {
     });
 
     await toast.present();
+  }
+  insertarNoticias(patente,modelo,marca,annio,correo_c){
+    //Crear una lista para agregar los datos
+    let data = [patente,modelo,marca,annio,correo_c];
+    //Insertar los datos junto con la lista. Los datos van en '?' y se agregan en orden de la lista
+    return this.database.executeSql('INSERT INTO vehiculo(patente,modelo,marca,annio) VALUES (?,?) WHERE correo_c= ?',data).then(res =>{
+      //Se actualiza la información
+      //this.buscarNoticias();
+      
+    });
   }
 }
