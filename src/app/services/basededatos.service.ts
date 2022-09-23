@@ -31,6 +31,39 @@ export class BasededatosService {
   constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController) { 
 
   }
+  crearBD() {
+    //verificamos que la plataforma este lista
+    this.platform.ready().then(() => {
+      //creamos la BD
+      this.sqlite.create({
+        name: 'kushau.db',
+        location: 'default'
+      }).then((db: SQLiteObject) => {
+        //guardamos la conexion a la BD en la variable propia
+        this.database = db;
+        //llamar a la funcion para crear las tablas
+        this.crearTablas();
+      }).catch(e => {
+        //muestro el mensaje de error en caso de ocurrir alguno
+        this.presentToast("Error BD:" + e);
+      })
+    })
+  }
+
+  async crearTablas() {
+    try {
+      //ejecuto mis tablas
+      await this.database.executeSql(this.tablaConductor,this.tablaUsuario,this.tablaBono,this.tablaviaje,this.tabladetalle,this.tablacomuna,this.tablacomuna_viaje,this.tablavehiculo []);
+      //cargar todos los registros de la tabla en el observable
+      //this.buscarNoticias(); aqui no se que xuxa va xd
+      //actualizar el status de la BD
+      this.isDBReady.next(true);
+
+    } catch (e) {
+      this.presentToast("Error Tablas: " + e);
+    }
+
+  }
 
   async presentToast(msj: string) {
     const toast = await this.toastController.create({
