@@ -35,19 +35,18 @@ export class MiperfilPage implements OnInit {
   }
   async alerta() {
     const alert = await this.alertController.create({
-      header: 'Cerrar sesión',
+      header: '¿Estás seguro que deseas cerrar sesión?',
       cssClass:'boton-registro',
-      message: '¿Estás seguro que deseas cerrar sesión?',
       buttons: [
         {
-          text: 'No, no deseo cerrar sesión.',
+          text: 'No.',
           cssClass: 'alert-button-confirm',
           handler: () => {
             this.navCtrl.navigateRoot('/tabs/miperfil');
           }
         },
         {
-          text: 'Sí, deseo cerrar sesión',
+          text: 'Cerrar sesión.',
           handler: () => {
             this.navCtrl.navigateRoot('/inicio-sesion');
             this.presentToast();

@@ -53,7 +53,7 @@ export class BasededatosService {
   async crearTablas() {
     try {
       //ejecuto mis tablas
-      await this.database.executeSql(this.tablaConductor,this.tablaUsuario,this.tablaBono,this.tablaviaje,this.tabladetalle,this.tablacomuna,this.tablacomuna_viaje,this.tablavehiculo []);
+      await this.database.executeSql(this.tablaConductor,this.tablaUsuario,this.tablaBono,this.tablaviaje,this.tabladetalle,this.tablacomuna,this.tablacomuna_viaje,this.tablavehiculo,[]);
       //cargar todos los registros de la tabla en el observable
       //this.buscarNoticias(); aqui no se que xuxa va xd
       //actualizar el status de la BD

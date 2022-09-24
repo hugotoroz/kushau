@@ -34,14 +34,14 @@ export class InicioSesionPage implements OnInit {
 
     }
     else{
-      this.presentToast();
+      this.presentToast("Usuario o contraseña incorrectos");
     
     }
 
   }
-  async presentToast() {
+  async presentToast(msj: string) {
     const toast = await this.toastController.create({
-      message: 'Usuario o contraseña incorrectos',
+      message: msj,
       duration: 2000
     });
     toast.present();
