@@ -31,47 +31,27 @@ export class FormvPage implements OnInit {
   }
   validar(){
     if(this.direccion == "" || this.fila == NaN || this.precio == NaN || this.descrip == ""){
-      this.Vacio();
+      this.presentToast("Debe completar todos los campos.");
     }
     else if (this.fila < 1 || this.fila >8){
-      this.Filas();
+      this.presentToast("La fila debe ser un número entre 1 y 8.");
 
     }
     else if(this.precio < 1000){
-      this.Precio();
+      this.presentToast("El precio debe ser mayor a $1000 pesos.");
     }
     else{
-      this.Viaje();
+      this.presentToast("Viaje iniciado con éxito.");
       this.router.navigate(['/viajeactivo-cond'])
     }
   }
 
-  async Vacio() {
+  async presentToast(msj) {
     const toast = await this.toastController.create({
-      message: 'Debe completar todos los campos.',
+      message: msj,
       duration: 4000
     });
     toast.present();
   }
-  async Precio() {
-    const toast = await this.toastController.create({
-      message: 'El precio debe ser mayor a $1000 pesos.',
-      duration: 4000
-    });
-    toast.present();
-  }
-  async Viaje() {
-    const toast = await this.toastController.create({
-      message: 'Viaje iniciado con éxito.',
-      duration: 4000
-    });
-    toast.present();
-  }
-  async Filas() {
-    const toast = await this.toastController.create({
-      message: 'Fila no valida,fila desde la 1 a la 8',
-      duration: 4000
-    });
-    toast.present();
-  }
+  
 }
