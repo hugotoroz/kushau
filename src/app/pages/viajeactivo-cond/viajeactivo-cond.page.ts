@@ -26,13 +26,13 @@ export class ViajeactivoCondPage implements OnInit {
       message: '¿Estás seguro que deseas cancelar tu viaje?',
       buttons: [
         {
-          text: 'Sí, quiero cancelarlo',
+          text: 'Cancelar viaje',
           handler: () => {
             this.navCtrl.navigateRoot('/tabconductor');
             this.presentToast();
           }
          }, {
-          text: 'No quiero cancelarlo',
+          text: 'No',
           cssClass: 'alert-button-confirm',
 
         }

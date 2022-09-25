@@ -9,8 +9,8 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class FormvPage implements OnInit {
   direccion: string="";
-  fila: number=NaN;
-  precio: number=NaN;
+  fila: number=null;
+  precio: number=null;
   descrip: string="";
   // variable
   estado: string="Mostrar Filas";

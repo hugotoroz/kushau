@@ -19,7 +19,7 @@ export class InicioSesionPage implements OnInit {
   }
 
   async validarUsuario(){
-    if ((this.usuario == "usuario") && (this.clave == "usuario")) {
+    if ((this.usuario.replace(/\s/g, "") == "usuario") && (this.clave == "usuario")) {
       await this.loadingUI();
        this.router.navigate(['/tabs'])
        this.usuario=""

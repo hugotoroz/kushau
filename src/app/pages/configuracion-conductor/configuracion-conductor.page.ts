@@ -19,50 +19,29 @@ export class ConfiguracionConductorPage implements OnInit {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
     if (this.Telefono.length != 8){
-      this.Largo();
+      this.presentToast("El telefono debe contener 8 dígitos.");
     }
     else if(this.Nombre == "" || this.Apellidos == "" || this.Direccion == ""||this.Telefono == ""||this.Correo == "" ){
-      this.Vacio();
+      this.presentToast("Debe completar todos los campos.");
     }
     else if(!re.test(this.Correo)) {
-      this.Corre();
+      this.presentToast("Su correo no es válido.");
       
     }
     else{
       this.router.navigate(['tabconductor/'])
-      this.presentToast();
+      
+      this.presentToast("Tu perfil ha sido modificado correctamente.");
     }
 
   }
-  async presentToast() {
+  async presentToast(msj) {
     const toast = await this.toastController.create({
-      message: 'Tu perfil ha sido modificado correctamente.',
+      message: msj,
       duration: 2000
     });
     toast.present();
   }
-  async Largo() {
-    const toast = await this.toastController.create({
-      message: 'El telefono no tienes 8 digitos',
-      duration: 4000
-    });
-    toast.present();
-  }
-  async Vacio() {
-    const toast = await this.toastController.create({
-      message: 'Debe llenar los campos',
-      duration: 4000
-    });
-    toast.present();
-  }
-  async Corre() {
-    const toast = await this.toastController.create({
-      message: 'Correo invalido',
-      duration: 4000
-    });
-    toast.present();
-  }
-
   ngOnInit() {
   }
 

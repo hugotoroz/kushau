@@ -17,9 +17,9 @@ export class MiperfilConductorPage implements OnInit {
 
   ngOnInit() {
   }
-  async presentToast() {
+  async presentToast(msj) {
     const toast = await this.toastController.create({
-      message: 'Has cerrado sesión.',
+      message: msj,
       duration: 2000
     });
     toast.present();
@@ -31,18 +31,15 @@ export class MiperfilConductorPage implements OnInit {
       message: '¿Estás seguro que deseas cerrar sesión?',
       buttons: [
         {
-          text: 'No, no deseo cerrar sesión.',
+          text: 'Cerrar sesión',
           cssClass: 'alert-button-confirm',
           handler: () => {
-            this.navCtrl.navigateRoot('/tabconductor/miperfil-conductor');
+            this.navCtrl.navigateRoot('/inicio-sesion');
+            this.presentToast("Has cerrado sesión.");
           }
         },
         {
-          text: 'Sí, deseo cerrar sesión',
-          handler: () => {
-            this.navCtrl.navigateRoot('/inicio-sesion');
-            this.presentToast();
-          }
+          text: 'No'
          }
 
      ]

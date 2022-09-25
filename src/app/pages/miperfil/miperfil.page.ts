@@ -26,31 +26,29 @@ export class MiperfilPage implements OnInit {
 
   ngOnInit() {
   }
-  async presentToast() {
+  async presentToast(msj) {
     const toast = await this.toastController.create({
-      message: 'Has cerrado sesión.',
+      message: msj,
       duration: 2000
     });
     toast.present();
   }
   async alerta() {
     const alert = await this.alertController.create({
-      header: '¿Estás seguro que deseas cerrar sesión?',
+      header: 'Cancelar viaje',
+      message: '¿Estás seguro que deseas cerrar sesión?',
       cssClass:'boton-registro',
       buttons: [
         {
-          text: 'No.',
+          text: 'Cerrar sesión',
           cssClass: 'alert-button-confirm',
           handler: () => {
-            this.navCtrl.navigateRoot('/tabs/miperfil');
+            this.navCtrl.navigateRoot('/inicio-sesion');
+            this.presentToast("Has cerrado sesión.");
           }
         },
         {
-          text: 'Cerrar sesión.',
-          handler: () => {
-            this.navCtrl.navigateRoot('/inicio-sesion');
-            this.presentToast();
-          }
+          text: 'No'
          }
 
      ]
