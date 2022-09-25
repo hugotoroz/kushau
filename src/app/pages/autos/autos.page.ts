@@ -10,22 +10,13 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 export class AutosPage implements OnInit {
   u:string="";
   ap:string="";
-  num1: number= 2000;
-  num2: number= 5000;
-
-  arregloConductores: any = [
-    {
-
-    }
-  ]
-  arregloVehiculos: any=[
-    {
-
-    }
-  ]
   arregloViaje: any=[
     {
-
+      id_viaje: '',
+      Descripcion: '',
+      Precio: '',
+      Direccion: '',
+      correoc: ''
     }
   ]
 
@@ -42,14 +33,8 @@ export class AutosPage implements OnInit {
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       if(res){
-        this.servicioDB.fetchConductores().subscribe(item=>{
-          this.arregloConductores = item;
-        })
-        this.servicioDB.fetchVehiculo().subscribe(item1 =>{
-          this.arregloVehiculos =item1;
-        })
-        this.servicioDB.fetchViaje().subscribe(viaje=>{
-          this.arregloViaje = viaje;
+        this.servicioDB.fetchViaje().subscribe(item=>{
+          this.arregloViaje = item;
         })
       }
     })

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>¡Hola {{u}}!</ion-title>
+    <ion-title>¡Hola!</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,11 +13,11 @@
     </ion-avatar>
     <ion-card-content>
       <ion-card-title>
-        {{x.nombre}}
+        {{x.correoc}}
       </ion-card-title>
       <ion-card-subtitle>
         <ion-icon name="car-sport-outline"></ion-icon>
-        Hyundai elantra 2018
+        {{x.Descripcion}}
       </ion-card-subtitle>
       <ion-card-subtitle>
         <ion-icon name="barcode-outline"></ion-icon>
@@ -29,15 +29,16 @@
       </ion-card-subtitle>
       <ion-card-subtitle>
         <ion-icon name="map-outline"></ion-icon>
-        Til-til
+        {{x.Direccion}}
       </ion-card-subtitle>
       <ion-card-subtitle>
         <ion-icon name="cash-outline"></ion-icon>
-        {{ num1 | currency: 'CLP' }}
+        {{ x.Precio | currency: 'CLP' }}
       </ion-card-subtitle>
       <div class="si">
         <ion-button class="boton" [routerLink]="['/tomarauto']" ><ion-icon name="car-outline"></ion-icon> Tomar viaje</ion-button>
       </div>
+    </ion-card-content>
   </ion-card>
   <div class="si">
     <ion-button class="boton" routerLink="/viajeactivo">Viaje Activo</ion-button>

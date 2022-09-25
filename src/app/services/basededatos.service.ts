@@ -44,8 +44,30 @@ export class BasededatosService {
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController) { 
+    this.crearBD();
 
   }
+
+  dbState() {
+    return this.isDBReady.asObservable();
+  }
+  fetchConductores(): Observable<Conductores[]> {
+    return this.listaConductores.asObservable();
+  }
+  fetchUsuario(): Observable<Usuarios[]> {
+    return this.listaUsuarios.asObservable();
+  }
+  fetchViaje(): Observable<Viajes[]> {
+    return this.listaViajes.asObservable();
+  }
+  fetchDetalle(): Observable<Detalle[]> {
+    return this.listaDetalle.asObservable();
+  }
+  fetchVehiculo(): Observable<Vehiculos[]> {
+    return this.listaVehiculo.asObservable();
+  }
+
+  
   crearBD() {
     //verificamos que la plataforma este lista
     this.platform.ready().then(() => {
@@ -64,27 +86,7 @@ export class BasededatosService {
       })
     })
   }
-  dbState() {
-    return this.isDBReady.asObservable();
-  }
-  fetchConductores(): Observable<Conductores[]> {
-    return this.listaConductores.asObservable();
-  }
-  fetchUsuario(): Observable<Usuarios[]> {
-    return this.listaUsuarios.asObservable();
-  }
-  fetchViaje(): Observable<Viajes[]> {
-    return this.listaUsuarios.asObservable();
-  }
-  fetchDetalle(): Observable<Detalle[]> {
-    return this.listaDetalle.asObservable();
-  }
-  fetchVehiculo(): Observable<Vehiculos[]> {
-    return this.listaVehiculo.asObservable();
-  }
-
-
-
+  
 
   async crearTablas() {
     try {
@@ -161,7 +163,8 @@ export class BasededatosService {
   }
   buscarViaje() {
     //retorno la ejecución del select
-    return this.database.executeSql('SELECT descripcion,precio,direccion,c.nombre ||" "|| c.apellido,v.modelo FROM viaje join conductor c join vehiculo v where c.correo_conductor = v.correo_conductor', []).then(res => {
+    //SELECT descripcion,precio,direccion,c.nombre ||" "|| c.apellido,v.modelo FROM viaje join conductor c join vehiculo v where c.correo_conductor = v.correo_conductor
+    return this.database.executeSql('SELECT * FROM VIAJE', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -173,7 +176,6 @@ export class BasededatosService {
             Precio: res.rows.item(i).Precio,
             Direccion: res.rows.item(i).Direccion,
             correoc: res.rows.item(i).correoc
-
           })
         }
       }
