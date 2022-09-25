@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+import { BasededatosService } from 'src/app/services/basededatos.service';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -13,9 +14,10 @@ export class InicioSesionPage implements OnInit {
   usuario: string="";
   clave: string="";
   u: string="";
-  constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController) { }
+  constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
+    this.servicioDB.dbState().subscribe;
   }
 
   async validarUsuario(){
