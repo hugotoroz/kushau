@@ -9,6 +9,7 @@ import { Detalle } from './detalle';
 import { Vehiculos } from './vehiculos';
 import { Comuna } from './comuna';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,21 +29,28 @@ export class BasededatosService {
   registroBono: string = "INSERT or IGNORE INTO bonificacion(id_boni,bonificacion,correo) VALUES (1,5000,'nono','a@a.com');";
   listaBono = new BehaviorSubject([]);
   //tabla viaje
-  tablaviaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, Descripcion VARCHAR(200) NOT NULL,Precio INTEGER NOT NULL,Direccion VARCHAR(70) NOT NULL,correoc  VARCHAR(150),FOREING KEY(correoc) REFERENCES conductor(correo_conductor));";
+  tablaviaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, Descripcion VARCHAR(200) NOT NULL,Precio INTEGER NOT NULL,Direccion VARCHAR(70) NOT NULL,correoc  VARCHAR(150),FOREIGN KEY(correoc) REFERENCES conductor(correo_conductor));";
   registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,Descripcion,Precio,Direccion,correoc) VALUES (1,'Auto color naranjo',2000,'Quilicura','a@a.com');";
   listaViajes = new BehaviorSubject([]);
   //tabla detalle viaje
+  
+  /*
+  MALA CREACIÓN DE TABLAS
+  
   tabladetalle: string = "CREATE TABLE IF NOT EXISTS detalle(id_detalle INTEGER PRIMARY KEY autoincrement,estado VARCHAR(30),correo_u VARCHAR(150),FOREIGN KEY(correo_u) REFERENCES usuario(correo_usuario),id_via INTEGER,FOREIGN KEY(id_via) REFERENCES viaje(id_viaje));";
   registroDetalle: string = "INSERT or IGNORE INTO detalle(id_detalle,estado,correo_u,id_via) VALUES (1,'Iniciado','aa@aa.com',1);";
   listaDetalle = new BehaviorSubject([]);
+  
   //tabla comuna 
   tablacomuna: string = "CREATE TABLE IF NOT EXISTS comuna(id_comuna INTEGER PRIMARY KEY autoincrement,nombre_comuna VARCHAR(30));";
   registroComuna: string = "INSERT or IGNORE INTO comuna(id_comuna,nombre_comuna) VALUES (1,'Quilicura');";
   listaComuna = new BehaviorSubject([]);
+  
   //tabla comuna viaje
-  tablacomuna_viaje: string = "CREATE TABLE IF NOT EXISTS viaje_comuna(id_viajeC INTEGER PRIMARY KEY autoincrement,id_viaj INTEGER,FOREIGN KEY(id_viaj) REFERENCES viaje(id_viaje),comuna INTEGER,FOREIGN KEY (comuna) REFERENCES comuna(id_comuna));";
+  tablacomuna_viaje: string = "CREATE TABLE IF NOT EXISTS viaje_comuna(id_viajeC INTEGER PRIMARY KEY autoincrement,id_viaj INTEGER,FOREIGN KEY(id_viaj) REFERENCES viaje(id_viaje),comuna1 INTEGER,FOREIGN KEY(comuna1) REFERENCES comuna(id_comuna));";
   registroComuna_viaje: string = "INSERT or IGNORE INTO viaje_comuna(id_viajeC,id_viaj,comuna) VALUES (1,1,1);";
   listaComuna_viaje = new BehaviorSubject([]);
+  */
   //tabla vehiculo
   tablavehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(patente VARCHAR(30) PRIMARY KEY,modelo VARCHAR(60),marca VARCHAR(60),annio VARCHAR(60),correo_c VARCHAR(150),FOREIGN KEY(correo_c) REFERENCES conductor(correo_conductor));";
   registroVehiculo: string = "INSERT or IGNORE INTO vehiculo(patente,modelo,marca,annio,correo_c) VALUES ('33322222','Skyline','Nissan','1999','a@a.com');";
@@ -76,16 +84,19 @@ export class BasededatosService {
   fetchViaje(): Observable<Viajes[]> {
     return this.listaViajes.asObservable();
   }
+  /*
   fetchDetalle(): Observable<Detalle[]> {
     return this.listaDetalle.asObservable();
   }
+  */
   fetchVehiculo(): Observable<Vehiculos[]> {
     return this.listaVehiculo.asObservable();
   }
+  /*
   fetchComuna(): Observable<Comuna[]> {
     return this.listaComuna.asObservable();
   }
-
+  */
   
   crearBD() {
     //verificamos que la plataforma este lista
@@ -113,18 +124,17 @@ export class BasededatosService {
       await this.database.executeSql(this.tablaConductor,[]);
       await this.database.executeSql(this.tablaUsuario, []);
       await this.database.executeSql(this.tablaBono,[]);
-      await this.database.executeSql(this.tablacomuna,[]);
+      //await this.database.executeSql(this.tablacomuna,[]);
       await this.database.executeSql(this.tablaviaje,[]);
-      await this.database.executeSql(this.tablacomuna_viaje,[]);
-      await this.database.executeSql(this.tabladetalle,[]);
-      await this.database.executeSql(this.tablacomuna,[]);
+      //await this.database.executeSql(this.tablacomuna_viaje,[]);
+      //await this.database.executeSql(this.tabladetalle,[]);
       
       await this.database.executeSql(this.tablavehiculo,[]);
       //registro datos en mis tablas
       await this.database.executeSql(this.registroConductor,[]);
       await this.database.executeSql(this.registroUsuario,[]);
       await this.database.executeSql(this.registroViaje,[]);
-      await this.database.executeSql(this.registroDetalle,[]);
+      //await this.database.executeSql(this.registroDetalle,[]);
       await this.database.executeSql(this.registroVehiculo,[]);
 
       //cargar todos los registros de la tabla en el observable
@@ -232,7 +242,7 @@ export class BasededatosService {
 
       }
       //actualizamos el observable de las noticias
-      this.listaDetalle.next(items);
+      //this.listaDetalle.next(items);
     })
   }
   buscarVehiculos() {
