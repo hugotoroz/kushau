@@ -193,7 +193,7 @@ export class BasededatosService {
   }
   buscarViaje() {
     //retorno la ejecución del select
-    //SELECT descripcion,precio,direccion,c.nombre ||" "|| c.apellido,v.modelo FROM viaje join conductor c join vehiculo v where c.correo_conductor = v.correo_conductor
+    //SELECT descripcion,precio,direccion,c.nombre ||" " || c.apellido,v.modelo FROM viaje join conductor c join vehiculo v where c.correo_conductor = v.correo_conductor
     return this.database.executeSql('SELECT * FROM viaje', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
