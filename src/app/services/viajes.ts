@@ -4,4 +4,6 @@ export class Viajes {
     Precio:number;
     Direccion:string;
     correoc:string;
+    nombre:string;
+    
 }

@@ -19,6 +19,8 @@ export class BasededatosService {
   //tabla conductor
   tablaConductor: string = "CREATE TABLE IF NOT EXISTS conductor(correo_conductor VARCHAR(150) PRIMARY KEY, Nombre VARCHAR(40) NOT NULL,Apellido VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_c VARCHAR(40) NOT NULL);";
   registroConductor: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombre,Apellido,Contrasennia,tipo_c) VALUES ('a@a.com','Pepito','pica','123456789','c');";
+  registroConductor2: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombre,Apellido,Contrasennia,tipo_c) VALUES ('b@a.com','xd','d','123456789','c');";
+
   listaConductores = new BehaviorSubject([]);
   //tabla usuario
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo_usuario VARCHAR(150) PRIMARY KEY NOT NULL, Nombre VARCHAR(40) NOT NULL,Apellido VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_u VARCHAR(40) NOT NULL);";
@@ -31,11 +33,14 @@ export class BasededatosService {
   //tabla viaje
   tablaviaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, Descripcion VARCHAR(200) NOT NULL,Precio INTEGER NOT NULL,Direccion VARCHAR(70) NOT NULL,correoc  VARCHAR(150),FOREIGN KEY(correoc) REFERENCES conductor(correo_conductor));";
   registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,Descripcion,Precio,Direccion,correoc) VALUES (1,'Auto color naranjo',2000,'Quilicura','a@a.com');";
+  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,Descripcion,Precio,Direccion,correoc) VALUES (2,'Auto color naranjo',2000,'Perú','b@a.com');";
+
   listaViajes = new BehaviorSubject([]);
   //tabla detalle viaje
   
+  
   /*
-  MALA CREACIÓN DE TABLAS
+  
   
   tabladetalle: string = "CREATE TABLE IF NOT EXISTS detalle(id_detalle INTEGER PRIMARY KEY autoincrement,estado VARCHAR(30),correo_u VARCHAR(150),FOREIGN KEY(correo_u) REFERENCES usuario(correo_usuario),id_via INTEGER,FOREIGN KEY(id_via) REFERENCES viaje(id_viaje));";
   registroDetalle: string = "INSERT or IGNORE INTO detalle(id_detalle,estado,correo_u,id_via) VALUES (1,'Iniciado','aa@aa.com',1);";
@@ -48,12 +53,12 @@ export class BasededatosService {
   
   //tabla comuna viaje
   tablacomuna_viaje: string = "CREATE TABLE IF NOT EXISTS viaje_comuna(id_viajeC INTEGER PRIMARY KEY autoincrement,id_viaj INTEGER,FOREIGN KEY(id_viaj) REFERENCES viaje(id_viaje),comuna1 INTEGER,FOREIGN KEY(comuna1) REFERENCES comuna(id_comuna));";
-  registroComuna_viaje: string = "INSERT or IGNORE INTO viaje_comuna(id_viajeC,id_viaj,comuna) VALUES (1,1,1);";
+  registroComuna_viaje: string = "INSERT or IGNORE INTO viaje_comuna(id_viajeC,id_viaj,comuna1) VALUES (1,1,1);";
   listaComuna_viaje = new BehaviorSubject([]);
   */
   //tabla vehiculo
-  tablavehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(patente VARCHAR(30) PRIMARY KEY,modelo VARCHAR(60),marca VARCHAR(60),annio VARCHAR(60),correo_c VARCHAR(150),FOREIGN KEY(correo_c) REFERENCES conductor(correo_conductor));";
-  registroVehiculo: string = "INSERT or IGNORE INTO vehiculo(patente,modelo,marca,annio,correo_c) VALUES ('33322222','Skyline','Nissan','1999','a@a.com');";
+  tablavehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(60),marca VARCHAR(60),annio VARCHAR(60),correo_c VARCHAR(150),FOREIGN KEY(correo_c) REFERENCES conductor(correo_conductor));";
+  registroVehiculo: string = "INSERT or IGNORE INTO vehiculo(patente,modelo,marca,annio,correo_c) VALUES ('333333','Skyline','Nissan','1999','a@a.com');";
   listaVehiculo = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -132,8 +137,11 @@ export class BasededatosService {
       await this.database.executeSql(this.tablavehiculo,[]);
       //registro datos en mis tablas
       await this.database.executeSql(this.registroConductor,[]);
+      await this.database.executeSql(this.registroConductor2,[]);
       await this.database.executeSql(this.registroUsuario,[]);
       await this.database.executeSql(this.registroViaje,[]);
+      await this.database.executeSql(this.registroViaje2,[]);
+
       //await this.database.executeSql(this.registroDetalle,[]);
       await this.database.executeSql(this.registroVehiculo,[]);
 
@@ -203,10 +211,11 @@ export class BasededatosService {
   }
   buscarViaje() {
     //retorno la ejecución del select
-    //SELECT descripcion,precio,direccion,c.nombre ||" " || c.apellido,v.modelo FROM viaje join conductor c join vehiculo v where c.correo_conductor = v.correo_conductor
-    return this.database.executeSql('SELECT * FROM viaje', []).then(res => {
+    
+    return this.database.executeSql('SELECT descripcion,precio,direccion,c.nombre,v.modelo FROM viaje join conductor c join vehiculo v where c.correo_conductor = v.correo_conductor', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
+      //Inner Join
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
@@ -215,7 +224,9 @@ export class BasededatosService {
             Descripcion: res.rows.item(i).Descripcion,
             Precio: res.rows.item(i).Precio,
             Direccion: res.rows.item(i).Direccion,
-            correoc: res.rows.item(i).correoc
+            correoc: res.rows.item(i).correoc,
+            nombre:res.rows.item(i).nombre
+            //variables de la otra tabla
           })
         }
       }
