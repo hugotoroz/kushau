@@ -16,6 +16,9 @@ import { Comuna } from './comuna';
 export class BasededatosService {
   // variable para manipular la conexion a la base de datos
   public database: SQLiteObject;
+  //tipo usuario
+  /*Re Hacer base de datos y juntar los dos usuarios para mayor simpleza guiarse de la bd que hizo el profe */ 
+
   //tabla conductor
   tablaConductor: string = "CREATE TABLE IF NOT EXISTS conductor(correo_conductor VARCHAR(150) PRIMARY KEY, Nombrec VARCHAR(40) NOT NULL,Apellidou VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_c VARCHAR(40) NOT NULL);";
   registroConductor: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombrec,Apellidou,Contrasennia,tipo_c) VALUES ('a@a.com','Pepito','pica','123456789','c');";
