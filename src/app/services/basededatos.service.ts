@@ -14,12 +14,24 @@ import { Comuna } from './comuna';
   providedIn: 'root'
 })
 export class BasededatosService {
+  //Nueva tabla de base de datos
+  tUsuario: string= "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellidos(40) NOT NULL, contrasennia VARCHAR(40) NOT NULL, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
+  tRol: string="CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY, nombre_r VARCHAR(15) NOT NULL);";
+  tAuto: string= "CREATE TABLE IF NOT EXISTS auto(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(35),annio INTEGER, tU_correo VARCHAR(150), FOREIGN KEY (tU_correo) REFERENCES Usuario(correo), tM_idMarca INTEGER, FOREIGN KEY(tM_idMarca) REFERENCES Marca(id_marca));";
+  tMarca: string= "CREATE TABLE IF NOT EXISTS marca(id_marca INTEGER PRIMARY KEY, nombre_m VARCHAR(20));";
+  tViaje: string= "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL, fecha_viaje DATE NOT NULL, asientos_disp INTEGER NOT NULL, hora_salida DATE NOT NULL, tA_patente VARCHAR(6), FOREIGN KEY(tA_patente) REFERENCES Auto(patente));";
+  tDetalleV: string= "CREATE TABLE IF NOT EXISTS detalle_viaje(id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, estado VARCHAR(10), u_correo VARCHAR(150), FOREIGN KEY (u_correo) REFERENCES Usuario(correo), tV_idViaje INTEGER, FOREIGN KEY (tV_idViaje) REFERENCES viaje(id_viaje));";
+  tViajeC: string= "CREATE TABLE IF NOT EXISTS viaje_comuna( id_vc INTEGER PRIMARY KEY AUTOINCREMENT, V_idViaje INTEGER, FOREIGN KEY (V_idViaje) REFERENCES viaje(id_viaje), )";
+  tComuna: string= "CREATE TABLE IF NOT EXISTS comuna(id_comuna INTEGER PRIMARY KEY, nombre_comuna VARCHAR(20));";
+
+
   // variable para manipular la conexion a la base de datos
   public database: SQLiteObject;
   //tipo usuario
   /*Re Hacer base de datos y juntar los dos usuarios para mayor simpleza guiarse de la bd que hizo el profe */ 
 
   //tabla conductor
+  
   tablaConductor: string = "CREATE TABLE IF NOT EXISTS conductor(correo_conductor VARCHAR(150) PRIMARY KEY, Nombrec VARCHAR(40) NOT NULL,Apellidou VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_c VARCHAR(40) NOT NULL);";
   registroConductor: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombrec,Apellidou,Contrasennia,tipo_c) VALUES ('a@a.com','Pepito','pica','123456789','c');";
   registroConductor2: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombrec,Apellidou,Contrasennia,tipo_c) VALUES ('b@a.com','xd','d','123456789','c');";
