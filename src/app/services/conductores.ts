@@ -1,7 +1,7 @@
 export class Conductores {
     correo_conductor:string;
-    nombre:string;
-    apellido:string;
+    Nombrec:string;
+    Apellidou:string;
     contrasennia:string;
     tipo_c:string;
 }   

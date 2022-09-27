@@ -17,10 +17,9 @@ export class BasededatosService {
   // variable para manipular la conexion a la base de datos
   public database: SQLiteObject;
   //tabla conductor
-  tablaConductor: string = "CREATE TABLE IF NOT EXISTS conductor(correo_conductor VARCHAR(150) PRIMARY KEY, Nombre VARCHAR(40) NOT NULL,Apellido VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_c VARCHAR(40) NOT NULL);";
-  registroConductor: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombre,Apellido,Contrasennia,tipo_c) VALUES ('a@a.com','Pepito','pica','123456789','c');";
-  registroConductor2: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombre,Apellido,Contrasennia,tipo_c) VALUES ('b@a.com','xd','d','123456789','c');";
-
+  tablaConductor: string = "CREATE TABLE IF NOT EXISTS conductor(correo_conductor VARCHAR(150) PRIMARY KEY, Nombrec VARCHAR(40) NOT NULL,Apellidou VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_c VARCHAR(40) NOT NULL);";
+  registroConductor: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombrec,Apellidou,Contrasennia,tipo_c) VALUES ('a@a.com','Pepito','pica','123456789','c');";
+  registroConductor2: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombrec,Apellidou,Contrasennia,tipo_c) VALUES ('b@a.com','xd','d','123456789','c');";
   listaConductores = new BehaviorSubject([]);
   //tabla usuario
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo_usuario VARCHAR(150) PRIMARY KEY NOT NULL, Nombre VARCHAR(40) NOT NULL,Apellido VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_u VARCHAR(40) NOT NULL);";
@@ -34,7 +33,6 @@ export class BasededatosService {
   tablaviaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, Descripcion VARCHAR(200) NOT NULL,Precio INTEGER NOT NULL,Direccion VARCHAR(70) NOT NULL,correoc  VARCHAR(150),FOREIGN KEY(correoc) REFERENCES conductor(correo_conductor));";
   registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,Descripcion,Precio,Direccion,correoc) VALUES (1,'Auto color naranjo',2000,'Quilicura','a@a.com');";
   registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,Descripcion,Precio,Direccion,correoc) VALUES (2,'Auto color naranjo',2000,'Perú','b@a.com');";
-
   listaViajes = new BehaviorSubject([]);
   //tabla detalle viaje
   
@@ -173,8 +171,8 @@ export class BasededatosService {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
             correo_conductor: res.rows.item(i).correo_conductor,
-            nombre: res.rows.item(i).nombre,
-            apellido: res.rows.item(i).apellido,
+            Nombrec: res.rows.item(i).Nombrec,
+            Apellidou: res.rows.item(i).Apellidou,
             contrasennia: res.rows.item(i).contrasennia,
             tipo_c: res.rows.item(i).tipo_c
 
@@ -212,7 +210,7 @@ export class BasededatosService {
   buscarViaje() {
     //retorno la ejecución del select
     
-    return this.database.executeSql('SELECT descripcion,precio,direccion,c.nombre,v.modelo FROM viaje join conductor c join vehiculo v where c.correo_conductor = v.correo_conductor', []).then(res => {
+    return this.database.executeSql('SELECT descripcion,precio,direccion,correoc,conductor.nombreC FROM viaje INNER JOIN conductor on conductor.correo_conductor = viaje.correoc', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
       //Inner Join
@@ -220,12 +218,11 @@ export class BasededatosService {
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
-            id_viaje: res.rows.item(i).id_viaje,
             Descripcion: res.rows.item(i).Descripcion,
             Precio: res.rows.item(i).Precio,
             Direccion: res.rows.item(i).Direccion,
-            correoc: res.rows.item(i).correoc,
-            nombre:res.rows.item(i).nombre
+            correoc:res.rows.item(i).correoc,
+            nombreC:res.rows.item(i).nombreC
             //variables de la otra tabla
           })
         }

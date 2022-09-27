@@ -12,13 +12,15 @@ export class AutosPage implements OnInit {
   ap:string="";
   arregloViaje: any=[
     {
-      id_viaje: '',
-      Descripcion: '',
+      Descripcion:'',
+      correoc:'',
       Precio: '',
       Direccion: '',
-      correoc: ''
+      nombreC: ''
+
     }
   ]
+
 
   constructor(private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService ) {
     this.activedRouter.queryParams.subscribe(params =>{
@@ -36,6 +38,7 @@ export class AutosPage implements OnInit {
         this.servicioDB.fetchViaje().subscribe(item=>{
           this.arregloViaje = item;
         })
+
       }
     })
   }
