@@ -210,7 +210,7 @@ export class BasededatosService {
   buscarViaje() {
     //retorno la ejecución del select
     
-    return this.database.executeSql('SELECT descripcion,precio,direccion,correoc,conductor.nombreC FROM viaje INNER JOIN conductor on conductor.correo_conductor = viaje.correoc', []).then(res => {
+    return this.database.executeSql('SELECT descripcion,precio,direccion,correoc,conductor.Nombrec FROM viaje INNER JOIN conductor on viaje.correoc = conductor.correo_conductor ', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
       //Inner Join
@@ -221,8 +221,8 @@ export class BasededatosService {
             Descripcion: res.rows.item(i).Descripcion,
             Precio: res.rows.item(i).Precio,
             Direccion: res.rows.item(i).Direccion,
-            correoc:res.rows.item(i).correoc,
-            nombreC:res.rows.item(i).nombreC
+            correoc: res.rows.item(i).correoc,
+            Nombrec: res.rows.item(i).Nombrec
             //variables de la otra tabla
           })
         }

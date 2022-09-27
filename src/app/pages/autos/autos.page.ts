@@ -13,10 +13,10 @@ export class AutosPage implements OnInit {
   arregloViaje: any=[
     {
       Descripcion:'',
-      correoc:'',
       Precio: '',
       Direccion: '',
-      nombreC: ''
+      correoc:'',
+      Nombrec: ''
 
     }
   ]
