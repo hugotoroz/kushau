@@ -13,14 +13,27 @@ export class InicioSesionPage implements OnInit {
   
   usuario: string="";
   clave: string="";
+
+  datos: any = {
+    correo3: '',
+    tipo: ''
+  }
+
   constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
-    this.servicioDB.dbState().subscribe;
+    this.servicioDB.dbState().subscribe(res=>{
+      if(res){
+        this.servicioDB.fetchLogin().subscribe(item=>{
+          this.datos = item;
+        })
+      }
+    })
   }
+  
 
 
-
+/*
   async validarUsuario(){
     if ((this.usuario.replace(/\s/g, "") == "usuario") && (this.clave == "usuario")) {
       await this.loadingUI();
@@ -42,6 +55,21 @@ export class InicioSesionPage implements OnInit {
     }
 
   }
+*/
+validarUsuario(){
+  if (this.usuario == "" || this.clave == "") {
+    this.presentAlert("Inicio sesión","Debe rellenar todos los campos");
+  
+  }
+  else{
+    this.servicioDB.loginUsuario(this.usuario,this.clave);
+    this.usuario=""
+    this.clave=""
+    
+  }
+}
+
+
   async presentToast(msj: string) {
     const toast = await this.toastController.create({
       message: msj,
@@ -50,10 +78,10 @@ export class InicioSesionPage implements OnInit {
     toast.present();
   }
 
-  async presentAlert() {
+  async presentAlert(titulo:string, msj:string) {
     const alert = await this.alertController.create({
-      header: 'Error',
-      message: 'Usuario o contraseña incorrectos',
+      header: titulo,
+      message: msj,
       buttons: ['OK'],
     });
 

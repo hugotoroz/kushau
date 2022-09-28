@@ -1,6 +1,5 @@
 export class Login {
-    correo: string;
-    clave:string;
-    tR_idRol:number;
+    correo2: string;
+    tR_idRol2:number;
 
 }
