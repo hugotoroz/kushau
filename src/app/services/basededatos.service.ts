@@ -197,8 +197,6 @@ export class BasededatosService {
             tA_patente: res.rows.item(i).tA_patent,
             nombre: res.rows.item(i).nombre,
             nombre_comuna: res.rows.item(i).nombre_comuna
-
-
             //variables de la otra tabla
           })
         }
