@@ -13,16 +13,19 @@
     </ion-avatar>
     <ion-card-content>
       <ion-card-title>
-        {{ x.Nombrec }}
+        {{ x.nombre }}
       </ion-card-title>
       <ion-card-subtitle>
         <ion-icon name="map-outline"></ion-icon>
-        {{ x.Direccion }}
+        {{ x.comuna }}
       </ion-card-subtitle>
       <ion-card-subtitle>
         <ion-icon name="cash-outline"></ion-icon>
         {{ x.Precio | currency: 'CLP' }}
       </ion-card-subtitle>
+      <ion-card-subtitle>
+        {{x.asientos_disp}}
+        </ion-card-subtitle>
       <div class="si">
         <ion-button class="boton" [routerLink]="['/tomarauto']" ><ion-icon name="car-outline"></ion-icon> Tomar viaje</ion-button>
       </div>

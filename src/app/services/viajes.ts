@@ -1,8 +1,11 @@
 export class Viajes {
-    Descripcion:string;
-    Precio:number;
-    Direccion:string;
-    correoc:string;
-    Nombrec:string;
+    id_viaje:string;
+    descripcion:string;
+    precio:number;
+    asientos_disp:number;
+    tA_patente:string;
+    nombre:string;
+    comuna:string;
+    
     
 }

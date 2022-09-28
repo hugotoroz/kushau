@@ -12,11 +12,15 @@ export class AutosPage implements OnInit {
   ap:string="";
   arregloViaje: any=[
     {
-      Descripcion:'',
-      Precio: '',
-      Direccion: '',
-      correoc:'',
-      Nombrec: ''
+      id_viaje: '',
+      descripcion: '',
+      precio: '',
+      fila_u: '',
+      fecha_viaje: '',
+      asientos_disp: '',
+      tA_patente: '',
+      nombre: '',
+      comuna: ''
 
     }
   ]

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {Platform, ToastController } from '@ionic/angular';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Conductores } from './conductores';
 import { Usuarios } from './usuarios';
 import { Viajes } from './viajes';
 import { Detalle } from './detalle';
-import { Vehiculos } from './vehiculos';
 import { Comuna } from './comuna';
+import { Autos } from './autos';
+import { ViajeComuna } from './viaje-comuna';
+import { Rol } from './rol';
 
 
 @Injectable({
@@ -15,14 +16,39 @@ import { Comuna } from './comuna';
 })
 export class BasededatosService {
   //Nueva tabla de base de datos
-  tUsuario: string= "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellidos(40) NOT NULL, contrasennia VARCHAR(40) NOT NULL, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
+  //tabla rol usuario
   tRol: string="CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY, nombre_r VARCHAR(15) NOT NULL);";
-  tAuto: string= "CREATE TABLE IF NOT EXISTS auto(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(35),annio INTEGER, tU_correo VARCHAR(150), FOREIGN KEY (tU_correo) REFERENCES Usuario(correo), tM_idMarca INTEGER, FOREIGN KEY(tM_idMarca) REFERENCES Marca(id_marca));";
-  tMarca: string= "CREATE TABLE IF NOT EXISTS marca(id_marca INTEGER PRIMARY KEY, nombre_m VARCHAR(20));";
-  tViaje: string= "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL, fecha_viaje DATE NOT NULL, asientos_disp INTEGER NOT NULL, hora_salida DATE NOT NULL, tA_patente VARCHAR(6), FOREIGN KEY(tA_patente) REFERENCES Auto(patente));";
-  tDetalleV: string= "CREATE TABLE IF NOT EXISTS detalle_viaje(id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, estado VARCHAR(10), u_correo VARCHAR(150), FOREIGN KEY (u_correo) REFERENCES Usuario(correo), tV_idViaje INTEGER, FOREIGN KEY (tV_idViaje) REFERENCES viaje(id_viaje));";
-  tViajeC: string= "CREATE TABLE IF NOT EXISTS viaje_comuna( id_vc INTEGER PRIMARY KEY AUTOINCREMENT, V_idViaje INTEGER, FOREIGN KEY (V_idViaje) REFERENCES viaje(id_viaje), )";
+  registroRol: string = "INSERT or IGNORE INTO rol(id_rol,nombre_r) VALUES (1,'Usuario');";
+  registroRol2: string = "INSERT or IGNORE INTO rol(id_rol,nombre_r) VALUES (2,'Conductor');";
+  listaRol = new BehaviorSubject([]);
+  //tabla usuarios
+  tUsuario: string= "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, contrasennia VARCHAR(40) NOT NULL, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,contrasennia,tR_idRol) VALUES ('a@a.com','Pepito','pica','123456789',2);";
+  registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,contrasennia,tR_idRol) VALUES ('b@a.com','xd','d','123456789',1);";
+  listaUsuarios = new BehaviorSubject([]);
+  //tabla auto
+  tAuto: string= "CREATE TABLE IF NOT EXISTS auto(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(35),marca VARCHAR(35),annio INTEGER, tU_correo VARCHAR(150), FOREIGN KEY (tU_correo) REFERENCES Usuario(correo));";
+  registroAuto: string = "INSERT or IGNORE INTO auto(patente,modelo,marca,annio,tU_correo) VALUES ('1122AA','SkyLine','Nisssan',2019,'a@a.com');";
+  listaAuto = new BehaviorSubject([]);
+  //tabla viaje
+  tViaje: string= "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL,fila_u INTEGER NOT NULL, fecha_viaje DATE NOT NULL, asientos_disp INTEGER NOT NULL, tA_patente VARCHAR(6), FOREIGN KEY(tA_patente) REFERENCES auto(patente));";
+  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,SYSDATE,4,'1122AA');";
+  listaViajes = new BehaviorSubject([]);
+  //tabla comuna
   tComuna: string= "CREATE TABLE IF NOT EXISTS comuna(id_comuna INTEGER PRIMARY KEY, nombre_comuna VARCHAR(20));";
+  registroComuna: string = "INSERT or IGNORE INTO comuna(id_comuna,nombre_comuna) VALUES (1,'Quilicura');";
+  listaComuna = new BehaviorSubject([]);
+
+  //tabla Viaje Comuna
+  tViajeC: string= "CREATE TABLE IF NOT EXISTS viaje_comuna( id_vc INTEGER PRIMARY KEY AUTOINCREMENT, V_idViaje INTEGER, FOREIGN KEY (V_idViaje) REFERENCES viaje(id_viaje),V_idComuna INTEGER, FOREIGN KEY (V_idComuna) REFERENCES comuna(id_comuna) )";
+  registroViajeC: string = "INSERT or IGNORE INTO viaje_comuna(id_vc,V_idViaje,V_idComuna) VALUES (1,1,1);";
+  listaViajeC = new BehaviorSubject([]);
+
+  //Tabla detalle
+  tDetalleV: string= "CREATE TABLE IF NOT EXISTS detalle_viaje(id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, estado VARCHAR(10), u_correo VARCHAR(150), FOREIGN KEY(u_correo) REFERENCES usuario(correo), tV_idViaje INTEGER, FOREIGN KEY (tV_idViaje) REFERENCES viaje(id_viaje));";
+  registroDetalle: string="INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (1,'Comenzado','b@a.com',1);";
+  listaDetalle = new BehaviorSubject([]);
+
 
 
   // variable para manipular la conexion a la base de datos
@@ -30,50 +56,6 @@ export class BasededatosService {
   //tipo usuario
   /*Re Hacer base de datos y juntar los dos usuarios para mayor simpleza guiarse de la bd que hizo el profe */ 
 
-  //tabla conductor
-  
-  tablaConductor: string = "CREATE TABLE IF NOT EXISTS conductor(correo_conductor VARCHAR(150) PRIMARY KEY, Nombrec VARCHAR(40) NOT NULL,Apellidou VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_c VARCHAR(40) NOT NULL);";
-  registroConductor: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombrec,Apellidou,Contrasennia,tipo_c) VALUES ('a@a.com','Pepito','pica','123456789','c');";
-  registroConductor2: string = "INSERT or IGNORE INTO conductor(correo_conductor,Nombrec,Apellidou,Contrasennia,tipo_c) VALUES ('b@a.com','xd','d','123456789','c');";
-  listaConductores = new BehaviorSubject([]);
-  //tabla usuario
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo_usuario VARCHAR(150) PRIMARY KEY NOT NULL, Nombre VARCHAR(40) NOT NULL,Apellido VARCHAR(40) NOT NULL,Contrasennia VARCHAR(40) NOT NULL, tipo_u VARCHAR(40) NOT NULL);";
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo_usuario,Nombre,Apellido,Contrasennia,tipo_u) VALUES ('aa@aa.com','sisis','nono','123456789','u');";
-  listaUsuarios = new BehaviorSubject([]);
-  //tabla bonificacion
-  tablaBono: string = "CREATE TABLE IF NOT EXISTS bonificacion(id_boni INTEGER PRIMARY KEY autoincrement, bonificacion INTEGER NOT NULL,correo  VARCHAR(150) ,FOREIGN KEY(correo) REFERENCES conductor(correo_conductor));";
-  registroBono: string = "INSERT or IGNORE INTO bonificacion(id_boni,bonificacion,correo) VALUES (1,5000,'nono','a@a.com');";
-  listaBono = new BehaviorSubject([]);
-  //tabla viaje
-  tablaviaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, Descripcion VARCHAR(200) NOT NULL,Precio INTEGER NOT NULL,Direccion VARCHAR(70) NOT NULL,correoc  VARCHAR(150),FOREIGN KEY(correoc) REFERENCES conductor(correo_conductor));";
-  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,Descripcion,Precio,Direccion,correoc) VALUES (1,'Auto color naranjo',2000,'Quilicura','a@a.com');";
-  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,Descripcion,Precio,Direccion,correoc) VALUES (2,'Auto color naranjo',2000,'Perú','b@a.com');";
-  listaViajes = new BehaviorSubject([]);
-  //tabla detalle viaje
-  
-  
-  /*
-  
-  
-  tabladetalle: string = "CREATE TABLE IF NOT EXISTS detalle(id_detalle INTEGER PRIMARY KEY autoincrement,estado VARCHAR(30),correo_u VARCHAR(150),FOREIGN KEY(correo_u) REFERENCES usuario(correo_usuario),id_via INTEGER,FOREIGN KEY(id_via) REFERENCES viaje(id_viaje));";
-  registroDetalle: string = "INSERT or IGNORE INTO detalle(id_detalle,estado,correo_u,id_via) VALUES (1,'Iniciado','aa@aa.com',1);";
-  listaDetalle = new BehaviorSubject([]);
-  
-  //tabla comuna 
-  tablacomuna: string = "CREATE TABLE IF NOT EXISTS comuna(id_comuna INTEGER PRIMARY KEY autoincrement,nombre_comuna VARCHAR(30));";
-  registroComuna: string = "INSERT or IGNORE INTO comuna(id_comuna,nombre_comuna) VALUES (1,'Quilicura');";
-  listaComuna = new BehaviorSubject([]);
-  
-  //tabla comuna viaje
-  tablacomuna_viaje: string = "CREATE TABLE IF NOT EXISTS viaje_comuna(id_viajeC INTEGER PRIMARY KEY autoincrement,id_viaj INTEGER,FOREIGN KEY(id_viaj) REFERENCES viaje(id_viaje),comuna1 INTEGER,FOREIGN KEY(comuna1) REFERENCES comuna(id_comuna));";
-  registroComuna_viaje: string = "INSERT or IGNORE INTO viaje_comuna(id_viajeC,id_viaj,comuna1) VALUES (1,1,1);";
-  listaComuna_viaje = new BehaviorSubject([]);
-  */
-  //tabla vehiculo
-  tablavehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(60),marca VARCHAR(60),annio VARCHAR(60),correo_c VARCHAR(150),FOREIGN KEY(correo_c) REFERENCES conductor(correo_conductor));";
-  registroVehiculo: string = "INSERT or IGNORE INTO vehiculo(patente,modelo,marca,annio,correo_c) VALUES ('333333','Skyline','Nissan','1999','a@a.com');";
-  listaVehiculo = new BehaviorSubject([]);
-  //observable para manipular si la BD esta lista  o no para su manipulación
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController) { 
@@ -93,8 +75,8 @@ export class BasededatosService {
   dbState() {
     return this.isDBReady.asObservable();
   }
-  fetchConductores(): Observable<Conductores[]> {
-    return this.listaConductores.asObservable();
+  fetchRol(): Observable<Usuarios[]> {
+    return this.listaRol.asObservable();
   }
   fetchUsuario(): Observable<Usuarios[]> {
     return this.listaUsuarios.asObservable();
@@ -102,19 +84,16 @@ export class BasededatosService {
   fetchViaje(): Observable<Viajes[]> {
     return this.listaViajes.asObservable();
   }
-  /*
+
   fetchDetalle(): Observable<Detalle[]> {
     return this.listaDetalle.asObservable();
   }
-  */
-  fetchVehiculo(): Observable<Vehiculos[]> {
-    return this.listaVehiculo.asObservable();
+  fetchAuto(): Observable<Autos[]> {
+    return this.listaAuto.asObservable();
   }
-  /*
   fetchComuna(): Observable<Comuna[]> {
     return this.listaComuna.asObservable();
   }
-  */
   
   crearBD() {
     //verificamos que la plataforma este lista
@@ -139,31 +118,33 @@ export class BasededatosService {
   async crearTablas() {
     try {
       //ejecuto mis tablas
-      await this.database.executeSql(this.tablaConductor,[]);
-      await this.database.executeSql(this.tablaUsuario, []);
-      await this.database.executeSql(this.tablaBono,[]);
-      //await this.database.executeSql(this.tablacomuna,[]);
-      await this.database.executeSql(this.tablaviaje,[]);
-      //await this.database.executeSql(this.tablacomuna_viaje,[]);
-      //await this.database.executeSql(this.tabladetalle,[]);
+      await this.database.executeSql(this.tRol,[]);
+      await this.database.executeSql(this.tUsuario, []);
+      await this.database.executeSql(this.tAuto,[]);
+      await this.database.executeSql(this.tViaje,[]);
+      await this.database.executeSql(this.tComuna,[]);
+      await this.database.executeSql(this.tViajeC,[]);
+      await this.database.executeSql(this.tDetalleV,[]);
       
-      await this.database.executeSql(this.tablavehiculo,[]);
       //registro datos en mis tablas
-      await this.database.executeSql(this.registroConductor,[]);
-      await this.database.executeSql(this.registroConductor2,[]);
+      await this.database.executeSql(this.registroRol,[]);
+      await this.database.executeSql(this.registroRol2,[]);
       await this.database.executeSql(this.registroUsuario,[]);
+      await this.database.executeSql(this.registroUsuario2,[]);
       await this.database.executeSql(this.registroViaje,[]);
-      await this.database.executeSql(this.registroViaje2,[]);
+      await this.database.executeSql(this.registroAuto,[]);
+      await this.database.executeSql(this.registroComuna,[]);
+      await this.database.executeSql(this.registroViajeC,[]);
+      await this.database.executeSql(this.registroDetalle,[]);
 
-      //await this.database.executeSql(this.registroDetalle,[]);
-      await this.database.executeSql(this.registroVehiculo,[]);
 
       //cargar todos los registros de la tabla en el observable
-      
+      this.buscarRol();
       this.buscarUsuarios();
-      this.buscarConductores();
-      this.buscarVehiculos();
+      this.buscarAutos();
       this.buscarViaje(); 
+      this.buscarComuna();
+      this.buscarComunaViaje();
       this.buscarDetalle();
       
 
@@ -176,29 +157,6 @@ export class BasededatosService {
     }
 
   }
-  buscarConductores() {
-    //retorno la ejecución del select
-    return this.database.executeSql('SELECT * FROM conductor', []).then(res => {
-      //creo mi lista de objetos de noticias vacio
-      let items: Conductores[] = [];
-      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
-      if (res.rows.length > 0) {
-        for (var i = 0; i < res.rows.length; i++) {
-          items.push({
-            correo_conductor: res.rows.item(i).correo_conductor,
-            Nombrec: res.rows.item(i).Nombrec,
-            Apellidou: res.rows.item(i).Apellidou,
-            contrasennia: res.rows.item(i).contrasennia,
-            tipo_c: res.rows.item(i).tipo_c
-
-          })
-        }
-
-      }
-      //actualizamos el observable de las noticias
-      this.listaConductores.next(items);
-    })
-  }
   buscarUsuarios() {
     //retorno la ejecución del select
     return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
@@ -208,15 +166,14 @@ export class BasededatosService {
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
-            correo_usuario: res.rows.item(i).correo_usuario,
+            correo: res.rows.item(i).correo,
             nombre: res.rows.item(i).nombre,
             apellido: res.rows.item(i).apellido,
             contrasennia: res.rows.item(i).contrasennia,
-            tipo_u: res.rows.item(i).tipo_u
+            tR_idRol: res.rows.item(i).tR_idRol
 
           })
         }
-
       }
       //actualizamos el observable de las noticias
       this.listaUsuarios.next(items);
@@ -225,7 +182,7 @@ export class BasededatosService {
   buscarViaje() {
     //retorno la ejecución del select
     
-    return this.database.executeSql('SELECT descripcion,precio,direccion,correoc,conductor.Nombrec FROM viaje INNER JOIN conductor on viaje.correoc = conductor.correo_conductor ', []).then(res => {
+    return this.database.executeSql('SELECT id_viaje,descripcion,fecha_viaje,precio,asientos_disp,usuario.nombre,tA_patente,viaje_comuna.nombre_comuna FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo  INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
       //Inner Join
@@ -233,11 +190,15 @@ export class BasededatosService {
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
-            Descripcion: res.rows.item(i).Descripcion,
-            Precio: res.rows.item(i).Precio,
-            Direccion: res.rows.item(i).Direccion,
-            correoc: res.rows.item(i).correoc,
-            Nombrec: res.rows.item(i).Nombrec
+            id_viaje: res.rows.item(i).id_viaje,
+            descripcion: res.rows.item(i).descripcion,
+            precio: res.rows.item(i).precio,
+            asientos_disp: res.rows.item(i).asientos_disp,
+            tA_patente: res.rows.item(i).tA_patent,
+            nombre: res.rows.item(i).nombre,
+            comuna: res.rows.item(i).comuna
+
+
             //variables de la otra tabla
           })
         }
@@ -257,22 +218,82 @@ export class BasededatosService {
           items.push({
             id_detalle: res.rows.item(i).id_detalle,
             estado: res.rows.item(i).estado,
-            correo_u: res.rows.item(i).correo_u,
-            id_via: res.rows.item(i).id_via
+            u_correo: res.rows.item(i).u_correo,
+            tV_idViaje: res.rows.item(i).tV_idViaje
 
           })
         }
 
       }
       //actualizamos el observable de las noticias
-      //this.listaDetalle.next(items);
+      this.listaDetalle.next(items);
     })
   }
-  buscarVehiculos() {
+  buscarComuna() {
     //retorno la ejecución del select
-    return this.database.executeSql('SELECT * FROM vehiculo', []).then(res => {
+    return this.database.executeSql('SELECT * FROM comuna', []).then(res => {
       //creo mi lista de objetos de noticias vacio
-      let items: Vehiculos[] = [];
+      let items: Comuna[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_comuna: res.rows.item(i).id_comuna,
+            nombre_comuna: res.rows.item(i).nombre_comuna
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaComuna.next(items);
+    })
+  }
+  buscarComunaViaje() {
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM viaje_comuna', []).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: ViajeComuna[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_vc: res.rows.item(i).id_vc,
+            V_idViaje: res.rows.item(i).V_idViaje,
+            V_idComuna: res.rows.item(i).V_idComuna
+
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaViajeC.next(items);
+    })
+  }
+  buscarRol() {
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM rol', []).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Rol[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_rol: res.rows.item(i).id_rol,
+            nombre_r: res.rows.item(i).nombre_r,
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaRol.next(items);
+    })
+  }
+  buscarAutos() {
+    //retorno la ejecución del select
+    //re hacer por que faltan los datos nuevos
+    return this.database.executeSql('SELECT * FROM auto', []).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Autos[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
@@ -281,27 +302,15 @@ export class BasededatosService {
             modelo: res.rows.item(i).modelo,
             marca: res.rows.item(i).marca,
             annio: res.rows.item(i).annio,
-            correo_c: res.rows.item(i).correo_c
+            tU_correo: res.rows.item(i).tU_correo
 
           })
         }
 
       }
       //actualizamos el observable de las noticias
-      this.listaVehiculo.next(items);
+      this.listaAuto.next(items);
     })
   }
-
-
-  //insertarConductor(correo_conductor,Nombre,Apellido,Contrasennia,tipo_c){
-    //Crear una lista para agregar los datos
-    //let data = [correo_conductor,Nombre,Apellido,Contrasennia,tipo_c];
-    //Insertar los datos junto con la lista. Los datos van en '?' y se agregan en orden de la lista
-    //return this.database.executeSql('INSERT INTO vehiculo(patente,modelo,marca,annio) VALUES (?,?) WHERE correo_c= ?',data).then(res =>{
-      //Se actualiza la información
-      //this.buscarNoticias();
-      
-    //});
-  //}
 
 }
