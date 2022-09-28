@@ -20,7 +20,7 @@ export class AutosPage implements OnInit {
       asientos_disp: '',
       tA_patente: '',
       nombre: '',
-      comuna: ''
+      nombre_comuna: ''
 
     }
   ]

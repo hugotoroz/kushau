@@ -5,7 +5,7 @@ export class Viajes {
     asientos_disp:number;
     tA_patente:string;
     nombre:string;
-    comuna:string;
+    nombre_comuna:string;
     
     
 }
