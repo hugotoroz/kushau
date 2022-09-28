@@ -182,7 +182,7 @@ export class BasededatosService {
   buscarViaje() {
     //retorno la ejecución del select
     
-    return this.database.executeSql('SELECT id_viaje,descripcion,fecha_viaje,precio,asientos_disp,usuario.nombre,tA_patente,comuna.nombre_comuna FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo  INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna', []).then(res => {
+    return this.database.executeSql('SELECT id_viaje,descripcion,fecha_viaje,precio,asientos_disp,usuario.nombre,tA_patente, comuna.nombre_comuna FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna INNER JOIN comuna on viaje_comuna.v_idcomuna= comuna.id_comuna;', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
       //Inner Join
