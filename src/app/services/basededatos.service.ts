@@ -32,7 +32,7 @@ export class BasededatosService {
   listaAuto = new BehaviorSubject([]);
   //tabla viaje
   tViaje: string= "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL,fila_u INTEGER NOT NULL, fecha_viaje DATE NOT NULL, asientos_disp INTEGER NOT NULL, tA_patente VARCHAR(6), FOREIGN KEY(tA_patente) REFERENCES auto(patente));";
-  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,SYSDATE,4,'1122AA');";
+  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA');";
   listaViajes = new BehaviorSubject([]);
   //tabla comuna
   tComuna: string= "CREATE TABLE IF NOT EXISTS comuna(id_comuna INTEGER PRIMARY KEY, nombre_comuna VARCHAR(20));";
@@ -40,12 +40,12 @@ export class BasededatosService {
   listaComuna = new BehaviorSubject([]);
 
   //tabla Viaje Comuna
-  tViajeC: string= "CREATE TABLE IF NOT EXISTS viaje_comuna( id_vc INTEGER PRIMARY KEY AUTOINCREMENT, V_idViaje INTEGER, FOREIGN KEY (V_idViaje) REFERENCES viaje(id_viaje),V_idComuna INTEGER, FOREIGN KEY (V_idComuna) REFERENCES comuna(id_comuna) )";
+  tViajeC: string= "CREATE TABLE IF NOT EXISTS viaje_comuna( id_vc INTEGER PRIMARY KEY AUTOINCREMENT, V_idViaje INTEGER,V_idComuna INTEGER, FOREIGN KEY (V_idViaje) REFERENCES viaje(id_viaje), FOREIGN KEY (V_idComuna) REFERENCES comuna(id_comuna));";
   registroViajeC: string = "INSERT or IGNORE INTO viaje_comuna(id_vc,V_idViaje,V_idComuna) VALUES (1,1,1);";
   listaViajeC = new BehaviorSubject([]);
 
   //Tabla detalle
-  tDetalleV: string= "CREATE TABLE IF NOT EXISTS detalle_viaje(id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, estado VARCHAR(10), u_correo VARCHAR(150), FOREIGN KEY(u_correo) REFERENCES usuario(correo), tV_idViaje INTEGER, FOREIGN KEY (tV_idViaje) REFERENCES viaje(id_viaje));";
+  tDetalleV: string= "CREATE TABLE IF NOT EXISTS detalle_viaje(id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, estado VARCHAR(10), u_correo VARCHAR(150), tV_idViaje INTEGER, FOREIGN KEY(u_correo) REFERENCES usuario(correo), FOREIGN KEY (tV_idViaje) REFERENCES viaje(id_viaje));";
   registroDetalle: string="INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (1,'Comenzado','b@a.com',1);";
   listaDetalle = new BehaviorSubject([]);
 
@@ -182,7 +182,7 @@ export class BasededatosService {
   buscarViaje() {
     //retorno la ejecución del select
     
-    return this.database.executeSql('SELECT id_viaje,descripcion,fecha_viaje,precio,asientos_disp,usuario.nombre,tA_patente,viaje_comuna.nombre_comuna FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo  INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna', []).then(res => {
+    return this.database.executeSql('SELECT id_viaje,descripcion,fecha_viaje,precio,asientos_disp,usuario.nombre,tA_patente,comuna.nombre_comuna FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo  INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
       //Inner Join
@@ -209,7 +209,7 @@ export class BasededatosService {
   }
   buscarDetalle() {
     //retorno la ejecución del select
-    return this.database.executeSql('SELECT * FROM detalle', []).then(res => {
+    return this.database.executeSql('SELECT * FROM detalle_viaje', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Detalle[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
