@@ -33,6 +33,8 @@ export class BasededatosService {
   //tabla viaje
   tViaje: string= "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL,fila_u INTEGER NOT NULL, fecha_viaje DATE NOT NULL, asientos_disp INTEGER NOT NULL, tA_patente VARCHAR(6), FOREIGN KEY(tA_patente) REFERENCES auto(patente));";
   registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA');";
+  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (2,'Auto con la wea rota',2000,6,CURRENT_DATE,0,'1122AA');";
+
   listaViajes = new BehaviorSubject([]);
   //tabla comuna
   tComuna: string= "CREATE TABLE IF NOT EXISTS comuna(id_comuna INTEGER PRIMARY KEY, nombre_comuna VARCHAR(20));";
@@ -42,11 +44,13 @@ export class BasededatosService {
   //tabla Viaje Comuna
   tViajeC: string= "CREATE TABLE IF NOT EXISTS viaje_comuna( id_vc INTEGER PRIMARY KEY AUTOINCREMENT, V_idViaje INTEGER,V_idComuna INTEGER, FOREIGN KEY (V_idViaje) REFERENCES viaje(id_viaje), FOREIGN KEY (V_idComuna) REFERENCES comuna(id_comuna));";
   registroViajeC: string = "INSERT or IGNORE INTO viaje_comuna(id_vc,V_idViaje,V_idComuna) VALUES (1,1,1);";
+  registroViajeC2: string = "INSERT or IGNORE INTO viaje_comuna(id_vc,V_idViaje,V_idComuna) VALUES (2,2,1);";
   listaViajeC = new BehaviorSubject([]);
 
   //Tabla detalle
   tDetalleV: string= "CREATE TABLE IF NOT EXISTS detalle_viaje(id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, estado VARCHAR(10), u_correo VARCHAR(150), tV_idViaje INTEGER, FOREIGN KEY(u_correo) REFERENCES usuario(correo), FOREIGN KEY (tV_idViaje) REFERENCES viaje(id_viaje));";
   registroDetalle: string="INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (1,'Comenzado','b@a.com',1);";
+  registroDetalle2: string="INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (2,'Terminado','b@a.com',2);";
   listaDetalle = new BehaviorSubject([]);
 
 
@@ -132,10 +136,13 @@ export class BasededatosService {
       await this.database.executeSql(this.registroUsuario,[]);
       await this.database.executeSql(this.registroUsuario2,[]);
       await this.database.executeSql(this.registroViaje,[]);
+      await this.database.executeSql(this.registroViaje2,[]);
       await this.database.executeSql(this.registroAuto,[]);
       await this.database.executeSql(this.registroComuna,[]);
       await this.database.executeSql(this.registroViajeC,[]);
+      await this.database.executeSql(this.registroViajeC2,[]);
       await this.database.executeSql(this.registroDetalle,[]);
+      await this.database.executeSql(this.registroDetalle2,[]);
 
 
       //cargar todos los registros de la tabla en el observable
@@ -182,10 +189,10 @@ export class BasededatosService {
   buscarViaje() {
     //retorno la ejecución del select
     
-    return this.database.executeSql('SELECT id_viaje,descripcion,fecha_viaje,precio,asientos_disp,usuario.nombre,tA_patente, comuna.nombre_comuna FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna INNER JOIN comuna on viaje_comuna.v_idcomuna = comuna.id_comuna;', []).then(res => {
+    return this.database.executeSql("SELECT id_viaje,descripcion,fecha_viaje,precio,asientos_disp,usuario.nombre,tA_patente, comuna.nombre_comuna,detalle_viaje.estado FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna INNER JOIN comuna on viaje_comuna.v_idcomuna = comuna.id_comuna INNER JOIN detalle_viaje on viaje.id_viaje = detalle_viaje.tV_idViaje where detalle_viaje.estado = 'Terminado';", []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
-      //Inner Join
+      //falta arreglar por que no tira nada
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
@@ -196,7 +203,9 @@ export class BasededatosService {
             asientos_disp: res.rows.item(i).asientos_disp,
             tA_patente: res.rows.item(i).tA_patent,
             nombre: res.rows.item(i).nombre,
-            nombre_comuna: res.rows.item(i).nombre_comuna
+            nombre_comuna: res.rows.item(i).nombre_comuna,
+            estado: res.rows.item(i).estado
+
             //variables de la otra tabla
           })
         }
@@ -310,5 +319,28 @@ export class BasededatosService {
       this.listaAuto.next(items);
     })
   }
+  /*
+  Login(usuario,clave){
+    let data = [usuario,clave];
+    return this.database.executeSql('SELECT correo,contrasennia,tR_idRol where correo = ? and contrasennia = ? ',data).then(res=>{
+      if (res.rows.length > 0){
+        for (var i = 0; i < res.rows.length; i++){
+          correo:res.rows.item(i).correo,
+
+
+          if(){
+
+          }
+          
+        }
+        
+
+  
+      }
+
+
+    })
+    
+  }*/
 
 }

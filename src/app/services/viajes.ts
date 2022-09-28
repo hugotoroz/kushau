@@ -6,6 +6,7 @@ export class Viajes {
     tA_patente:string;
     nombre:string;
     nombre_comuna:string;
+    estado:string;
     
     
 }

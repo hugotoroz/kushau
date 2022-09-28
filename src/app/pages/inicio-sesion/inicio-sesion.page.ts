@@ -13,12 +13,13 @@ export class InicioSesionPage implements OnInit {
   
   usuario: string="";
   clave: string="";
-  u: string="";
   constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
     this.servicioDB.dbState().subscribe;
   }
+
+
 
   async validarUsuario(){
     if ((this.usuario.replace(/\s/g, "") == "usuario") && (this.clave == "usuario")) {
