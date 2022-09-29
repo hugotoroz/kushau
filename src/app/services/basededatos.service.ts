@@ -37,7 +37,7 @@ export class BasededatosService {
   //tabla viaje
   tViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL,fila_u INTEGER NOT NULL, fecha_viaje DATE NOT NULL, asientos_disp INTEGER NOT NULL, tA_patente VARCHAR(6), FOREIGN KEY(tA_patente) REFERENCES auto(patente));";
   registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA');";
-  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (2,'Auto con la wea rota',2000,6,CURRENT_DATE,0,'1122AA');";
+  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (2,'Auto con la wea rota',4000,6,CURRENT_DATE,1,'1122AA');";
 
   listaViajes = new BehaviorSubject([]);
   //tabla comuna
@@ -59,7 +59,7 @@ export class BasededatosService {
   //Observables
   listaLogin = new BehaviorSubject([]);
   listaPerfil = new BehaviorSubject([]);
-  listaActivos= new BehaviorSubject([]);
+  listaActivos = new BehaviorSubject([]);
 
 
   // variable para manipular la conexion a la base de datos
@@ -86,7 +86,7 @@ export class BasededatosService {
   dbState() {
     return this.isDBReady.asObservable();
   }
-  fetchRol(): Observable<Usuarios[]> {
+  fetchRol(): Observable<Rol[]> {
     return this.listaRol.asObservable();
   }
   fetchUsuario(): Observable<Usuarios[]> {
@@ -95,7 +95,6 @@ export class BasededatosService {
   fetchViaje(): Observable<Viajes[]> {
     return this.listaViajes.asObservable();
   }
-
   fetchDetalle(): Observable<Detalle[]> {
     return this.listaDetalle.asObservable();
   }
@@ -105,7 +104,6 @@ export class BasededatosService {
   fetchComuna(): Observable<Comuna[]> {
     return this.listaComuna.asObservable();
   }
-
   fetchLogin(): Observable<Login[]> {
     return this.listaLogin.asObservable();
   }
@@ -166,7 +164,8 @@ export class BasededatosService {
       this.buscarRol();
       this.buscarUsuarios();
       this.buscarAutos();
-      this.buscarViaje();
+      this.buscarViaje()
+      this.filtrarViaje();
       this.buscarComuna();
       this.buscarComunaViaje();
       this.buscarDetalle();
@@ -222,9 +221,6 @@ export class BasededatosService {
             precio2: res.rows.item(i).precio,
             asientos_disp2: res.rows.item(i).asientos_disp,
             tA_patente2: res.rows.item(i).tA_patent,
-            nombre2: res.rows.item(i).nombre,
-            nombre_comuna2: res.rows.item(i).nombre_comuna,
-            estado2: res.rows.item(i).estado
           })
         }
       }
@@ -232,21 +228,20 @@ export class BasededatosService {
       this.listaViajes.next(items);
     })
   }
-  FiltrarViaje() {
+  filtrarViaje() {
     //retorno la ejecución del select
 
-    return this.database.executeSql("SELECT descripcion,precio,asientos_disp,usuario.nombre,tA_patente,comuna.nombre_comuna,detalle_viaje.estado FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna INNER JOIN comuna on viaje_comuna.v_idcomuna = comuna.id_comuna INNER JOIN detalle_viaje on viaje.id_viaje = detalle_viaje.tV_idViaje where detalle_viaje.estado = 'Comenzado';", []).then(res => {
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje_comuna vc inner join viaje v on  vc.v_idviaje = v.id_viaje inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  vc.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';", []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Activos[] = [];
-      //falta arreglar por que no tira nada
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
             precio3: res.rows.item(i).precio,
             asientos_disp3: res.rows.item(i).asientos_disp,
-            tA_patente3: res.rows.item(i).tA_patent,
             nombre3: res.rows.item(i).nombre,
+            patente3: res.rows.item(i).patente,
             nombre_comuna3: res.rows.item(i).nombre_comuna,
           })
         }

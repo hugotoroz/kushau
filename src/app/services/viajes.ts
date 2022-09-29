@@ -4,9 +4,6 @@ export class Viajes {
     precio2:number;
     asientos_disp2:number;
     tA_patente2:string;
-    nombre2:string;
-    nombre_comuna2:string;
-    estado2:string;
     
     
 }

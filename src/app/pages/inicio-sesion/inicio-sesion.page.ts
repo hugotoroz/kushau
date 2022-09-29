@@ -10,7 +10,6 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
   styleUrls: ['./inicio-sesion.page.scss'],
 })
 export class InicioSesionPage implements OnInit {
-  
   usuario: string="";
   clave: string="";
 
@@ -18,7 +17,6 @@ export class InicioSesionPage implements OnInit {
     correo3: '',
     tipo: ''
   }
-
   constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
@@ -56,14 +54,16 @@ export class InicioSesionPage implements OnInit {
 
   }
 */
+
 async validarUsuario(){
-  if (this.usuario == "" || this.clave == "") {
+  var usuarioValidado= this.usuario.toLowerCase().replace(/\s/g, "");
+  if (usuarioValidado == "" || this.clave == "") {
     this.presentAlert("Inicio sesión","Debe rellenar todos los campos");
   
   }
   else{
-    this.servicioDB.loginUsuario(this.usuario,this.clave);
-    localStorage.setItem('usuario',this.usuario)
+    this.servicioDB.loginUsuario(usuarioValidado,this.clave);
+    localStorage.setItem('usuario',usuarioValidado)
     await this.loadingUI();
     this.usuario=""
     this.clave=""
