@@ -9,9 +9,9 @@
     <ion-avatar class="imagen">
       <img src="../assets/Imagenes/usuario.jpeg" style="align-self: center;" />
     </ion-avatar>
-    <ion-card-content>
+    <ion-card-content *ngFor="let i of arregloUsuario">
       <ion-card-title>
-        Hugo Salas Messi
+        {{i.nombreCompleto2}}
       </ion-card-title>
     </ion-card-content>
   </ion-card>
@@ -21,13 +21,23 @@
       <h1>Información</h1>
     </ion-col>
   </ion-row>
-
   <!--Datos del perfil-->
+  <div *ngFor="let x of arregloUsuario">
   <ion-row>
     <ion-col col-8>
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{Nombre}}
+          {{x.nombre2}}
+          
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="person-outline"></ion-icon>
+
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label style="word-wrap: break-word; white-space: normal;">
+          {{x.apellido2}}
           
         </ion-label>
         <div class="ictxt">
@@ -38,7 +48,7 @@
 
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{Correo}}
+          {{usuario}}
         </ion-label>
         <div class="ictxt">
           <ion-icon name="mail-outline"></ion-icon>
@@ -46,28 +56,9 @@
         </div>
 
       </ion-item>
-
-      <ion-item>
-        <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{Telefono}}
-        </ion-label>
-        <div class="ictxt">
-          <ion-icon name="call-outline"></ion-icon>
-          
-        </div>
-      </ion-item>
-
-      <ion-item>
-        <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{Direccion}}
-        </ion-label>
-        <div class="ictxt">
-          <ion-icon name="home-outline"></ion-icon>
-          
-        </div>
-      </ion-item>
     </ion-col>
   </ion-row>
+</div>
   <div class="si">
     <ion-button class="boton" routerLink="/configuracion">
       <ion-icon name="pencil-outline" slot="start"></ion-icon>Editar

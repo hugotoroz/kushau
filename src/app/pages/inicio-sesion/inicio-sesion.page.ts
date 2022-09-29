@@ -56,13 +56,15 @@ export class InicioSesionPage implements OnInit {
 
   }
 */
-validarUsuario(){
+async validarUsuario(){
   if (this.usuario == "" || this.clave == "") {
     this.presentAlert("Inicio sesión","Debe rellenar todos los campos");
   
   }
   else{
     this.servicioDB.loginUsuario(this.usuario,this.clave);
+    localStorage.setItem('usuario',this.usuario)
+    await this.loadingUI();
     this.usuario=""
     this.clave=""
     

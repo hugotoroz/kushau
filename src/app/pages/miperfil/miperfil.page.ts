@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { BasededatosService } from 'src/app/services/basededatos.service';
 
 @Component({
   selector: 'app-miperfil',
@@ -8,13 +9,20 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
   styleUrls: ['./miperfil.page.scss'],
 })
 export class MiperfilPage implements OnInit {
-  Nombre: string="Hugo Salas Messi";
-  Direccion: string="Estero 228";
-  Telefono: string="+569 12345678";
-  Correo: string="algo@dominio.algo";
+  arregloUsuario: any=[
+    {correo2:'',
+    nombre2:'',
+    apellido2:'',
+    nombreCompleto2: ''
+
+    }
+  ]
+
+
+  usuario = localStorage.getItem('usuario');
   u:string="";
   ap:string="";
-  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router) { 
+  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) { 
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
         this.u= this.router.getCurrentNavigation().extras.state.usu;
@@ -25,6 +33,15 @@ export class MiperfilPage implements OnInit {
   }
 
   ngOnInit() {
+    this.servicioDB.dbState().subscribe(res=>{
+      if(res){
+        this.servicioDB.fetchperfil().subscribe(item=>{
+          this.arregloUsuario = item;
+          this.servicioDB.buscarPerfil(this.usuario);
+        })
+
+      }
+    })
   }
   async presentToast(msj) {
     const toast = await this.toastController.create({
@@ -45,6 +62,7 @@ export class MiperfilPage implements OnInit {
           handler: () => {
             this.navCtrl.navigateRoot('/inicio-sesion');
             this.presentToast("Has cerrado sesión.");
+            localStorage.removeItem('usuario');
           }
         },
         {

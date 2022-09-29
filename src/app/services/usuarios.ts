@@ -1,8 +1,8 @@
 export class Usuarios {
-    correo:string;
-    nombre:string;
-    apellido:string;
-    contrasennia:string;
-    tR_idRol:string;
+    correo2:string;
+    nombre2:string;
+    apellido2:string;
+    contrasennia2:string;
+    tR_idRol2:string;
     
 }

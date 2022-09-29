@@ -12,21 +12,16 @@ export class AutosPage implements OnInit {
   ap:string="";
   arregloViaje: any=[
     {
-      id_viaje: '',
-      descripcion: '',
-      precio: '',
-      fila_u: '',
-      fecha_viaje: '',
-      asientos_disp: '',
-      tA_patente: '',
-      nombre: '',
-      nombre_comuna: ''
-
+      precio3: '',
+      asientos_disp3: '',
+      tA_patente3: '',
+      nombre3: '',
+      nombre_comuna3: '',
     }
   ]
 
 
-  constructor(private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService ) {
+  constructor(private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) {
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
         this.u= this.router.getCurrentNavigation().extras.state.usu;
@@ -39,7 +34,7 @@ export class AutosPage implements OnInit {
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       if(res){
-        this.servicioDB.fetchViaje().subscribe(item=>{
+        this.servicioDB.fetchActivos().subscribe(item=>{
           this.arregloViaje = item;
         })
 

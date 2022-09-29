@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { BasededatosService } from 'src/app/services/basededatos.service';
 
 @Component({
   selector: 'app-miperfil-conductor',
@@ -8,14 +9,28 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
   styleUrls: ['./miperfil-conductor.page.scss'],
 })
 export class MiperfilConductorPage implements OnInit {
-  Nombre: string="Ignacio Salas Messi";
-  Direccion: string="Estero Si";
-  Telefono: string="+569 12345678";
-  Correo: string="si@dominio.si";
-  vehiculo: string="Nissan Skyline GTR 32";
-  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router) { }
+  arregloUsuario: any=[
+    {correo2:'',
+    nombre2:'',
+    apellido2:'',
+    nombreCompleto2: ''
+
+    }
+  ]
+
+  usuario = localStorage.getItem('usuario');
+  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
+    this.servicioDB.dbState().subscribe(res=>{
+      if(res){
+        this.servicioDB.fetchperfil().subscribe(item=>{
+          this.arregloUsuario = item;
+          this.servicioDB.buscarPerfil(this.usuario);
+        })
+
+      }
+    })
   }
   async presentToast(msj) {
     const toast = await this.toastController.create({
@@ -36,6 +51,7 @@ export class MiperfilConductorPage implements OnInit {
           handler: () => {
             this.navCtrl.navigateRoot('/inicio-sesion');
             this.presentToast("Has cerrado sesión.");
+            localStorage.removeItem('usuario');
           }
         },
         {

@@ -11,6 +11,8 @@ import { ViajeComuna } from './viaje-comuna';
 import { Rol } from './rol';
 import { Login } from './login';
 import { Router } from '@angular/router';
+import { Perfil } from './perfil';
+import { Activos } from './activos';
 
 
 @Injectable({
@@ -54,7 +56,10 @@ export class BasededatosService {
   registroDetalle: string = "INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (1,'Comenzado','b@a.com',1);";
   registroDetalle2: string = "INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (2,'Terminado','b@a.com',2);";
   listaDetalle = new BehaviorSubject([]);
+  //Observables
   listaLogin = new BehaviorSubject([]);
+  listaPerfil = new BehaviorSubject([]);
+  listaActivos= new BehaviorSubject([]);
 
 
   // variable para manipular la conexion a la base de datos
@@ -103,6 +108,12 @@ export class BasededatosService {
 
   fetchLogin(): Observable<Login[]> {
     return this.listaLogin.asObservable();
+  }
+  fetchperfil(): Observable<Perfil[]> {
+    return this.listaPerfil.asObservable();
+  }
+  fetchActivos(): Observable<Activos[]> {
+    return this.listaActivos.asObservable();
   }
 
   crearBD() {
@@ -170,6 +181,9 @@ export class BasededatosService {
     }
 
   }
+
+
+  
   buscarUsuarios() {
     //retorno la ejecución del select
     return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
@@ -179,11 +193,11 @@ export class BasededatosService {
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
-            correo: res.rows.item(i).correo,
-            nombre: res.rows.item(i).nombre,
-            apellido: res.rows.item(i).apellido,
-            contrasennia: res.rows.item(i).contrasennia,
-            tR_idRol: res.rows.item(i).tR_idRol
+            correo2: res.rows.item(i).correo,
+            nombre2: res.rows.item(i).nombre,
+            apellido2: res.rows.item(i).apellido,
+            contrasennia2: res.rows.item(i).contrasennia,
+            tR_idRol2: res.rows.item(i).tR_idRol
 
           })
         }
@@ -195,7 +209,7 @@ export class BasededatosService {
   buscarViaje() {
     //retorno la ejecución del select
 
-    return this.database.executeSql("SELECT id_viaje,descripcion,fecha_viaje,precio,asientos_disp,usuario.nombre,tA_patente, comuna.nombre_comuna,detalle_viaje.estado FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna INNER JOIN comuna on viaje_comuna.v_idcomuna = comuna.id_comuna INNER JOIN detalle_viaje on viaje.id_viaje = detalle_viaje.tV_idViaje where detalle_viaje.estado = 'Terminado';", []).then(res => {
+    return this.database.executeSql("SELECT * from viaje;", []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Viajes[] = [];
       //falta arreglar por que no tira nada
@@ -203,21 +217,42 @@ export class BasededatosService {
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
-            id_viaje: res.rows.item(i).id_viaje,
-            descripcion: res.rows.item(i).descripcion,
-            precio: res.rows.item(i).precio,
-            asientos_disp: res.rows.item(i).asientos_disp,
-            tA_patente: res.rows.item(i).tA_patent,
-            nombre: res.rows.item(i).nombre,
-            nombre_comuna: res.rows.item(i).nombre_comuna,
-            estado: res.rows.item(i).estado
-
-            //variables de la otra tabla
+            id_viaje2: res.rows.item(i).id_viaje,
+            descripcion2: res.rows.item(i).descripcion,
+            precio2: res.rows.item(i).precio,
+            asientos_disp2: res.rows.item(i).asientos_disp,
+            tA_patente2: res.rows.item(i).tA_patent,
+            nombre2: res.rows.item(i).nombre,
+            nombre_comuna2: res.rows.item(i).nombre_comuna,
+            estado2: res.rows.item(i).estado
           })
         }
       }
       //actualizamos el observable de las noticias
       this.listaViajes.next(items);
+    })
+  }
+  FiltrarViaje() {
+    //retorno la ejecución del select
+
+    return this.database.executeSql("SELECT descripcion,precio,asientos_disp,usuario.nombre,tA_patente,comuna.nombre_comuna,detalle_viaje.estado FROM viaje INNER JOIN auto on viaje.tA_patente = auto.patente INNER JOIN usuario on auto.tU_correo = usuario.correo INNER JOIN viaje_comuna on viaje.id_viaje = viaje_comuna.V_idComuna INNER JOIN comuna on viaje_comuna.v_idcomuna = comuna.id_comuna INNER JOIN detalle_viaje on viaje.id_viaje = detalle_viaje.tV_idViaje where detalle_viaje.estado = 'Comenzado';", []).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Activos[] = [];
+      //falta arreglar por que no tira nada
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            precio3: res.rows.item(i).precio,
+            asientos_disp3: res.rows.item(i).asientos_disp,
+            tA_patente3: res.rows.item(i).tA_patent,
+            nombre3: res.rows.item(i).nombre,
+            nombre_comuna3: res.rows.item(i).nombre_comuna,
+          })
+        }
+      }
+      //actualizamos el observable de las noticias
+      this.listaActivos.next(items);
     })
   }
   buscarDetalle() {
@@ -338,6 +373,7 @@ export class BasededatosService {
             tR_idRol2: res.rows.item(i).tR_idRol
           });
         }
+        
         //crear variables storage
         if (item2[0].tR_idRol2 == 1) {
           this.router.navigate(['/tabs'])
@@ -357,29 +393,27 @@ export class BasededatosService {
     })
 
   }
-
-  /*
-  Login(usuario,clave){
-    let data = [usuario,clave];
-    return this.database.executeSql('SELECT correo,contrasennia,tR_idRol where correo = ? and contrasennia = ? ',data).then(res=>{
-      if (res.rows.length > 0){
-        for (var i = 0; i < res.rows.length; i++){
-          correo:res.rows.item(i).correo,
-
-
-          if(){
-
-          }
-          
-        }
-        
-
+  buscarPerfil(usuario) {
+    let data =[usuario]
+    //retorno la ejecución del select
+    return this.database.executeSql("SELECT correo,nombre,apellido,nombre||' '||apellido as completo FROM usuario where correo = ?", data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Perfil[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            correo2: res.rows.item(i).correo,
+            nombre2: res.rows.item(i).nombre,
+            apellido2: res.rows.item(i).apellido,
+            nombreCompleto2: res.rows.item(i).completo
   
+          })
+        }
       }
-
-
+      //actualizamos el observable de las noticias
+      this.listaPerfil.next(items);
     })
-    
-  }*/
+  }
 
 }
