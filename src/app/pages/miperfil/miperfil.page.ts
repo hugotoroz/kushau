@@ -70,12 +70,13 @@ export class MiperfilPage implements OnInit {
 pasarDatos(){
   let navigationExtras: NavigationExtras = {
     state: {
-      n: this.arregloUsuario[1],
-      ap: this.arregloUsuario[2],
-      tel:this.arregloUsuario[4],
+      n: this.arregloUsuario[2],
+      ap: this.arregloUsuario[3],
+      tel:this.arregloUsuario[5],
 
     }
   }
+  this.router.navigate(['/configuracion']);
   this.router.navigate(['/configuracion'], navigationExtras);
 }
 

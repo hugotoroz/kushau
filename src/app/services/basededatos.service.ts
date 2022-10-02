@@ -27,8 +27,8 @@ export class BasededatosService {
   listaRol = new BehaviorSubject([]);
   //tabla usuarios
   tUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL,telefono INTEGER, contrasennia VARCHAR(40) NOT NULL, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,contrasennia,tR_idRol) VALUES ('a@a.com','Pepito','pica',12345678,'123',2);";
-  registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,contrasennia,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123',1);";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,tR_idRol) VALUES ('a@a.com','Pepito','pica',12345678,'123',2);";
+  registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123',1);";
   listaUsuarios = new BehaviorSubject([]);
   //tabla auto
   tAuto: string = "CREATE TABLE IF NOT EXISTS auto(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(35),marca VARCHAR(35),annio INTEGER, tU_correo VARCHAR(150), FOREIGN KEY (tU_correo) REFERENCES Usuario(correo));";

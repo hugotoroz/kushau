@@ -7,6 +7,15 @@
 <ion-content>
   <!-- Searchbar with value -->
   <h1>Conductores disponibles</h1>
+  <h4>Seleccione la comuna donde quiere ir.</h3>
+  <ion-list>
+    <ion-item>
+      <ion-select placeholder="Seleccione una comuna" class="ion-text-center">
+        <ion-select-option value=""></ion-select-option>
+
+      </ion-select>
+    </ion-item>
+  </ion-list>
   <ion-card *ngFor="let x of arregloViaje">
     <ion-avatar class="imagen">
       <img src="../assets/Imagenes/Oliva.webp" style="align-self: center;" />
