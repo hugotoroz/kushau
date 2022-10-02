@@ -26,9 +26,9 @@ export class BasededatosService {
   registroRol2: string = "INSERT or IGNORE INTO rol(id_rol,nombre_r) VALUES (2,'Conductor');";
   listaRol = new BehaviorSubject([]);
   //tabla usuarios
-  tUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, contrasennia VARCHAR(40) NOT NULL, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,contrasennia,tR_idRol) VALUES ('a@a.com','Pepito','pica','123456789',2);";
-  registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,contrasennia,tR_idRol) VALUES ('b@a.com','xd','d','123456789',1);";
+  tUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL,telefono INTEGER, contrasennia VARCHAR(40) NOT NULL, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,contrasennia,tR_idRol) VALUES ('a@a.com','Pepito','pica',12345678,'123',2);";
+  registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,contrasennia,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123',1);";
   listaUsuarios = new BehaviorSubject([]);
   //tabla auto
   tAuto: string = "CREATE TABLE IF NOT EXISTS auto(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(35),marca VARCHAR(35),annio INTEGER, tU_correo VARCHAR(150), FOREIGN KEY (tU_correo) REFERENCES Usuario(correo));";
@@ -391,7 +391,7 @@ export class BasededatosService {
   buscarPerfil(usuario) {
     let data =[usuario]
     //retorno la ejecución del select
-    return this.database.executeSql("SELECT correo,nombre,apellido,nombre||' '||apellido as completo FROM usuario where correo = ?", data).then(res => {
+    return this.database.executeSql("SELECT correo,nombre,apellido,nombre||' '||apellido as completo, telefono FROM usuario where correo = ?", data).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Perfil[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -401,7 +401,9 @@ export class BasededatosService {
             correo2: res.rows.item(i).correo,
             nombre2: res.rows.item(i).nombre,
             apellido2: res.rows.item(i).apellido,
-            nombreCompleto2: res.rows.item(i).completo
+            nombreCompleto2: res.rows.item(i).completo,
+            telefono: res.rows.item(i).telefono
+
   
           })
         }

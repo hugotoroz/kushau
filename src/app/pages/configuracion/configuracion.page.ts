@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 
 
@@ -9,26 +9,27 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
   styleUrls: ['./configuracion.page.scss'],
 })
 export class ConfiguracionPage implements OnInit {
-  Nombre: string="Hugo";
-  Apellidos: string="Salas Messi";
-  Direccion: string="Estero 228";
-  Telefono: string="12345678";
-  Correo: string="algo@dominio.algo"
+  nom: '';
+  app: '';
+  tel: '';
   area: string=" +569"
-  
-  constructor(public toastController: ToastController,private router: Router,public navCtrl: NavController,private alertController: AlertController) { }
-  validarEditar(){
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
-    if (this.Telefono.length != 8){
+
+
+  constructor(public toastController: ToastController,private router: Router,private activedRouter: ActivatedRoute,public navCtrl: NavController,private alertController: AlertController) { 
+    this.activedRouter.queryParams.subscribe(params =>{
+      if(this.router.getCurrentNavigation().extras.state){
+        this.nom= this.router.getCurrentNavigation().extras.state.n;
+        this.app= this.router.getCurrentNavigation().extras.state.ap;
+        this.tel= this.router.getCurrentNavigation().extras.state.tel;
+      }
+    })
+   }
+  validarEditar(){    
+    if (this.tel.length != 8){
       this.presentToast("El telefono debe contener 8 dígitos.");
     }
-    else if(this.Nombre == "" || this.Apellidos == "" || this.Direccion == ""||this.Telefono == ""||this.Correo == "" ){
+    else if(this.nom == "" || this.app == "" ||this.tel == ""){
       this.presentToast("Debe completar todos los campos.");
-    }
-    else if(!re.test(this.Correo)) {
-      this.presentToast("Su correo no es válido.");
-      
     }
     else{
       this.router.navigate(['tabs/'])

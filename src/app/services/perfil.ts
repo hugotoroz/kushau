@@ -3,5 +3,6 @@ export class Perfil {
     nombre2:string;
     apellido2:string;
     nombreCompleto2:string;
+    telefono: number;
 }
 

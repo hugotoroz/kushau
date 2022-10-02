@@ -12,33 +12,23 @@
     <img src="../assets/Imagenes/usuario.jpeg" style="align-self: center;" />
   </ion-avatar>
   <ion-icon name="camera-outline"></ion-icon>
-  <div>
+  <div >
     <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Nombre</ion-label>
-      <ion-input [(ngModel)]="Nombre"></ion-input>
+      <ion-input [(ngModel)]="nom"></ion-input>
     </ion-item>
     <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Apellidos</ion-label>
-      <ion-input [(ngModel)]="Apellidos"></ion-input>
-    </ion-item>
-    <ion-item class="items" matRipple [matRippleCentered]="centered">
-      <ion-label color="sucess" class="bold">Dirección</ion-label>
-      <ion-input [(ngModel)]="Direccion"></ion-input>
+      <ion-input [(ngModel)]="app"></ion-input>
     </ion-item>
     <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Teléfono</ion-label>
-      
-      <ion-input [(ngModel)]="Telefono">{{area}}</ion-input>
+      <ion-input [(ngModel)]="tel">{{area}}</ion-input>
     </ion-item>
     <p class="suggestions"> 
       * Debe escribir 8 dígitos <b>(sin el dígito verificador).</b><br> 
       * Ejemplo: 12345678
     </p>
-    <ion-item class="items" matRipple [matRippleCentered]="centered">
-      <ion-label color="sucess" class="bold">Correo</ion-label>
-      <ion-input [(ngModel)]="Correo" ></ion-input>
-    </ion-item>
-    <p class="suggestions"> * Ejemplo: correo@dominio.com</p>
     <div class="si">
       <ion-button class="boton" (click)="validarEditar()">Guardar Cambios</ion-button>
     </div>

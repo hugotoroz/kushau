@@ -48,7 +48,7 @@
 
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{usuario}}
+          {{x.telefono}}
         </ion-label>
         <div class="ictxt">
           <ion-icon name="mail-outline"></ion-icon>
@@ -60,7 +60,7 @@
   </ion-row>
 </div>
   <div class="si">
-    <ion-button class="boton" routerLink="/configuracion">
+    <ion-button class="boton" routerLink="/configuracion" (click)="pasarDatos()">
       <ion-icon name="pencil-outline" slot="start"></ion-icon>Editar
     </ion-button>
   </div>

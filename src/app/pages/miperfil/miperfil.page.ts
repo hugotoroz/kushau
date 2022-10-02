@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
 
@@ -10,26 +10,19 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 })
 export class MiperfilPage implements OnInit {
   arregloUsuario: any=[
-    {correo2:'',
-    nombre2:'',
-    apellido2:'',
-    nombreCompleto2: ''
-
+    {
+      correo2:'',
+      nombre2:'',
+      apellido2:'',
+      nombreCompleto2: '',
+      telefono:''
     }
   ]
 
 
   usuario = localStorage.getItem('usuario');
-  u:string="";
-  ap:string="";
   constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) { 
-    this.activedRouter.queryParams.subscribe(params =>{
-      if(this.router.getCurrentNavigation().extras.state){
-        this.u= this.router.getCurrentNavigation().extras.state.usu;
-        this.ap= this.router.getCurrentNavigation().extras.state.app;
-        
-      }
-    })
+    
   }
 
   ngOnInit() {
@@ -74,4 +67,16 @@ export class MiperfilPage implements OnInit {
 
     await alert.present();
   }
+pasarDatos(){
+  let navigationExtras: NavigationExtras = {
+    state: {
+      n: this.arregloUsuario[1],
+      ap: this.arregloUsuario[2],
+      tel:this.arregloUsuario[4],
+
+    }
+  }
+  this.router.navigate(['/configuracion'], navigationExtras);
+}
+
 }
