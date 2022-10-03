@@ -13,6 +13,26 @@ export class FormvPage implements OnInit {
   fila: number=null;
   precio: number=null;
   descrip: string="";
+  asientos: number=null;
+  now = new Date();
+
+  usuario = localStorage.getItem('usuario');
+
+  listaComuna: any=[
+    {
+      id_comuna:'',
+      nombre_comuna:''
+
+    }
+ 
+  ]
+
+  listaPatente: any=[
+    {
+      patente1: ''
+
+    }
+  ];
   // variable
   estado: string="Mostrar Filas";
   private Desplegarimagen: boolean = false;
@@ -20,6 +40,19 @@ export class FormvPage implements OnInit {
   constructor(public toastController: ToastController,public alertController: AlertController, private router: Router,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
+    this.servicioDB.dbState().subscribe(res=>{
+      this.servicioDB.obtenerPatente(this.usuario)
+      if(res){
+        this.servicioDB.fetchComuna().subscribe(item=>{
+          this.listaComuna = item;
+        })
+        this.servicioDB.fetchPatente().subscribe(item=>{
+          this.listaPatente = item;
+        })
+
+      }
+    })
+
   }
   // function
   desplegarImgen() {
@@ -41,7 +74,11 @@ export class FormvPage implements OnInit {
     else if(this.precio < 1000){
       this.presentToast("El precio debe ser mayor a $1000 pesos.");
     }
+    else if(this.asientos > 6 || this.asientos < 0){
+      this.presentToast("La cantidad de asientos debe ser entre 1 a 6");
+    }
     else{
+      this.servicioDB.insertarViaje(this.descrip,this.precio,this.fila,this.now,this.asientos,this.patente,this.direccion);
       this.presentToast("Viaje iniciado con éxito.");
       this.router.navigate(['/viajeactivo-cond'])
     }

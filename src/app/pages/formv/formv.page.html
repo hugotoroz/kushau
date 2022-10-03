@@ -11,10 +11,14 @@
 
   <div>
     <h1>Datos del viaje</h1>
-    <ion-item class="items">
-      <ion-label position="floating" color="sucess">Dirección</ion-label>
-      <ion-input [(ngModel)]="direccion"></ion-input>
-    </ion-item>
+    <div *ngFor="let x of listaPatente">{{x.patente1}}</div>
+    <ion-list>
+      <ion-item>
+        <ion-select placeholder="Seleccione una comuna" class="ion-text-center"  [(ngModel)]="direccion">
+          <ion-select-option [value]=x.id_comuna *ngFor="let x of listaComuna">{{x.nombre_comuna}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
     <ion-item class="items">
       <ion-label position="floating" color="sucess">Fila</ion-label>
       <ion-input [(ngModel)]="fila" type="number"></ion-input>
@@ -26,6 +30,10 @@
     <ion-item>
       <ion-label position="floating" color="sucess">Precio</ion-label>
       <ion-input [(ngModel)]="precio" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="sucess">Asientos Disponibles</ion-label>
+      <ion-input [(ngModel)]="asientos" type="number"></ion-input>
     </ion-item>
     <p class="suggestions"> * El precio debe ser <b>mínimo</b> CLP1,000.</p>
     <ion-item style="margin-top: 5px; margin-bottom: 5px;">

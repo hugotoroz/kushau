@@ -7,12 +7,11 @@
 <ion-content>
   <!-- Searchbar with value -->
   <h1>Conductores disponibles</h1>
-  <h4>Seleccione la comuna donde quiere ir.</h3>
+  <h3>Seleccione la comuna donde quiere ir</h3>
   <ion-list>
     <ion-item>
       <ion-select placeholder="Seleccione una comuna" class="ion-text-center">
         <ion-select-option value=""></ion-select-option>
-
       </ion-select>
     </ion-item>
   </ion-list>
@@ -35,7 +34,7 @@
       <ion-card-subtitle>
         <ion-icon name="accessibility-outline"></ion-icon>
         {{x.asientos_disp3}}
-        </ion-card-subtitle>
+      </ion-card-subtitle>
       <div class="si">
         <ion-button class="boton" [routerLink]="['/tomarauto']" ><ion-icon name="car-outline"></ion-icon> Tomar viaje</ion-button>
       </div>

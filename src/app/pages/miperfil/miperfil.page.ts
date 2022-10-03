@@ -27,12 +27,11 @@ export class MiperfilPage implements OnInit {
 
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
+      this.servicioDB.buscarPerfil(this.usuario);
       if(res){
         this.servicioDB.fetchperfil().subscribe(item=>{
           this.arregloUsuario = item;
-          this.servicioDB.buscarPerfil(this.usuario);
         })
-
       }
     })
   }

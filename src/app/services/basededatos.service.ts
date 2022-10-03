@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { Perfil } from './perfil';
 import { Activos } from './activos';
 import { PerfilC } from './perfil-c';
+import { Patente } from './patente';
 
 
 @Injectable({
@@ -36,32 +37,36 @@ export class BasededatosService {
   registroAuto: string = "INSERT or IGNORE INTO auto(patente,modelo,marca,annio,tU_correo) VALUES ('1122AA','SkyLine','Nisssan',2019,'a@a.com');";
   listaAuto = new BehaviorSubject([]);
   //tabla viaje
-  tViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL,fila_u INTEGER NOT NULL, fecha_viaje DATE NOT NULL, asientos_disp INTEGER NOT NULL, tA_patente VARCHAR(6), FOREIGN KEY(tA_patente) REFERENCES auto(patente));";
-  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA');";
-  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (2,'Auto con la wea rota',4000,6,CURRENT_DATE,1,'1122AA');";
-
+  tViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL,fila_u INTEGER NOT NULL, fecha_viaje DATE NOT NULL, asientos_disp INTEGER NOT NULL, tA_patente VARCHAR(6),v_idcomuna INTEGER NOT NULL, FOREIGN KEY(tA_patente) REFERENCES auto(patente),FOREIGN KEY(v_idcomuna) REFERENCES comuna(id_comuna));";
+  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente,v_idcomuna) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA',1);";
+  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente,v_idcomuna) VALUES (2,'Auto con la wea rota',4000,6,CURRENT_DATE,1,'1122AA',1);";
   listaViajes = new BehaviorSubject([]);
   //tabla comuna
   tComuna: string = "CREATE TABLE IF NOT EXISTS comuna(id_comuna INTEGER PRIMARY KEY, nombre_comuna VARCHAR(20));";
   registroComuna: string = "INSERT or IGNORE INTO comuna(id_comuna,nombre_comuna) VALUES (1,'Quilicura');";
+  registroComuna2: string = "INSERT or IGNORE INTO comuna(id_comuna,nombre_comuna) VALUES (2,'Conchali');";
   listaComuna = new BehaviorSubject([]);
 
   //tabla Viaje Comuna
+  /*
   tViajeC: string = "CREATE TABLE IF NOT EXISTS viaje_comuna( id_vc INTEGER PRIMARY KEY AUTOINCREMENT, V_idViaje INTEGER,V_idComuna INTEGER, FOREIGN KEY (V_idViaje) REFERENCES viaje(id_viaje), FOREIGN KEY (V_idComuna) REFERENCES comuna(id_comuna));";
   registroViajeC: string = "INSERT or IGNORE INTO viaje_comuna(id_vc,V_idViaje,V_idComuna) VALUES (1,1,1);";
   registroViajeC2: string = "INSERT or IGNORE INTO viaje_comuna(id_vc,V_idViaje,V_idComuna) VALUES (2,2,1);";
   listaViajeC = new BehaviorSubject([]);
+  */
 
   //Tabla detalle
   tDetalleV: string = "CREATE TABLE IF NOT EXISTS detalle_viaje(id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, estado VARCHAR(10), u_correo VARCHAR(150), tV_idViaje INTEGER, FOREIGN KEY(u_correo) REFERENCES usuario(correo), FOREIGN KEY (tV_idViaje) REFERENCES viaje(id_viaje));";
   registroDetalle: string = "INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (1,'Comenzado','b@a.com',1);";
   registroDetalle2: string = "INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (2,'Terminado','b@a.com',2);";
   listaDetalle = new BehaviorSubject([]);
+
   //Observables
   listaLogin = new BehaviorSubject([]);
   listaPerfil = new BehaviorSubject([]);
   listaActivos = new BehaviorSubject([]);
   listaPerfilC = new BehaviorSubject([]);
+  listaPatentes = new BehaviorSubject([]);
 
 
   // variable para manipular la conexion a la base de datos
@@ -118,7 +123,9 @@ export class BasededatosService {
   fetchPerfilC(): Observable<PerfilC[]> {
     return this.listaPerfilC.asObservable();
   }
-
+  fetchPatente(): Observable<Patente[]> {
+    return this.listaPatentes.asObservable();
+  }
   crearBD() {
     //verificamos que la plataforma este lista
     this.platform.ready().then(() => {
@@ -147,7 +154,7 @@ export class BasededatosService {
       await this.database.executeSql(this.tAuto, []);
       await this.database.executeSql(this.tViaje, []);
       await this.database.executeSql(this.tComuna, []);
-      await this.database.executeSql(this.tViajeC, []);
+      /*await this.database.executeSql(this.tViajeC, []);*/
       await this.database.executeSql(this.tDetalleV, []);
 
       //registro datos en mis tablas
@@ -159,8 +166,7 @@ export class BasededatosService {
       await this.database.executeSql(this.registroViaje2, []);
       await this.database.executeSql(this.registroAuto, []);
       await this.database.executeSql(this.registroComuna, []);
-      await this.database.executeSql(this.registroViajeC, []);
-      await this.database.executeSql(this.registroViajeC2, []);
+      await this.database.executeSql(this.registroComuna2, []);
       await this.database.executeSql(this.registroDetalle, []);
       await this.database.executeSql(this.registroDetalle2, []);
 
@@ -172,7 +178,8 @@ export class BasededatosService {
       this.buscarViaje()
       this.filtrarViaje();
       this.buscarComuna();
-      this.buscarComunaViaje();
+      /*
+      this.buscarComunaViaje();*/
       this.buscarDetalle();
 
 
@@ -185,9 +192,6 @@ export class BasededatosService {
     }
 
   }
-
-
-  
   buscarUsuarios() {
     //retorno la ejecución del select
     return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
@@ -236,7 +240,7 @@ export class BasededatosService {
   filtrarViaje() {
     //retorno la ejecución del select
 
-    return this.database.executeSql("select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje_comuna vc inner join viaje v on  vc.v_idviaje = v.id_viaje inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  vc.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';", []).then(res => {
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';", []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Activos[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -296,6 +300,7 @@ export class BasededatosService {
       this.listaComuna.next(items);
     })
   }
+  /*
   buscarComunaViaje() {
     //retorno la ejecución del select
     return this.database.executeSql('SELECT * FROM viaje_comuna', []).then(res => {
@@ -316,7 +321,7 @@ export class BasededatosService {
       //actualizamos el observable de las noticias
       this.listaViajeC.next(items);
     })
-  }
+  }*/
   buscarRol() {
     //retorno la ejecución del select
     return this.database.executeSql('SELECT * FROM rol', []).then(res => {
@@ -336,6 +341,7 @@ export class BasededatosService {
       this.listaRol.next(items);
     })
   }
+
   buscarAutos() {
     //retorno la ejecución del select
     //re hacer por que faltan los datos nuevos
@@ -408,7 +414,6 @@ export class BasededatosService {
             apellido2: res.rows.item(i).apellido,
             nombreCompleto2: res.rows.item(i).completo,
             telefono: res.rows.item(i).telefono
-  
           })
         }
       }
@@ -417,15 +422,6 @@ export class BasededatosService {
     })
   }
 
-  //"INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA');";
-
-  insertarNoticias(descripcion,precio,fila,asientos,patente){
-    let data = [descripcion,precio,fila,asientos,patente];
-    return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (?,?,?,?,?,?)',data).then(res=>{
-      this.buscarViaje();
-    });
-
-  }
   buscarPerfilC(usuario2) {
     let data =[usuario2]
     //retorno la ejecución del select
@@ -448,5 +444,42 @@ export class BasededatosService {
       this.listaPerfilC.next(items3);
     })
   }
+  
+  obtenerPatente(usuario2) {
+    let data =[usuario2]
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT patente FROM auto where tU_correo = ?', data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Patente[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            patente1: res.rows.item(i).patente
+          })
+        }
+      }
+      //actualizamos el observable de las noticias
+      this.listaPatentes.next(items);
+    })
+  }
 
+    //"INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA');";
+
+    insertarViaje(descripcion,precio,fila,fecha,asientos,patente,v_idcomuna){
+      let data = [descripcion,precio,fila,fecha,asientos,patente,v_idcomuna];
+      return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente,v_idcomuna) VALUES (?,?,?,?,?,?,?)',data).then(res=>{
+        this.buscarViaje();
+      });
+    }
+
+    /*
+    insertarViajeC(V_idViaje,V_idComuna){
+      let data = [V_idViaje,V_idComuna];
+      return this.database.executeSql('INSERT INTO viaje_comuna(V_idViaje,V_idComuna) VALUES (?,?)',data).then(res=>{
+        this.buscarViaje();
+      });
+  
+    }
+    */
 }
