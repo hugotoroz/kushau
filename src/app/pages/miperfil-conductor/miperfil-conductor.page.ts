@@ -10,10 +10,11 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 })
 export class MiperfilConductorPage implements OnInit {
   arregloUsuario: any=[
-    {correo2:'',
-    nombre2:'',
-    apellido2:'',
-    nombreCompleto2: ''
+    {correo4:'',
+    nombre4:'',
+    apellido4:'',
+    nombreCompleto4: '',
+    vehiculo:''
 
     }
   ]
@@ -23,10 +24,11 @@ export class MiperfilConductorPage implements OnInit {
 
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
+      this.servicioDB.buscarPerfilC(this.usuario);
       if(res){
-        this.servicioDB.fetchperfil().subscribe(item=>{
+        this.servicioDB.fetchPerfilC().subscribe(item=>{
           this.arregloUsuario = item;
-          this.servicioDB.buscarPerfil(this.usuario);
+          
         })
 
       }

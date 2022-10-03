@@ -13,6 +13,7 @@ import { Login } from './login';
 import { Router } from '@angular/router';
 import { Perfil } from './perfil';
 import { Activos } from './activos';
+import { PerfilC } from './perfil-c';
 
 
 @Injectable({
@@ -60,6 +61,7 @@ export class BasededatosService {
   listaLogin = new BehaviorSubject([]);
   listaPerfil = new BehaviorSubject([]);
   listaActivos = new BehaviorSubject([]);
+  listaPerfilC = new BehaviorSubject([]);
 
 
   // variable para manipular la conexion a la base de datos
@@ -112,6 +114,9 @@ export class BasededatosService {
   }
   fetchActivos(): Observable<Activos[]> {
     return this.listaActivos.asObservable();
+  }
+  fetchPerfilC(): Observable<PerfilC[]> {
+    return this.listaPerfilC.asObservable();
   }
 
   crearBD() {
@@ -403,13 +408,44 @@ export class BasededatosService {
             apellido2: res.rows.item(i).apellido,
             nombreCompleto2: res.rows.item(i).completo,
             telefono: res.rows.item(i).telefono
-
   
           })
         }
       }
       //actualizamos el observable de las noticias
       this.listaPerfil.next(items);
+    })
+  }
+
+  //"INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA');";
+
+  insertarNoticias(descripcion,precio,fila,asientos,patente){
+    let data = [descripcion,precio,fila,asientos,patente];
+    return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (?,?,?,?,?,?)',data).then(res=>{
+      this.buscarViaje();
+    });
+
+  }
+  buscarPerfilC(usuario2) {
+    let data =[usuario2]
+    //retorno la ejecución del select
+    return this.database.executeSql("SELECT correo,nombre,apellido,nombre||' '||apellido as completo,auto.marca ||' '||auto.modelo as Vehiculo FROM usuario INNER JOIN auto on usuario.correo = auto.tU_correo  where usuario.correo = ?", data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items3: PerfilC[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items3.push({
+            correo4: res.rows.item(i).correo,
+            nombre4: res.rows.item(i).nombre,
+            apellido4: res.rows.item(i).apellido,
+            nombreCompleto4: res.rows.item(i).completo,
+            vehiculo:res.rows.item(i).Vehiculo
+          })
+        }
+      }
+      //actualizamos el observable de las noticias
+      this.listaPerfilC.next(items3);
     })
   }
 

@@ -4,14 +4,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngFor="let i of arregloUsuario">
   <ion-card>
     <ion-avatar class="imagen">
       <img src="../assets/Imagenes/shalas.jpg" style="align-self: center;" />
     </ion-avatar>
     <ion-card-content>
       <ion-card-title>
-        {{Nombre}}
+        {{i.nombreCompleto4}}
       </ion-card-title>
     </ion-card-content>
   </ion-card>
@@ -23,17 +23,26 @@
   </ion-row>
 
   <!--Datos del perfil-->
-  <ion-row>
+  <ion-row *ngFor="let x of arregloUsuario">
     <ion-col col-8>
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{Nombre}}
+          {{x.nombre4}}
           
         </ion-label>
         <div class="ictxt">
           <ion-icon name="person-outline"></ion-icon>
           
         </div>
+      </ion-item>
+      <ion-item>
+        <ion-label style="word-wrap: break-word; white-space: normal;">
+          {{x.apellido4}}
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="mail-outline"></ion-icon>
+        </div>
+
       </ion-item>
 
       <ion-item>
@@ -42,33 +51,12 @@
         </ion-label>
         <div class="ictxt">
           <ion-icon name="mail-outline"></ion-icon>
-          
         </div>
 
       </ion-item>
-
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{Telefono}}
-        </ion-label>
-        <div class="ictxt">
-          <ion-icon name="call-outline"></ion-icon>
-          
-        </div>
-      </ion-item>
-
-      <ion-item>
-        <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{Direccion}}
-        </ion-label>
-        <div class="ictxt">
-          <ion-icon name="home-outline"></ion-icon>
-          
-        </div>
-      </ion-item>
-      <ion-item>
-        <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{vehiculo}}
+          {{x.vehiculo}}
         </ion-label>
         <div class="ictxt">
           <ion-icon name="car-outline"></ion-icon>          

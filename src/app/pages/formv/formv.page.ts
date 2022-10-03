@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { BasededatosService } from 'src/app/services/basededatos.service';
 
 @Component({
   selector: 'app-formv',
@@ -16,7 +17,7 @@ export class FormvPage implements OnInit {
   estado: string="Mostrar Filas";
   private Desplegarimagen: boolean = false;
 
-  constructor(public toastController: ToastController,public alertController: AlertController, private router: Router) { }
+  constructor(public toastController: ToastController,public alertController: AlertController, private router: Router,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
   }
