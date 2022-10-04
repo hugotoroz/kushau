@@ -37,9 +37,9 @@ export class BasededatosService {
   registroAuto: string = "INSERT or IGNORE INTO auto(patente,modelo,marca,annio,tU_correo) VALUES ('1122AA','SkyLine','Nisssan',2019,'a@a.com');";
   listaAuto = new BehaviorSubject([]);
   //tabla viaje
-  tViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL,fila_u INTEGER NOT NULL, fecha_viaje DATE NOT NULL, asientos_disp INTEGER NOT NULL, tA_patente VARCHAR(6),v_idcomuna INTEGER NOT NULL, FOREIGN KEY(tA_patente) REFERENCES auto(patente),FOREIGN KEY(v_idcomuna) REFERENCES comuna(id_comuna));";
-  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente,v_idcomuna) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA',1);";
-  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente,v_idcomuna) VALUES (2,'Auto con la wea rota',4000,6,CURRENT_DATE,1,'1122AA',1);";
+  tViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, descripcion VARCHAR(210) NOT NULL, precio INTEGER NOT NULL,fila_u INTEGER NOT NULL,asientos_disp INTEGER NOT NULL, tA_patente VARCHAR(6),v_idcomuna INTEGER NOT NULL, FOREIGN KEY(tA_patente) REFERENCES auto(patente),FOREIGN KEY(v_idcomuna) REFERENCES comuna(id_comuna));";
+  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,asientos_disp,tA_patente,v_idcomuna) VALUES (1,'Auto color verde',2000,6,4,'1122AA',1);";
+  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,asientos_disp,tA_patente,v_idcomuna) VALUES (2,'Auto con la wea rota',4000,6,1,'1122AA',1);";
   listaViajes = new BehaviorSubject([]);
   //tabla comuna
   tComuna: string = "CREATE TABLE IF NOT EXISTS comuna(id_comuna INTEGER PRIMARY KEY, nombre_comuna VARCHAR(20));";
@@ -240,7 +240,8 @@ export class BasededatosService {
   filtrarViaje() {
     //retorno la ejecución del select
 
-    return this.database.executeSql("select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';", []).then(res => {
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna;", []).then(res => {
+      //select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';
       //creo mi lista de objetos de noticias vacio
       let items: Activos[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -466,10 +467,11 @@ export class BasededatosService {
 
     //"INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA');";
 
-    insertarViaje(descripcion,precio,fila,fecha,asientos,patente,v_idcomuna){
-      let data = [descripcion,precio,fila,fecha,asientos,patente,v_idcomuna];
-      return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente,v_idcomuna) VALUES (?,?,?,?,?,?,?)',data).then(res=>{
+    insertarViaje(descripcion,precio,fila,asientos,patente,v_idcomuna){
+      let data = [descripcion,precio,fila,asientos,patente,v_idcomuna];
+      return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,asientos_disp,tA_patente,v_idcomuna) VALUES (?,?,?,?,?,?)',data).then(res=>{
         this.buscarViaje();
+        this.filtrarViaje();
       });
     }
 

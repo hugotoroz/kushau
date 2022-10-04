@@ -14,7 +14,7 @@ export class FormvPage implements OnInit {
   precio: number=null;
   descrip: string="";
   asientos: number=null;
-  now = new Date();
+  
 
   usuario = localStorage.getItem('usuario');
 
@@ -78,7 +78,7 @@ export class FormvPage implements OnInit {
       this.presentToast("La cantidad de asientos debe ser entre 1 a 6");
     }
     else{
-      this.servicioDB.insertarViaje(this.descrip,this.precio,this.fila,this.now,this.asientos,this.listaPatente[0].patente1,this.direccion);
+      this.servicioDB.insertarViaje(this.descrip,this.precio,this.fila,this.asientos,this.listaPatente[0].patente1,this.direccion);
       this.presentToast("Viaje iniciado con éxito.");
       this.router.navigate(['/viajeactivo-cond'])
     }

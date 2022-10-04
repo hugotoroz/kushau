@@ -31,29 +31,7 @@ export class InicioSesionPage implements OnInit {
   
 
 
-/*
-  async validarUsuario(){
-    if ((this.usuario.replace(/\s/g, "") == "usuario") && (this.clave == "usuario")) {
-      await this.loadingUI();
-       this.router.navigate(['/tabs'])
-       this.usuario=""
-       this.clave=""
-    
-    }
-    else if ((this.usuario == "conductor") && (this.clave =="conductor")){
-      await this.loadingUI();
-      await this.router.navigate(['/tabconductor'])
-      this.usuario=""
-      this.clave=""
 
-    }
-    else{
-      this.presentToast("Usuario o contraseña incorrectos");
-    
-    }
-
-  }
-*/
 
 async validarUsuario(){
   var usuarioValidado= this.usuario.toLowerCase().replace(/\s/g, "");
