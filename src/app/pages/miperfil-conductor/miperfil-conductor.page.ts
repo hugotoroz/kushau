@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
 
@@ -14,8 +14,8 @@ export class MiperfilConductorPage implements OnInit {
     nombre4:'',
     apellido4:'',
     nombreCompleto4: '',
-    vehiculo:''
-
+    vehiculo:'',
+    telefonoC:''
     }
   ]
 
@@ -63,5 +63,16 @@ export class MiperfilConductorPage implements OnInit {
      ]
     });
     await alert.present();
+  }
+  pasarDatos(){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        n: this.arregloUsuario[0].nombre4,
+        ap: this.arregloUsuario[0].apellido4,
+        tel:this.arregloUsuario[0].telefonoC,
+      }
+    }
+    this.router.navigate(['/configuracion-conductor']);
+    this.router.navigate(['/configuracion-conductor'], navigationExtras);
   }
 }

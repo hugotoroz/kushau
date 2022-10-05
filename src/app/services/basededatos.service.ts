@@ -30,7 +30,7 @@ export class BasededatosService {
   listaRol = new BehaviorSubject([]);
   //tabla usuarios
   tUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL,telefono INTEGER, contrasennia VARCHAR(40) NOT NULL, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,tR_idRol) VALUES ('a@a.com','Pepito','pica',12345678,'123',2);";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,tR_idRol) VALUES ('a@a.com','Ignacio','Salas Messi',12345678,'123',2);";
   registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123',1);";
   listaUsuarios = new BehaviorSubject([]);
   //tabla auto
@@ -78,7 +78,7 @@ export class BasededatosService {
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController,private router: Router) {
+  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController, private router: Router) {
     this.crearBD();
 
   }
@@ -128,7 +128,7 @@ export class BasededatosService {
   fetchPatente(): Observable<Patente[]> {
     return this.listaPatentes.asObservable();
   }
-  
+
   crearBD() {
     //verificamos que la plataforma este lista
     this.platform.ready().then(() => {
@@ -304,28 +304,6 @@ export class BasededatosService {
       this.listaComuna.next(items);
     })
   }
-  /*
-  buscarComunaViaje() {
-    //retorno la ejecución del select
-    return this.database.executeSql('SELECT * FROM viaje_comuna', []).then(res => {
-      //creo mi lista de objetos de noticias vacio
-      let items: ViajeComuna[] = [];
-      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
-      if (res.rows.length > 0) {
-        for (var i = 0; i < res.rows.length; i++) {
-          items.push({
-            id_vc: res.rows.item(i).id_vc,
-            V_idViaje: res.rows.item(i).V_idViaje,
-            V_idComuna: res.rows.item(i).V_idComuna
-
-          })
-        }
-
-      }
-      //actualizamos el observable de las noticias
-      this.listaViajeC.next(items);
-    })
-  }*/
   buscarRol() {
     //retorno la ejecución del select
     return this.database.executeSql('SELECT * FROM rol', []).then(res => {
@@ -383,7 +361,7 @@ export class BasededatosService {
             tR_idRol2: res.rows.item(i).tR_idRol
           });
         }
-        
+
         //crear variables storage
         if (item2[0].tR_idRol2 == 1) {
           this.router.navigate(['/tabs'])
@@ -403,8 +381,9 @@ export class BasededatosService {
     })
 
   }
+
   buscarPerfil(usuario) {
-    let data =[usuario]
+    let data = [usuario]
     //retorno la ejecución del select
     return this.database.executeSql("SELECT correo,nombre,apellido,nombre||' '||apellido as completo, telefono FROM usuario where correo = ?", data).then(res => {
       //creo mi lista de objetos de noticias vacio
@@ -427,9 +406,9 @@ export class BasededatosService {
   }
 
   buscarPerfilC(usuario2) {
-    let data =[usuario2]
+    let data = [usuario2]
     //retorno la ejecución del select
-    return this.database.executeSql("SELECT correo,nombre,apellido,nombre||' '||apellido as completo,auto.marca ||' '||auto.modelo as Vehiculo FROM usuario INNER JOIN auto on usuario.correo = auto.tU_correo  where usuario.correo = ?", data).then(res => {
+    return this.database.executeSql("SELECT correo,nombre,apellido,nombre||' '||apellido as completo,auto.marca ||' '||auto.modelo as Vehiculo,telefono FROM usuario INNER JOIN auto on usuario.correo = auto.tU_correo  where usuario.correo = ?", data).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items3: PerfilC[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -440,7 +419,8 @@ export class BasededatosService {
             nombre4: res.rows.item(i).nombre,
             apellido4: res.rows.item(i).apellido,
             nombreCompleto4: res.rows.item(i).completo,
-            vehiculo:res.rows.item(i).Vehiculo
+            vehiculo: res.rows.item(i).Vehiculo,
+            telefonoC:res.rows.item(i).telefono
           })
         }
       }
@@ -448,9 +428,9 @@ export class BasededatosService {
       this.listaPerfilC.next(items3);
     })
   }
-  
+
   obtenerPatente(usuario2) {
-    let data =[usuario2]
+    let data = [usuario2]
     //retorno la ejecución del select
     return this.database.executeSql('SELECT patente FROM auto where tU_correo = ?', data).then(res => {
       //creo mi lista de objetos de noticias vacio
@@ -468,25 +448,46 @@ export class BasededatosService {
     })
   }
 
-    //"INSERT or IGNORE INTO viaje(id_viaje,descripcion,precio,fila_u,fecha_viaje,asientos_disp,tA_patente) VALUES (1,'Auto color verde',2000,6,CURRENT_DATE,4,'1122AA');";
+  insertarViaje(descripcion, precio, fila, asientos, patente, v_idcomuna) {
+    let data = [descripcion, precio, fila, asientos, patente, v_idcomuna];
+    return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,asientos_disp,tA_patente,v_idcomuna) VALUES (?,?,?,?,?,?);', data).then(res => {
+      this.buscarViaje();
+      this.filtrarViaje();
 
-    insertarViaje(descripcion,precio,fila,asientos,patente,v_idcomuna){
-      let data = [descripcion,precio,fila,asientos,patente,v_idcomuna];
-      return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,asientos_disp,tA_patente,v_idcomuna) VALUES (?,?,?,?,?,?) RETURNING *;',data).then(res=>{
-        this.buscarViaje();
-        this.filtrarViaje();
-        
-      });
+    });
 
+  }
+
+ actPerfil(nom,app,tel,id){
+  let data = [nom,app,tel,id];
+  return this.database.executeSql('UPDATE usuario SET nombre=?, apellido=?, telefono=? WHERE correo=?',data).then(res => {
+    this.buscarPerfil(id);
+    this.buscarPerfilC(id);
+    this.presentToast("Tu perfil ha sido modificado correctamente.");
+  });
+ }
+ 
+ buscarMaxID() {
+  //retorno la ejecución del select
+
+  return this.database.executeSql("SELECT max(id_viaje) from viaje;", []).then(res => {
+    //creo mi lista de objetos de noticias vacio
+    let items: Viajes[] = [];
+    //falta arreglar por que no tira nada
+    //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+    if (res.rows.length > 0) {
+      for (var i = 0; i < res.rows.length; i++) {
+        items.push({
+          id_viaje2: res.rows.item(i).id_viaje,
+          descripcion2: res.rows.item(i).descripcion,
+          precio2: res.rows.item(i).precio,
+          asientos_disp2: res.rows.item(i).asientos_disp,
+          tA_patente2: res.rows.item(i).tA_patent,
+        })
+      }
     }
-
-    /*
-    insertarViajeC(V_idViaje,V_idComuna){
-      let data = [V_idViaje,V_idComuna];
-      return this.database.executeSql('INSERT INTO viaje_comuna(V_idViaje,V_idComuna) VALUES (?,?)',data).then(res=>{
-        this.buscarViaje();
-      });
-  
-    }
-    */
+    //actualizamos el observable de las noticias
+    this.listaViajes.next(items);
+    })
+  }
 }
