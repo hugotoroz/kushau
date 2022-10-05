@@ -15,6 +15,7 @@ import { Perfil } from './perfil';
 import { Activos } from './activos';
 import { PerfilC } from './perfil-c';
 import { Patente } from './patente';
+import { UltimoId } from './ultimo-id';
 
 
 
@@ -470,19 +471,15 @@ export class BasededatosService {
  buscarMaxID() {
   //retorno la ejecución del select
 
-  return this.database.executeSql("SELECT max(id_viaje) from viaje;", []).then(res => {
+  return this.database.executeSql("SELECT max(id_viaje) as viaje from viaje;", []).then(res => {
     //creo mi lista de objetos de noticias vacio
-    let items: Viajes[] = [];
+    let items: UltimoId[] = [];
     //falta arreglar por que no tira nada
     //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
     if (res.rows.length > 0) {
       for (var i = 0; i < res.rows.length; i++) {
         items.push({
-          id_viaje2: res.rows.item(i).id_viaje,
-          descripcion2: res.rows.item(i).descripcion,
-          precio2: res.rows.item(i).precio,
-          asientos_disp2: res.rows.item(i).asientos_disp,
-          tA_patente2: res.rows.item(i).tA_patent,
+          idViaje: res.rows.item(i).viaje,
         })
       }
     }
