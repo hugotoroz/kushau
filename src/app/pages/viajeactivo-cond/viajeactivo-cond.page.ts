@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { BasededatosService } from 'src/app/services/basededatos.service';
 
 @Component({
   selector: 'app-viajeactivo-cond',
@@ -8,7 +9,7 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 })
 export class ViajeactivoCondPage implements OnInit {
   num: number= 2000;
-  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController) { }
+  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
   }

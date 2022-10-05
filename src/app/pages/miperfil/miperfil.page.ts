@@ -69,9 +69,9 @@ export class MiperfilPage implements OnInit {
 pasarDatos(){
   let navigationExtras: NavigationExtras = {
     state: {
-      n: this.arregloUsuario[2],
-      ap: this.arregloUsuario[3],
-      tel:this.arregloUsuario[5],
+      n: this.arregloUsuario[0].nombre2,
+      ap: this.arregloUsuario[0].apellido2,
+      tel:this.arregloUsuario[0].telefono,
 
     }
   }

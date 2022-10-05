@@ -33,6 +33,7 @@ export class FormvPage implements OnInit {
 
     }
   ];
+
   // variable
   estado: string="Mostrar Filas";
   private Desplegarimagen: boolean = false;

@@ -10,11 +10,12 @@ import { Autos } from './autos';
 import { ViajeComuna } from './viaje-comuna';
 import { Rol } from './rol';
 import { Login } from './login';
-import { Router } from '@angular/router';
+import { Router, RouterLinkWithHref } from '@angular/router';
 import { Perfil } from './perfil';
 import { Activos } from './activos';
 import { PerfilC } from './perfil-c';
 import { Patente } from './patente';
+
 
 
 @Injectable({
@@ -67,6 +68,7 @@ export class BasededatosService {
   listaActivos = new BehaviorSubject([]);
   listaPerfilC = new BehaviorSubject([]);
   listaPatentes = new BehaviorSubject([]);
+  listaId = new BehaviorSubject([]);
 
 
   // variable para manipular la conexion a la base de datos
@@ -126,6 +128,7 @@ export class BasededatosService {
   fetchPatente(): Observable<Patente[]> {
     return this.listaPatentes.asObservable();
   }
+  
   crearBD() {
     //verificamos que la plataforma este lista
     this.platform.ready().then(() => {
@@ -469,10 +472,12 @@ export class BasededatosService {
 
     insertarViaje(descripcion,precio,fila,asientos,patente,v_idcomuna){
       let data = [descripcion,precio,fila,asientos,patente,v_idcomuna];
-      return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,asientos_disp,tA_patente,v_idcomuna) VALUES (?,?,?,?,?,?)',data).then(res=>{
+      return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,asientos_disp,tA_patente,v_idcomuna) VALUES (?,?,?,?,?,?) RETURNING *;',data).then(res=>{
         this.buscarViaje();
         this.filtrarViaje();
+        
       });
+
     }
 
     /*
