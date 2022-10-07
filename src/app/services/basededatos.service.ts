@@ -129,6 +129,9 @@ export class BasededatosService {
   fetchPatente(): Observable<Patente[]> {
     return this.listaPatentes.asObservable();
   }
+  fetchIDv(): Observable<UltimoId[]> {
+    return this.listaId.asObservable();
+  }
 
   crearBD() {
     //verificamos que la plataforma este lista
@@ -185,6 +188,7 @@ export class BasededatosService {
       /*
       this.buscarComunaViaje();*/
       this.buscarDetalle();
+      this.buscarMaxID();
 
 
 
@@ -459,6 +463,15 @@ export class BasededatosService {
 
   }
 
+  insertarDV(estado,tV_idViaje) {
+    let data = [estado,tV_idViaje];
+    return this.database.executeSql('INSERT INTO detalle_viaje(estado,tV_idViaje) VALUES (?,?);', data).then(res => {
+      this.buscarDetalle
+      this.filtrarViaje();
+      //id_detalle,estado,u_correo,tV_idViaje
+    });
+
+  }
  actPerfil(nom,app,tel,id){
   let data = [nom,app,tel,id];
   return this.database.executeSql('UPDATE usuario SET nombre=?, apellido=?, telefono=? WHERE correo=?',data).then(res => {
@@ -470,7 +483,6 @@ export class BasededatosService {
  
  buscarMaxID() {
   //retorno la ejecución del select
-
   return this.database.executeSql("SELECT max(id_viaje) as viaje from viaje;", []).then(res => {
     //creo mi lista de objetos de noticias vacio
     let items: UltimoId[] = [];
@@ -484,7 +496,7 @@ export class BasededatosService {
       }
     }
     //actualizamos el observable de las noticias
-    this.listaViajes.next(items);
+    this.listaId.next(items);
     })
   }
 }

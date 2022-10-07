@@ -17,7 +17,7 @@ export class FormvPage implements OnInit {
   
 
   usuario = localStorage.getItem('usuario');
-
+  estado1: string="Empezado";
   listaComuna: any=[
     {
       id_comuna:'',
@@ -33,9 +33,12 @@ export class FormvPage implements OnInit {
 
     }
   ];
+  listaid:any=[{
+    idViaje:''
+  }];
 
   // variable
-  estado: string="Mostrar Filas";
+  estado: string="Mostrar Filas"
   private Desplegarimagen: boolean = false;
 
   constructor(public toastController: ToastController,public alertController: AlertController, private router: Router,private servicioDB: BasededatosService) { }
@@ -49,6 +52,9 @@ export class FormvPage implements OnInit {
         })
         this.servicioDB.fetchPatente().subscribe(item=>{
           this.listaPatente = item;
+        })
+        this.servicioDB.fetchIDv().subscribe(item=>{
+          this.listaid = item;
         })
 
       }
@@ -81,6 +87,8 @@ export class FormvPage implements OnInit {
     else{
       this.servicioDB.insertarViaje(this.descrip,this.precio,this.fila,this.asientos,this.listaPatente[0].patente1,this.direccion);
       this.presentToast("Viaje iniciado con éxito.");
+      this.servicioDB.buscarMaxID();
+      this.servicioDB.insertarDV(this.estado1,this.listaid[0].idViaje);
       this.router.navigate(['/viajeactivo-cond'])
     }
   }
