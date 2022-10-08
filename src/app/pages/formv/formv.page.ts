@@ -44,6 +44,8 @@ export class FormvPage implements OnInit {
   constructor(public toastController: ToastController,public alertController: AlertController, private router: Router,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
+    //Suscribirse al obervable del id
+
     this.servicioDB.dbState().subscribe(res=>{
       this.servicioDB.obtenerPatente(this.usuario)
       if(res){
@@ -85,10 +87,12 @@ export class FormvPage implements OnInit {
       this.presentToast("La cantidad de asientos debe ser entre 1 a 6");
     }
     else{
-      this.servicioDB.insertarViaje(this.descrip,this.precio,this.fila,this.asientos,this.listaPatente[0].patente1,this.direccion);
-      this.presentToast("Viaje iniciado con éxito.");
-      this.servicioDB.buscarMaxID();
-      this.servicioDB.insertarDV(this.estado1,this.listaid[0].idViaje);
+      this.servicioDB.insertarViaje(this.descrip,this.precio,this.fila,this.asientos,this.listaPatente[0].patente1,this.direccion)
+      
+      
+      //this.servicioDB.buscarMaxID();
+      //Insertar datos en detalle viaje.
+      //this.servicioDB.insertarDV(this.estado1,this.listaid[0].idViaje);
       this.router.navigate(['/viajeactivo-cond'])
     }
   }

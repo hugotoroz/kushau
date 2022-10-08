@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Platform, ToastController } from '@ionic/angular';
+import { AlertController, Platform, ToastController } from '@ionic/angular';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Usuarios } from './usuarios';
@@ -15,7 +15,7 @@ import { Perfil } from './perfil';
 import { Activos } from './activos';
 import { PerfilC } from './perfil-c';
 import { Patente } from './patente';
-import { UltimoId } from './ultimo-id';
+import { idViaje } from './id-viaje';
 
 
 
@@ -79,7 +79,7 @@ export class BasededatosService {
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController, private router: Router) {
+  constructor(private alertController:AlertController,private sqlite: SQLite, private platform: Platform, private toastController: ToastController, private router: Router) {
     this.crearBD();
 
   }
@@ -129,9 +129,11 @@ export class BasededatosService {
   fetchPatente(): Observable<Patente[]> {
     return this.listaPatentes.asObservable();
   }
-  fetchIDv(): Observable<UltimoId[]> {
+  //Observable id del viaje.
+  fetchIDv(): Observable<idViaje[]> {
     return this.listaId.asObservable();
   }
+
 
   crearBD() {
     //verificamos que la plataforma este lista
@@ -188,7 +190,7 @@ export class BasededatosService {
       /*
       this.buscarComunaViaje();*/
       this.buscarDetalle();
-      this.buscarMaxID();
+      //this.buscarMaxID();
 
 
 
@@ -455,7 +457,12 @@ export class BasededatosService {
 
   insertarViaje(descripcion, precio, fila, asientos, patente, v_idcomuna) {
     let data = [descripcion, precio, fila, asientos, patente, v_idcomuna];
-    return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,asientos_disp,tA_patente,v_idcomuna) VALUES (?,?,?,?,?,?);', data).then(res => {
+    return this.database.executeSql('INSERT INTO viaje(descripcion,precio,fila_u,asientos_disp,tA_patente,v_idcomuna) VALUES (?,?,?,?,?,?);', data).then((res) => {
+      //this.presentAlert("ID insertado: " + JSON.stringify(res));
+      //Crear un observable para insertID, su función de retorno y guardar en el observable el id .(next)
+        let estado: string="Empezado";
+      this.presentAlert("ID insertado2: " + res.insertId);
+      this.insertarDV(estado,res.insertId);
       this.buscarViaje();
       this.filtrarViaje();
 
@@ -480,7 +487,7 @@ export class BasededatosService {
     this.presentToast("Tu perfil ha sido modificado correctamente.");
   });
  }
- 
+ /*
  buscarMaxID() {
   //retorno la ejecución del select
   return this.database.executeSql("SELECT max(id_viaje) as viaje from viaje;", []).then(res => {
@@ -499,4 +506,17 @@ export class BasededatosService {
     this.listaId.next(items);
     })
   }
+  */
+
+
+  async presentAlert(msj:string) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
 }

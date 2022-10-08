@@ -1,7 +1,7 @@
-import { UltimoId } from './ultimo-id';
+import { idViaje } from './id-viaje';
 
 describe('UltimoId', () => {
   it('should create an instance', () => {
-    expect(new UltimoId()).toBeTruthy();
+    expect(new idViaje()).toBeTruthy();
   });
 });

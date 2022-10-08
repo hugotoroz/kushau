@@ -15,34 +15,29 @@
       </ion-card-title>
     </ion-card-content>
   </ion-card>
-  <!--Botón editar perfil-->
+  <!-- ***********************PERFIL USUARIO*********************** -->
   <ion-row>
     <ion-col col-2>
       <h1>Información</h1>
     </ion-col>
   </ion-row>
-  <!--Datos del perfil-->
   <div *ngFor="let x of arregloUsuario">
   <ion-row>
     <ion-col col-8>
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
           {{x.nombre4}}
-          
         </ion-label>
         <div class="ictxt">
           <ion-icon name="person-outline"></ion-icon>
-
         </div>
       </ion-item>
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
           {{x.apellido4}}
-          
         </ion-label>
         <div class="ictxt">
-          <ion-icon name="person-outline"></ion-icon>
-
+          <ion-icon name="people-outline"></ion-icon>
         </div>
       </ion-item>
 
@@ -60,9 +55,54 @@
 </div>
   <div class="si">
     <ion-button class="boton" (click)="pasarDatos()">
-      <ion-icon name="pencil-outline" slot="start"></ion-icon>Editar
+      <ion-icon name="pencil-outline" slot="start"></ion-icon>Editar perfil
     </ion-button>
   </div>
+<!-- ***********************VEHÍCULO*********************** -->
+  <ion-row>
+    <ion-col col-2>
+      <h1>Información</h1>
+    </ion-col>
+  </ion-row>
+  <!--Datos del perfil-->
+  <div *ngFor="let x of arregloAuto">
+  <ion-row>
+    <ion-col col-8>
+      <ion-item>
+        <ion-label style="word-wrap: break-word; white-space: normal;">
+          {{x.}}
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label style="word-wrap: break-word; white-space: normal;">
+          {{x.}}
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="word-wrap: break-word; white-space: normal;">
+          {{x.}}
+        </ion-label>
+        <div class="ictxt">
+          <ion-icon name="call-outline"></ion-icon>
+        </div>
+
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</div>
+  <div class="si">
+    <ion-button class="boton" (click)="pasarDatos()">
+      <ion-icon name="pencil-outline" slot="start"></ion-icon>Editar auto
+    </ion-button>
+  </div>
+
   <div class="si">
     <ion-button class="boton" (click)="alerta()">
       <ion-icon name="log-out-outline"></ion-icon> Cerrar sesión
