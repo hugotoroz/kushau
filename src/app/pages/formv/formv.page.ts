@@ -88,11 +88,6 @@ export class FormvPage implements OnInit {
     }
     else{
       this.servicioDB.insertarViaje(this.descrip,this.precio,this.fila,this.asientos,this.listaPatente[0].patente1,this.direccion)
-      
-      
-      //this.servicioDB.buscarMaxID();
-      //Insertar datos en detalle viaje.
-      //this.servicioDB.insertarDV(this.estado1,this.listaid[0].idViaje);
       this.router.navigate(['/viajeactivo-cond'])
     }
   }

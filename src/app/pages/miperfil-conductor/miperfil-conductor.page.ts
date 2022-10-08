@@ -18,7 +18,15 @@ export class MiperfilConductorPage implements OnInit {
     telefonoC:''
     }
   ]
+  arregloAuto: any=[
+    {
+      patente:'',
+      modelo:'',
+      marca:'',
+      annio:'',
 
+    }
+  ]
   usuario = localStorage.getItem('usuario');
   constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) { }
 
@@ -30,7 +38,13 @@ export class MiperfilConductorPage implements OnInit {
           this.arregloUsuario = item;
           
         })
-
+        this.servicioDB.buscarAutoC(this.arregloUsuario[0].correo4);
+        this.servicioDB.fetchAutoC().subscribe(item=>{
+          this.arregloAuto = item;
+          
+        })
+          
+        
       }
     })
   }

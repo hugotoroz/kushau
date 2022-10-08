@@ -16,6 +16,7 @@ import { Activos } from './activos';
 import { PerfilC } from './perfil-c';
 import { Patente } from './patente';
 import { idViaje } from './id-viaje';
+import { AutoC } from './auto-c';
 
 
 
@@ -70,6 +71,7 @@ export class BasededatosService {
   listaPerfilC = new BehaviorSubject([]);
   listaPatentes = new BehaviorSubject([]);
   listaId = new BehaviorSubject([]);
+  listaAutoC = new BehaviorSubject([]);
 
 
   // variable para manipular la conexion a la base de datos
@@ -133,7 +135,9 @@ export class BasededatosService {
   fetchIDv(): Observable<idViaje[]> {
     return this.listaId.asObservable();
   }
-
+  fetchAutoC(): Observable<AutoC[]> {
+    return this.listaAutoC.asObservable();
+  }
 
   crearBD() {
     //verificamos que la plataforma este lista
@@ -355,7 +359,31 @@ export class BasededatosService {
       this.listaAuto.next(items);
     })
   }
+  //BUSCAR EL AUTO DE UN CONDUCTOR
+  buscarAutoC(usuario) {
+    //retorno la ejecución del select
+    //re hacer por que faltan los datos nuevos
+    return this.database.executeSql('SELECT * FROM auto where tU_correo = ?', usuario).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: AutoC[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            patente: res.rows.item(i).patente,
+            modelo: res.rows.item(i).modelo,
+            marca: res.rows.item(i).marca,
+            annio: res.rows.item(i).annio,
+            tU_correo: res.rows.item(i).tU_correo
 
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaAuto.next(items);
+    })
+  }
 
   loginUsuario(correo, clave) {
     let data = [correo, clave];
@@ -393,7 +421,7 @@ export class BasededatosService {
     let data = [usuario]
     //retorno la ejecución del select
     return this.database.executeSql("SELECT correo,nombre,apellido,nombre||' '||apellido as completo, telefono FROM usuario where correo = ?", data).then(res => {
-      //creo mi lista de objetos de noticias vacio
+      //creo mi lista de objetos vacio
       let items: Perfil[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
       if (res.rows.length > 0) {
@@ -462,7 +490,9 @@ export class BasededatosService {
       //Crear un observable para insertID, su función de retorno y guardar en el observable el id .(next)
         let estado: string="Empezado";
       this.presentAlert("ID insertado2: " + res.insertId);
+      //Insertar en tabla detalle viaje
       this.insertarDV(estado,res.insertId);
+      
       this.buscarViaje();
       this.filtrarViaje();
 
@@ -487,28 +517,8 @@ export class BasededatosService {
     this.presentToast("Tu perfil ha sido modificado correctamente.");
   });
  }
- /*
- buscarMaxID() {
-  //retorno la ejecución del select
-  return this.database.executeSql("SELECT max(id_viaje) as viaje from viaje;", []).then(res => {
-    //creo mi lista de objetos de noticias vacio
-    let items: UltimoId[] = [];
-    //falta arreglar por que no tira nada
-    //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
-    if (res.rows.length > 0) {
-      for (var i = 0; i < res.rows.length; i++) {
-        items.push({
-          idViaje: res.rows.item(i).viaje,
-        })
-      }
-    }
-    //actualizamos el observable de las noticias
-    this.listaId.next(items);
-    })
-  }
-  */
 
-
+ 
   async presentAlert(msj:string) {
     const alert = await this.alertController.create({
       header: 'Alert',
