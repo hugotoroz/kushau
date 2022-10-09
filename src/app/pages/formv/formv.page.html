@@ -12,6 +12,7 @@
   <div>
     <h1>Datos del viaje</h1>
     <div *ngFor="let x of listaPatente">{{x.patente1}}</div>
+    {{idDv}}
     <ion-list>
       <ion-item>
         <ion-select placeholder="Seleccione una comuna" class="ion-text-center"  [(ngModel)]="direccion">

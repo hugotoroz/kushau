@@ -12,12 +12,12 @@
   <ion-avatar class="imagen">
     <img src="../assets/Imagenes/Oliva.webp" style="align-self: center;" />
   </ion-avatar>
-  <h1 style="text-align: center;">Mr. Oliva</h1>
+  <h1 style="text-align: center;" *ngFor="let x of arregloViaje">{{ x.nombre3 }}</h1>
     <!-- <b>Descripción:</b> El auto es de color rojo y está al frente de el sector de cancha. -->
+    <div *ngFor="let x of arregloViaje">
   <ion-item>
-    
     <ion-label>
-      Hyundai Elantra
+      {{x.vehiculo}}
     </ion-label>
     <div class="ictxt">
       <ion-icon name="car-sport-outline" slot="end"></ion-icon>      
@@ -27,7 +27,7 @@
 
   <ion-item>
     <ion-label>
-      KK-DF-32
+      {{x.patente3}}
     </ion-label>
     <div class="ictxt">
       <ion-icon name="barcode-outline"slot="end" ></ion-icon>
@@ -37,7 +37,7 @@
 
   <ion-item>
     <ion-label>
-      4 disponibles
+      {{x.asientos_disp3}}
     </ion-label>
     <div class="ictxt">
       <ion-icon name="man-outline" slot="end"></ion-icon>
@@ -47,7 +47,8 @@
 
   <ion-item>
     <ion-label>
-      Fila 6
+      {{x.fila}}
+
     </ion-label>
     <div class="ictxt">
       <ion-icon name="location-outline"slot="end"></ion-icon>      
@@ -57,7 +58,7 @@
 
   <ion-item>
     <ion-label>
-      Til-til
+      {{x.nombre_comuna3}}
     </ion-label>
     <div class="ictxt">
       <ion-icon name="map-outline" slot="end"></ion-icon>      
@@ -66,7 +67,7 @@
   </ion-item>
   <ion-item>
     <ion-label>
-      {{ num | currency: 'CLP' }}
+      {{ x.precio3 | currency: 'CLP' }}
     </ion-label>
     <div class="ictxt">
       <ion-icon name="cash-outline"></ion-icon>
@@ -82,6 +83,7 @@
       <p style="font-size: 11px;">Descripción</p>
     </div>
   </ion-item>
+</div>
 
   <ion-img *ngIf="Desplegarimagen" src="assets/Imagenes/Screenshot_1.jpg" alt="" class="imgmap"></ion-img>
   <div style="text-align: center;">

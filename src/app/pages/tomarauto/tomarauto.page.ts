@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BasededatosService } from 'src/app/services/basededatos.service';
 
 @Component({
   selector: 'app-tomarauto',
@@ -7,6 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TomarautoPage implements OnInit {
   num: number= 2000;
+  arregloViaje: any=[
+    {
+      precio3: '',
+      asientos_disp3: '',
+      fila:'',
+      nombre3: '',
+      patente3: '',
+      vehiculo:'',
+      nombre_comuna3: '',
+    }
+  ]
   // variable
   estado: string="Mostrar Filas";
   private Desplegarimagen: boolean = false;
@@ -21,9 +33,17 @@ export class TomarautoPage implements OnInit {
   }
 
 
-  constructor() { }
+  constructor(private servicioDB: BasededatosService) { }
 
   ngOnInit() {
+    this.servicioDB.dbState().subscribe(res=>{
+      if(res){
+        this.servicioDB.fetchActivos().subscribe(item=>{
+          this.arregloViaje = item;
+        })
+
+      }
+    })
   }
 
 }

@@ -3,21 +3,20 @@
     <ion-title>Viaje activo</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <h1 style="text-align: center;">Mi viaje</h1>
   <p style="text-align: center;">Este es el viaje que tienes activo:</p>
-  <ion-item>
+  <ion-item *ngFor="let x of arregloDetalle">
     <ion-label>
-      Til-til
+      {{x.comuna}}
     </ion-label>
     <div class="ictxt">
       <p style="font-size: 11px;">En dirección a...</p>
     </div>
   </ion-item>
-  <ion-item>
+  <ion-item *ngFor="let x of arregloDetalle">
     <ion-label>
-      {{ num | currency: 'CLP' }}
+      {{ x.precio | currency: 'CLP' }}
     </ion-label>
     <div class="ictxt">
       <p style="font-size: 11px;">Precio</p>
@@ -28,42 +27,11 @@
   </ion-grid>
   <ion-card>
     <ion-card-content>
-      <ion-item>
+      <ion-item *ngFor="let x of arregloDetalle">
         <ion-label>
-          Kevin Oyaneder
+          {{x.correo}}
         </ion-label>
-        <div class="ictxt">
-          <p style="font-size: 11px;">Pasajero 1</p>
-        </div>
       </ion-item>
-      <ion-item>
-        <ion-label>
-          Carlos Fabres
-        </ion-label>
-        <div class="ictxt">
-          <p style="font-size: 11px;">Pasajero 2</p>
-        </div>
-      </ion-item>
-    
-      <ion-item>
-        <ion-label>
-          Vicente Echeverría
-        </ion-label>
-        <div class="ictxt">
-          <p style="font-size: 11px;">Pasajero 3</p>
-        </div>
-    
-      </ion-item>
-    
-      <ion-item>
-        <ion-label>
-          Vacío...
-        </ion-label>
-        <div class="ictxt">
-          <p style="font-size: 11px;">Pasajero 4</p>
-        </div>
-      </ion-item>
-
     </ion-card-content>
   </ion-card>
   <div style="text-align: center;">

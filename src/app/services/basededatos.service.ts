@@ -17,6 +17,7 @@ import { PerfilC } from './perfil-c';
 import { Patente } from './patente';
 import { idViaje } from './id-viaje';
 import { AutoC } from './auto-c';
+import { DetalleConductor } from './detalle-conductor';
 
 
 
@@ -72,6 +73,7 @@ export class BasededatosService {
   listaPatentes = new BehaviorSubject([]);
   listaId = new BehaviorSubject([]);
   listaAutoC = new BehaviorSubject([]);
+  listaDetalleV = new BehaviorSubject([]);
 
 
   // variable para manipular la conexion a la base de datos
@@ -79,6 +81,9 @@ export class BasededatosService {
   //tipo usuario
   /*Re Hacer base de datos y juntar los dos usuarios para mayor simpleza guiarse de la bd que hizo el profe */
 
+  //idea nefasta
+  idDV: any ="";
+  //
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private alertController:AlertController,private sqlite: SQLite, private platform: Platform, private toastController: ToastController, private router: Router) {
@@ -137,6 +142,9 @@ export class BasededatosService {
   }
   fetchAutoC(): Observable<AutoC[]> {
     return this.listaAutoC.asObservable();
+  }
+  fetchDetalleV(): Observable<DetalleConductor[]> {
+    return this.listaDetalleV.asObservable();
   }
 
   crearBD() {
@@ -254,7 +262,7 @@ export class BasededatosService {
   filtrarViaje() {
     //retorno la ejecución del select
 
-    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna;", []).then(res => {
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio, v.asientos_disp, u.nombre, a.patente,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna;", []).then(res => {
       //select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';
       //creo mi lista de objetos de noticias vacio
       let items: Activos[] = [];
@@ -469,6 +477,7 @@ export class BasededatosService {
     //retorno la ejecución del select
     return this.database.executeSql('SELECT patente FROM auto where tU_correo = ?', data).then(res => {
       //creo mi lista de objetos de noticias vacio
+
       let items: Patente[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
       if (res.rows.length > 0) {
@@ -482,6 +491,30 @@ export class BasededatosService {
       this.listaPatentes.next(items);
     })
   }
+  //
+
+  filtrarDetalle (id) {
+    let data = [id]
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT viaje.precio,comuna.nombre_comuna,detalle_viaje.u_correo FROM detalle_viaje INNER JOIN viaje on viaje.id_viaje = detalle_viaje.tV_idViaje INNER JOIN comuna on viaje.v_idcomuna = comuna.id_comuna where tV_idViaje = ?', data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+
+      let items: DetalleConductor[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            precio: res.rows.item(i).precio,
+            comuna:res.rows.item(i).nombre_comuna,
+            correo: res.rows.item(i).u_correo
+          })
+        }
+      }
+      //actualizamos el observable de las noticias
+      this.buscarDetalle();
+      this.listaDetalleV.next(items);
+    })
+  }
 
   insertarViaje(descripcion, precio, fila, asientos, patente, v_idcomuna) {
     let data = [descripcion, precio, fila, asientos, patente, v_idcomuna];
@@ -492,22 +525,22 @@ export class BasededatosService {
       this.presentAlert("ID insertado2: " + res.insertId);
       //Insertar en tabla detalle viaje
       this.insertarDV(estado,res.insertId);
-      
       this.buscarViaje();
       this.filtrarViaje();
+      this.buscarDetalle()
+      this.idDV= res.insertId
 
     });
-
   }
+
 
   insertarDV(estado,tV_idViaje) {
     let data = [estado,tV_idViaje];
     return this.database.executeSql('INSERT INTO detalle_viaje(estado,tV_idViaje) VALUES (?,?);', data).then(res => {
-      this.buscarDetalle
+      this.buscarDetalle();
       this.filtrarViaje();
       //id_detalle,estado,u_correo,tV_idViaje
     });
-
   }
  actPerfil(nom,app,tel,id){
   let data = [nom,app,tel,id];

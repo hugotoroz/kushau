@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
 
@@ -9,9 +10,22 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 })
 export class ViajeactivoCondPage implements OnInit {
   num: number= 2000;
-  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController,private servicioDB: BasededatosService) { }
-
+  id2:any ="";
+  arregloDetalle: any=[{
+    precio:'',
+    comuna:'',
+    correo:''
+  }]
+  constructor(private alertController: AlertController,public navCtrl: NavController,private router: Router,private activedRouter: ActivatedRoute,public toastController: ToastController,private servicioDB: BasededatosService) {
+   }
   ngOnInit() {
+    this.servicioDB.dbState().subscribe(res=>{
+      this.id2 = this.servicioDB.idDV;
+      this.servicioDB.filtrarDetalle(this.id2)
+      this.servicioDB.fetchDetalleV().subscribe(item=>{
+        this.arregloDetalle = item
+      })
+    })
   }
   async presentToast() {
     const toast = await this.toastController.create({
@@ -39,7 +53,6 @@ export class ViajeactivoCondPage implements OnInit {
         }
      ]
     });
-
     await alert.present();
   }
 }

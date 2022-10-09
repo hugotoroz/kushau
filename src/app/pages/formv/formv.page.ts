@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
 
@@ -14,6 +14,7 @@ export class FormvPage implements OnInit {
   precio: number=null;
   descrip: string="";
   asientos: number=null;
+  idDv: any;
   
 
   usuario = localStorage.getItem('usuario');
@@ -41,7 +42,7 @@ export class FormvPage implements OnInit {
   estado: string="Mostrar Filas"
   private Desplegarimagen: boolean = false;
 
-  constructor(public toastController: ToastController,public alertController: AlertController, private router: Router,private servicioDB: BasededatosService) { }
+  constructor(public toastController: ToastController,public alertController: AlertController,private activedRouter: ActivatedRoute,private router: Router,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
     //Suscribirse al obervable del id
@@ -88,7 +89,15 @@ export class FormvPage implements OnInit {
     }
     else{
       this.servicioDB.insertarViaje(this.descrip,this.precio,this.fila,this.asientos,this.listaPatente[0].patente1,this.direccion)
-      this.router.navigate(['/viajeactivo-cond'])
+      this.idDv = this.servicioDB.idDV;
+
+      let navigationExtras: NavigationExtras = {
+        state: {
+          id: this.idDv
+        }
+      }
+      
+      this.router.navigate(['/viajeactivo-cond'],navigationExtras)
     }
   }
 
