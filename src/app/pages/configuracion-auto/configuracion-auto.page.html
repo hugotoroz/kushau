@@ -1,9 +1,40 @@
+<!--************************************ TODAVÍA FALTA POR MODIFICAR ************************************-->
+
 <ion-header>
   <ion-toolbar>
-    <ion-title>configuracionAuto</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar Vehículo</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <div>
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
+      <ion-label color="sucess" class="bold" >Patente</ion-label>
+      <ion-input [(ngModel)]="patente" readonly></ion-input>
+    </ion-item>
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
+      <ion-label color="sucess" class="bold">Marca</ion-label>
+      <ion-input [(ngModel)]="marca"></ion-input>
+    </ion-item>
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
+      <ion-label color="sucess" class="bold">Modelo</ion-label>
+      <ion-input [(ngModel)]="modelo">{{area}}</ion-input>
+    </ion-item>
+    <ion-item class="items" matRipple [matRippleCentered]="centered">
+      <ion-label color="sucess" class="bold">Año</ion-label>
+      <ion-input [(ngModel)]="annio">{{area}}</ion-input>
+    </ion-item>
+    <p class="suggestions"> 
+      * Debe escribir 8 dígitos <b>(sin el dígito verificador).</b><br> 
+      * Ejemplo: 12345678
+    </p>
+    <div class="si">
+      <ion-button class="boton" (click)="validarEditar()">Guardar Cambios</ion-button>
+    </div>
+  </div>
+
 
 </ion-content>

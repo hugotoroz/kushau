@@ -1,0 +1,28 @@
+.si{
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+.boton{
+    width: auto;
+    --background: #74121D;
+}
+.suggestions{
+    font-size: 13px;
+    font-style: italic;
+    text-align: left;
+    margin-left: 10px;
+}
+.bold{
+    font-weight: bold;
+}
+ion-content{
+    --background: #fff;
+    text-align: center;
+    
+}
+ion-toolbar{
+    --background: #74121D;
+    --color: #fff;
+    text-align: center;
+}
