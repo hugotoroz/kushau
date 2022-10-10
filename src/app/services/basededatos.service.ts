@@ -146,8 +146,11 @@ export class BasededatosService {
   fetchAutoC(): Observable<AutoC[]> {
     return this.listaAutoC.asObservable();
   }
-  fetchDetalleV(): Observable<MotrarV[]> {
+  fetchMostrarV(): Observable<MotrarV[]> {
     return this.listaMostrarV.asObservable();
+  }
+  fetchDetalleV(): Observable<DetalleConductor[]> {
+    return this.listaDetalleV.asObservable();
   }
 
   crearBD() {
@@ -289,7 +292,7 @@ export class BasededatosService {
   mostrarViaje(x) {
     //retorno la ejecución del select
     let data = [x];
-    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio,v.fila_u,v.asientos_disp, u.nombre||' '||u.apellido as nombre, a.patente,a.marca||' '||a.modelo as auto,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where id_viaje = ?;", data).then(res => {
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio,v.fila_u,v.asientos_disp, u.nombre||' '||u.apellido as nombre, a.patente,a.marca||' '||a.modelo as auto,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where id_viaje = ? ;", data).then(res => {
       //select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';
       //creo mi lista de objetos de noticias vacio
       let items: MotrarV[] = [];
@@ -401,9 +404,10 @@ export class BasededatosService {
   }
   //BUSCAR EL AUTO DE UN CONDUCTOR
   buscarAutoC(usuario) {
+    let data = [usuario]
     //retorno la ejecución del select
     //re hacer por que faltan los datos nuevos
-    return this.database.executeSql('SELECT * FROM auto where tU_correo = ?', usuario).then(res => {
+    return this.database.executeSql('SELECT * FROM auto where tU_correo = ?;', data).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: AutoC[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -421,7 +425,7 @@ export class BasededatosService {
 
       }
       //actualizamos el observable de las noticias
-      this.listaAuto.next(items);
+      this.listaAutoC.next(items);
     })
   }
 
@@ -554,17 +558,21 @@ export class BasededatosService {
       //this.presentAlert("ID insertado: " + JSON.stringify(res));
       //Crear un observable para insertID, su función de retorno y guardar en el observable el id .(next)
         let estado: string="Empezado";
-      this.presentAlert("ID insertado2: " + res.insertId);
+      //this.presentAlert("ID insertado2: " + res.insertId);
       //Insertar en tabla detalle viaje
       this.insertarDV(estado,res.insertId);
+      this.buscarDetalle();
       this.buscarViaje();
       this.filtrarViaje();
-      this.buscarDetalle()
       this.idDV= res.insertId
 
     });
   }
-
+  cancelarViaje(id){
+    return this.database.executeSql('UPDATE detalle_viaje set estado="Terminado" where tV_idViaje =?', id).then(res=>{
+      this.buscarDetalle();
+    });
+  }
   tomarViaje(u_correo,id){
     let data =[u_correo,id]
     return this.database.executeSql('UPDATE detalle_viaje set u_correo = ? where tV_idViaje =?', data).then(res=>{

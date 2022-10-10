@@ -70,7 +70,15 @@ const routes: Routes = [
   {
     path: 'configuracion-conductor',
     loadChildren: () => import('./pages/configuracion-conductor/configuracion-conductor.module').then( m => m.ConfiguracionConductorPageModule)
+  },  {
+    path: 'carga',
+    loadChildren: () => import('./pages/carga/carga.module').then( m => m.CargaPageModule)
   },
+  {
+    path: 'configuracion-auto',
+    loadChildren: () => import('./pages/configuracion-auto/configuracion-auto.module').then( m => m.ConfiguracionAutoPageModule)
+  },
+
 
 
 
@@ -79,7 +87,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
   exports: [RouterModule]
 })

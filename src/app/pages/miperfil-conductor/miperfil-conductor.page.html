@@ -18,7 +18,7 @@
   <!-- ***********************PERFIL USUARIO*********************** -->
   <ion-row>
     <ion-col col-2>
-      <h1>Información</h1>
+      <h1>Información Personal</h1>
     </ion-col>
   </ion-row>
   <div *ngFor="let x of arregloUsuario">
@@ -64,42 +64,54 @@
       <h1>Mi Vehículo</h1>
     </ion-col>
   </ion-row>
-  <!--Datos del perfil-->
-  <div *ngFor="let x of arregloAuto">
+  <!--Datos del auto-->
+  <div *ngFor="let a of arregloAuto">
   <ion-row>
     <ion-col col-8>
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{x.}}
+          {{a.patente}}
         </ion-label>
         <div class="ictxt">
-          <ion-icon name="person-outline"></ion-icon>
+          Patente
         </div>
       </ion-item>
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{x.}}
+          {{a.marca}}
         </ion-label>
         <div class="ictxt">
-          <ion-icon name="people-outline"></ion-icon>
+          Marca
         </div>
       </ion-item>
 
       <ion-item>
         <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{x.}}
+          {{a.modelo}}
         </ion-label>
         <div class="ictxt">
-          <ion-icon name="call-outline"></ion-icon>
+          Modelo
+        </div>
+
+      </ion-item>
+      <ion-item>
+        <ion-label style="word-wrap: break-word; white-space: normal;">
+          {{a.annio}}
+        </ion-label>
+        <div class="ictxt">
+          Año
         </div>
 
       </ion-item>
     </ion-col>
   </ion-row>
-</div>
+  </div>
   <div class="si">
     <ion-button class="boton" (click)="pasarDatosV()">
-      <ion-icon name="car-outline"></ion-icon>Editar vehículo
+      <ion-icon name="car-outline"></ion-icon> Modificar vehículo
+    </ion-button>
+    <ion-button class="boton" (click)="">
+      <ion-icon name="car-outline"></ion-icon> Eliminar vehículo
     </ion-button>
   </div>
 

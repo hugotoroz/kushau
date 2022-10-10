@@ -10,26 +10,31 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 })
 export class ViajeactivoCondPage implements OnInit {
   num: number= 2000;
-  id2:any ="";
+  idV:any ="";
+  bandera:boolean=false;
+
   arregloDetalle: any=[{
     precio:'',
     comuna:'',
     correo:''
   }]
+
   constructor(private alertController: AlertController,public navCtrl: NavController,private router: Router,private activedRouter: ActivatedRoute,public toastController: ToastController,private servicioDB: BasededatosService) {
    }
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
-      this.id2 = this.servicioDB.idDV;
-      this.servicioDB.filtrarDetalle(this.id2)
+      this.idV = this.servicioDB.idDV;
+      this.servicioDB.filtrarDetalle(this.idV)
       this.servicioDB.fetchDetalleV().subscribe(item=>{
         this.arregloDetalle = item
       })
+      
     })
+    
   }
-  async presentToast() {
+  async presentToast(msj) {
     const toast = await this.toastController.create({
-      message: 'Tu viaje ha sido cancelado exitosamente.',
+      message: msj,
       duration: 2000
     });
     toast.present();
@@ -43,8 +48,10 @@ export class ViajeactivoCondPage implements OnInit {
         {
           text: 'Cancelar viaje',
           handler: () => {
-            this.navCtrl.navigateRoot('/tabconductor');
-            this.presentToast();
+            this.servicioDB.cancelarViaje(this.idV);
+            this.router.navigate(['/tabconductor']);
+            this.idV="";
+            this.presentToast("Tu viaje ha sido cancelado exitosamente.");
           }
          }, {
           text: 'No',
@@ -55,4 +62,22 @@ export class ViajeactivoCondPage implements OnInit {
     });
     await alert.present();
   }
+  async presentAlert(msj) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+
 }

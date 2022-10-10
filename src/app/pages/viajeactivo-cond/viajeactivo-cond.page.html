@@ -4,6 +4,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <h1 style="text-align: center;">Mi viaje</h1>
   <p style="text-align: center;">Este es el viaje que tienes activo:</p>
   <ion-item *ngFor="let x of arregloDetalle">

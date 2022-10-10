@@ -10,12 +10,13 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 })
 export class MiperfilConductorPage implements OnInit {
   arregloUsuario: any=[
-    {correo4:'',
-    nombre4:'',
-    apellido4:'',
-    nombreCompleto4: '',
-    vehiculo:'',
-    telefonoC:''
+    {
+      correo4:'',
+      nombre4:'',
+      apellido4:'',
+      nombreCompleto4: '',
+      vehiculo:'',
+      telefonoC:''
     }
   ]
   arregloAuto: any=[
@@ -23,7 +24,7 @@ export class MiperfilConductorPage implements OnInit {
       patente:'',
       modelo:'',
       marca:'',
-      annio:'',
+      annio:''
 
     }
   ]
@@ -33,12 +34,12 @@ export class MiperfilConductorPage implements OnInit {
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       this.servicioDB.buscarPerfilC(this.usuario);
+      this.servicioDB.buscarAutoC(this.usuario);
       if(res){
         this.servicioDB.fetchPerfilC().subscribe(item=>{
           this.arregloUsuario = item;
           
         })
-        this.servicioDB.buscarAutoC(this.arregloUsuario[0].correo4);
         this.servicioDB.fetchAutoC().subscribe(item=>{
           this.arregloAuto = item;
           
@@ -88,5 +89,17 @@ export class MiperfilConductorPage implements OnInit {
     }
     this.router.navigate(['/configuracion-conductor']);
     this.router.navigate(['/configuracion-conductor'], navigationExtras);
+  }
+  pasarDatosV(){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        p: this.arregloAuto[0].patente,
+        mo: this.arregloAuto[0].modelo,
+        mar:this.arregloAuto[0].marca,
+        an:this.arregloAuto[0].annio
+      }
+    }
+    this.router.navigate(['/configuracion-auto']);
+    this.router.navigate(['/configuracion-auto'], navigationExtras);
   }
 }

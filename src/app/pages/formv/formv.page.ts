@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class FormvPage implements OnInit {
   asientos: number=null;
   idDv: any;
   
-
+  
   usuario = localStorage.getItem('usuario');
   estado1: string="Empezado";
   listaComuna: any=[
@@ -42,7 +42,7 @@ export class FormvPage implements OnInit {
   estado: string="Mostrar Filas"
   private Desplegarimagen: boolean = false;
 
-  constructor(public toastController: ToastController,public alertController: AlertController,private activedRouter: ActivatedRoute,private router: Router,private servicioDB: BasededatosService) { }
+  constructor(public toastController: ToastController,public navCtrl: NavController,public alertController: AlertController,private activedRouter: ActivatedRoute,private router: Router,private servicioDB: BasededatosService) { }
 
   ngOnInit() {
     //Suscribirse al obervable del id
@@ -90,14 +90,19 @@ export class FormvPage implements OnInit {
     else{
       this.servicioDB.insertarViaje(this.descrip,this.precio,this.fila,this.asientos,this.listaPatente[0].patente1,this.direccion)
       this.idDv = this.servicioDB.idDV;
-
+      //Pasar datos al viaje activo del conductor.
       let navigationExtras: NavigationExtras = {
         state: {
-          id: this.idDv
+          id: this.idDv,
+          nComuna: this.listaComuna[0].nombre_comuna,
+          precio: this.precio,
+          asientos: this.asientos
+
         }
       }
-      
       this.router.navigate(['/viajeactivo-cond'],navigationExtras)
+      this.router.navigate(['/carga'])
+      this.alerta();
     }
   }
 
@@ -108,5 +113,20 @@ export class FormvPage implements OnInit {
     });
     toast.present();
   }
-  
+  async alerta() {
+    const alert = await this.alertController.create({
+      header: 'Viaje creado',
+      cssClass:'boton-registro',
+      message: 'Viaje creado exitosamente.',
+      buttons: [
+        {
+          text: 'Ver viaje',
+          handler: () => {
+            this.router.navigate(['/viajeactivo-cond']);
+          }
+         }
+     ]
+    });
+    await alert.present();
+  }
 }

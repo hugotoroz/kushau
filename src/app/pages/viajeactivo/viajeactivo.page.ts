@@ -28,7 +28,7 @@ export class ViajeactivoPage implements OnInit {
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       if(res){
-        this.servicioDB.fetchDetalleV().subscribe(item=>{
+        this.servicioDB.fetchMostrarV().subscribe(item=>{
           this.arregloViaje = item;
         })
 
