@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BasededatosService } from 'src/app/services/basededatos.service';
 
 @Component({
@@ -8,15 +9,18 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 })
 export class TomarautoPage implements OnInit {
   num: number= 2000;
+  usuario = localStorage.getItem('usuario');
   arregloViaje: any=[
     {
+      id_viaje2:'',
+      descripcion2:'',
       precio3: '',
+      fila3:'',
       asientos_disp3: '',
-      fila:'',
       nombre3: '',
       patente3: '',
-      vehiculo:'',
-      nombre_comuna3: '',
+      auto3:'',
+      nombre_comuna3:'',
     }
   ]
   // variable
@@ -26,24 +30,27 @@ export class TomarautoPage implements OnInit {
   desplegarImgen() {
     this.Desplegarimagen = !this.Desplegarimagen;
     this.estado= "Mostrar Filas";
-    
     if (this.Desplegarimagen) {
       this.estado="Ocultar Filas";
     }
   }
 
 
-  constructor(private servicioDB: BasededatosService) { }
+  constructor(private servicioDB: BasededatosService,private router: Router) { }
 
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       if(res){
-        this.servicioDB.fetchActivos().subscribe(item=>{
+        this.servicioDB.fetchDetalleV().subscribe(item=>{
           this.arregloViaje = item;
         })
 
       }
     })
+  }
+  Tomar(){
+    this.servicioDB.tomarViaje(this.usuario,this.arregloViaje[0].id_viaje2)
+    this.router.navigate(['/viajeactivo'])
   }
 
 }

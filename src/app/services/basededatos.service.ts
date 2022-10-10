@@ -17,7 +17,9 @@ import { PerfilC } from './perfil-c';
 import { Patente } from './patente';
 import { idViaje } from './id-viaje';
 import { AutoC } from './auto-c';
+import { MotrarV } from './motrar-v';
 import { DetalleConductor } from './detalle-conductor';
+import { Navigation } from 'selenium-webdriver';
 
 
 
@@ -74,6 +76,7 @@ export class BasededatosService {
   listaId = new BehaviorSubject([]);
   listaAutoC = new BehaviorSubject([]);
   listaDetalleV = new BehaviorSubject([]);
+  listaMostrarV = new BehaviorSubject([]);
 
 
   // variable para manipular la conexion a la base de datos
@@ -143,8 +146,8 @@ export class BasededatosService {
   fetchAutoC(): Observable<AutoC[]> {
     return this.listaAutoC.asObservable();
   }
-  fetchDetalleV(): Observable<DetalleConductor[]> {
-    return this.listaDetalleV.asObservable();
+  fetchDetalleV(): Observable<MotrarV[]> {
+    return this.listaMostrarV.asObservable();
   }
 
   crearBD() {
@@ -270,6 +273,7 @@ export class BasededatosService {
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
+            id_viaje3: res.rows.item(i).id_viaje,
             precio3: res.rows.item(i).precio,
             asientos_disp3: res.rows.item(i).asientos_disp,
             nombre3: res.rows.item(i).nombre,
@@ -280,6 +284,34 @@ export class BasededatosService {
       }
       //actualizamos el observable de las noticias
       this.listaActivos.next(items);
+    })
+  }
+  mostrarViaje(x) {
+    //retorno la ejecución del select
+    let data = [x];
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio,v.fila_u,v.asientos_disp, u.nombre||' '||u.apellido as nombre, a.patente,a.marca||' '||a.modelo as auto,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where id_viaje = ?;", data).then(res => {
+      //select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';
+      //creo mi lista de objetos de noticias vacio
+      let items: MotrarV[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_viaje2: res.rows.item(i).id_viaje,
+            descripcion2: res.rows.item(i).descripcion,
+            precio3: res.rows.item(i).precio,
+            fila3:res.rows.item(i).fila_u,
+            asientos_disp3: res.rows.item(i).asientos_disp,
+            nombre3: res.rows.item(i).nombre,
+            patente3: res.rows.item(i).patente,
+            auto3:res.rows.item(i).auto,
+            nombre_comuna3: res.rows.item(i).nombre_comuna,
+          })
+        }
+      }
+      //actualizamos el observable de las noticias
+      this.listaMostrarV.next(items);
+      this.router.navigate(['/tomarauto']);
     })
   }
   buscarDetalle() {
@@ -533,7 +565,12 @@ export class BasededatosService {
     });
   }
 
+  tomarViaje(u_correo,id){
+    let data =[u_correo,id]
+    return this.database.executeSql('UPDATE detalle_viaje set u_correo = ? where tV_idViaje =?', data).then(res=>{
+    })
 
+  }
   insertarDV(estado,tV_idViaje) {
     let data = [estado,tV_idViaje];
     return this.database.executeSql('INSERT INTO detalle_viaje(estado,tV_idViaje) VALUES (?,?);', data).then(res => {

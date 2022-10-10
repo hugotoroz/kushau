@@ -17,7 +17,7 @@
     <div *ngFor="let x of arregloViaje">
   <ion-item>
     <ion-label>
-      {{x.vehiculo}}
+      {{x.auto3}}
     </ion-label>
     <div class="ictxt">
       <ion-icon name="car-sport-outline" slot="end"></ion-icon>      
@@ -37,7 +37,7 @@
 
   <ion-item>
     <ion-label>
-      {{x.asientos_disp3}}
+      {{x.asientos_disp3}} Disponibles
     </ion-label>
     <div class="ictxt">
       <ion-icon name="man-outline" slot="end"></ion-icon>
@@ -47,22 +47,20 @@
 
   <ion-item>
     <ion-label>
-      {{x.fila}}
-
-    </ion-label>
-    <div class="ictxt">
-      <ion-icon name="location-outline"slot="end"></ion-icon>      
-      <p style="font-size: 11px;">Ubicación</p>
-    </div>
-  </ion-item>
-
-  <ion-item>
-    <ion-label>
-      {{x.nombre_comuna3}}
+      {{ x.nombre_comuna3 }}
     </ion-label>
     <div class="ictxt">
       <ion-icon name="map-outline" slot="end"></ion-icon>      
       <p style="font-size: 11px;">Dirección</p>
+    </div>
+  </ion-item>
+  <ion-item>
+    <ion-label>
+      Fila {{x.fila3}}
+    </ion-label>
+    <div class="ictxt">
+      <ion-icon name="location-outline"slot="end"></ion-icon>      
+      <p style="font-size: 11px;">Ubicación</p>
     </div>
   </ion-item>
   <ion-item>
@@ -75,9 +73,9 @@
     </div>
   </ion-item>
   <ion-item style="margin-top: 5px; margin-bottom: 5px;">
-    <ion-text-area>
-      El auto es de color amarillo y está cerca del sector de las canchas.
-    </ion-text-area>
+    <ion-label>
+      {{x.descripcion2}}
+    </ion-label>
     <div class="ictxt">
       <ion-icon name="chatbubble-outline"></ion-icon>      
       <p style="font-size: 11px;">Descripción</p>
@@ -95,7 +93,7 @@
   </div>
 
   <div style="text-align: center;">
-    <ion-button class="boton" routerLink="/viajeactivo">Tomar viaje</ion-button>
+    <ion-button class="boton" (click)="Tomar()">Tomar viaje</ion-button>
   </div>
 
   

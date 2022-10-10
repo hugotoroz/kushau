@@ -1,8 +1,11 @@
-export class Activos {
-    id_viaje3:number;
+export class MotrarV {
+    id_viaje2:number;
+    descripcion2:string;
     precio3:number;
+    fila3:number;
     asientos_disp3:number;
     nombre3:string;
     patente3:string;
+    auto3:string;
     nombre_comuna3:string;
 }

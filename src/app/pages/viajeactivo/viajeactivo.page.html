@@ -11,11 +11,11 @@
     <!--Es solo una imagen no es el mapa-->
     <ion-img src="assets/Imagenes/mapa.jpeg" class="imgmap" ></ion-img>
   </ion-grid>
-  <ion-card>
+  <ion-card *ngFor="let x of arregloViaje">
     <ion-card-content>
       <ion-item>
         <ion-label>
-          Mr. Oliva
+          {{ x.nombre3 }}
         </ion-label>
         <div class="ictxt">
           <p style="font-size: 11px;">Conductor</p>
@@ -23,7 +23,7 @@
       </ion-item>
       <ion-item>
         <ion-label>
-          Hyundai Elantra
+          {{x.auto3}}
         </ion-label>
         <div class="ictxt">
           <p style="font-size: 11px;">Vehículo</p>
@@ -32,7 +32,7 @@
     
       <ion-item>
         <ion-label>
-          KK-DF-32
+          {{x.patente3}}
         </ion-label>
         <div class="ictxt">
           <p style="font-size: 11px;">Patente</p>
@@ -42,7 +42,7 @@
     
       <ion-item>
         <ion-label>
-          Fila 6
+          Fila {{x.fila3}}
         </ion-label>
         <div class="ictxt">
           <p style="font-size: 11px;">Ubicación</p>
@@ -51,7 +51,7 @@
 
       <ion-item>
         <ion-label>
-          Til-til
+          {{ x.nombre_comuna3 }}
         </ion-label>
         <div class="ictxt">
           <p style="font-size: 11px;">Dirección</p>
@@ -60,7 +60,7 @@
 
       <ion-item>
         <ion-label>
-          {{ num | currency: 'CLP' }}
+          {{ x.precio3 | currency: 'CLP' }}
         </ion-label>
         <div class="ictxt">
           <p style="font-size: 11px;">Precio</p>

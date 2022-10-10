@@ -10,8 +10,11 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 export class AutosPage implements OnInit {
   u:string="";
   ap:string="";
+
+  id:string="";
   arregloViaje: any=[
     {
+      id_viaje3:'',
       precio3: '',
       asientos_disp3: '',
       patente3: '',
@@ -37,9 +40,12 @@ export class AutosPage implements OnInit {
         this.servicioDB.fetchActivos().subscribe(item=>{
           this.arregloViaje = item;
         })
-
+        
       }
     })
+  }
+  viaje(x){
+      this.servicioDB.mostrarViaje(x.id_viaje3)
   }
 
 }
