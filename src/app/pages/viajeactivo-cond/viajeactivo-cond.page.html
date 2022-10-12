@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-title>Viaje activo</ion-title>
   </ion-toolbar>
+  
 </ion-header>
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
@@ -25,9 +26,8 @@
       <p style="font-size: 11px;">Precio</p>
     </div>
   </ion-item>
-  <ion-grid>
-    <ion-img src="assets/Imagenes/mapa.jpeg" class="imgmap" ></ion-img>
-  </ion-grid>
+  <!--******************************************************* MAPA *******************************************************-->
+  <capacitor-google-maps #map></capacitor-google-maps>
   <ion-card>
     <ion-card-content>
       <ion-item *ngFor="let x of arregloDetalle">

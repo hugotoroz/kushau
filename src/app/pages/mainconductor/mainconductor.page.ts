@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { GoogleMap } from '@capacitor/google-maps';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-mainconductor',
@@ -11,5 +13,26 @@ export class MainconductorPage implements OnInit {
 
   ngOnInit() {
   }
-
+  ionViewDidEnter() {
+    this.createMap();
+  }
+  
+  @ViewChild('map') mapRef: ElementRef<HTMLElement>;
+  newMap: GoogleMap;
+  center: any ={
+    lat: -33.2860241,
+    lng: -70.8859415
+  };
+  async createMap() {
+    this.newMap = await GoogleMap.create({
+      id: 'capacitor-google-maps',
+      element: this.mapRef.nativeElement,
+      apiKey: environment.google_maps_api_key,
+      config: {
+        center: this.center,
+        zoom: 13,
+      },
+    });
+  }
+  
 }

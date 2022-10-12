@@ -4,12 +4,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
 
-  <ion-grid>
-    <!--Es solo una imagen no es el mapa-->
-    <ion-img src="assets/Imagenes/mapa.jpeg" class="imgmap" ></ion-img>
-  </ion-grid>
+<!--******************************************************* MAPA *******************************************************-->
+<div class="maps">
+  <capacitor-google-maps #map></capacitor-google-maps>
+</div>
+  
   <div class="boton">
     <ion-button routerLink="/formv" type="submit">Iniciar un nuevo viaje</ion-button>
   </div>

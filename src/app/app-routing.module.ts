@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'inicio-sesion',
+    redirectTo: 'mainconductor',
     pathMatch: 'full'
   },
   {
@@ -70,7 +70,8 @@ const routes: Routes = [
   {
     path: 'configuracion-conductor',
     loadChildren: () => import('./pages/configuracion-conductor/configuracion-conductor.module').then( m => m.ConfiguracionConductorPageModule)
-  },  {
+  },
+  {
     path: 'carga',
     loadChildren: () => import('./pages/carga/carga.module').then( m => m.CargaPageModule)
   },

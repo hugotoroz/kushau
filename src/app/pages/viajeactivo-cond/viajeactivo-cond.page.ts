@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GoogleMap } from '@capacitor/google-maps';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-viajeactivo-cond',
@@ -31,6 +33,9 @@ export class ViajeactivoCondPage implements OnInit {
       
     })
     
+  }
+  ngAfterViewInit() {
+    this.createMap();
   }
   async presentToast(msj) {
     const toast = await this.toastController.create({
@@ -79,5 +84,21 @@ export class ViajeactivoCondPage implements OnInit {
       event.target.complete();
     }, 2000);
   }
-
+  @ViewChild('map') mapRef: ElementRef<HTMLElement>;
+  newMap: GoogleMap;
+  center: any ={
+    lat: -33.2860241,
+    lng: -70.8859415
+  };
+  async createMap() {
+    this.newMap = await GoogleMap.create({
+      id: 'capacitor-google-maps',
+      element: this.mapRef.nativeElement,
+      apiKey: environment.google_maps_api_key,
+      config: {
+        center: this.center,
+        zoom: 13,
+      },
+    });
+  }
 }
