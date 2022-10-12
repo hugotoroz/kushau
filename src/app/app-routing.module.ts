@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'mainconductor',
+    redirectTo: 'iniciar-sesion',
     pathMatch: 'full'
   },
   {
