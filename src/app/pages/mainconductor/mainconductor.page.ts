@@ -24,8 +24,8 @@ export class MainconductorPage implements OnInit {
   @ViewChild('map') mapRef: ElementRef<HTMLElement>;
   newMap: GoogleMap;
   center: any ={
-    lat: this.laat,
-    lng: this.lngg
+    lat: -33.2860241,
+    lng: -70.8859415
   };  
   async createMap() {
     this.newMap = await GoogleMap.create({

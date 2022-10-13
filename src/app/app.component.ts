@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+//import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Platform } from '@ionic/angular';
 
 @Component({
@@ -8,13 +8,16 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private geolocation: Geolocation,protected platform:Platform) {
+  constructor(protected platform:Platform) {
+    /*
     this.platform.ready().then(async()=>{
       this.getGeolocation();
     })
+    */
   }
   laat:any;
   lnng:any;
+  /*
   getGeolocation(){
 
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -36,6 +39,6 @@ export class AppComponent {
      });
     
   }
- 
+ */
 
 }
