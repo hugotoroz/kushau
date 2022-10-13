@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { ApiCamaraService } from 'src/app/services/api-camara.service';
 import { BasededatosService } from 'src/app/services/basededatos.service';
 
 
@@ -10,6 +11,7 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
   styleUrls: ['./configuracion.page.scss'],
 })
 export class ConfiguracionPage implements OnInit {
+  foto:'';
   nom: '';
   app: '';
   tel: '';
@@ -17,7 +19,7 @@ export class ConfiguracionPage implements OnInit {
   area: string=" +569"
   usuario = localStorage.getItem('usuario');
 
-  constructor(public toastController: ToastController,private router: Router,private activedRouter: ActivatedRoute,public navCtrl: NavController,private alertController: AlertController,private servicioDB: BasededatosService) { 
+  constructor(public toastController: ToastController,private router: Router,private activedRouter: ActivatedRoute,public navCtrl: NavController,private alertController: AlertController,private servicioDB: BasededatosService,private camara:ApiCamaraService) { 
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
         this.nom= this.router.getCurrentNavigation().extras.state.n;
@@ -49,8 +51,14 @@ export class ConfiguracionPage implements OnInit {
     });
     toast.present();
   }
+  CambiarFoto(){
+    this.camara.tomarFoto();
+  }
   
   ngOnInit() {
+    this.camara.fetchFoto().subscribe(item=>{
+      this.foto = item;
+    })
   }
 
 }

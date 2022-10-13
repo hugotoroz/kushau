@@ -6,8 +6,8 @@
 
 <ion-content>
   <ion-card>
-    <ion-avatar class="imagen">
-      <img src="../assets/Imagenes/usuario.jpeg" style="align-self: center;" />
+    <ion-avatar *ngFor="let z of arregloUsuario" class="imagen">
+      <img [src]="z.foto1" style="align-self: center;" />
     </ion-avatar>
     <ion-card-content *ngFor="let i of arregloUsuario">
       <ion-card-title>

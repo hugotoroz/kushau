@@ -16,7 +16,8 @@ export class MiperfilConductorPage implements OnInit {
       apellido4:'',
       nombreCompleto4: '',
       vehiculo:'',
-      telefonoC:''
+      telefonoC:'',
+      foto1:''
     }
   ]
   arregloAuto: any=[

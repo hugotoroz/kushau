@@ -15,6 +15,9 @@ export class ViajeactivoCondPage implements OnInit {
   idV:any ="";
   bandera:boolean=false;
 
+  latitude = localStorage.getItem('laat');
+  long= localStorage.getItem('lng');
+
   arregloDetalle: any=[{
     precio:'',
     comuna:'',
@@ -87,8 +90,8 @@ export class ViajeactivoCondPage implements OnInit {
   @ViewChild('map') mapRef: ElementRef<HTMLElement>;
   newMap: GoogleMap;
   center: any ={
-    lat: -33.2860241,
-    lng: -70.8859415
+    lat: this.latitude,
+    lng: this.long
   };
   async createMap() {
     this.newMap = await GoogleMap.create({
@@ -97,7 +100,8 @@ export class ViajeactivoCondPage implements OnInit {
       apiKey: environment.google_maps_api_key,
       config: {
         center: this.center,
-        zoom: 13,
+        zoom: 15,
+        
       },
     });
   }

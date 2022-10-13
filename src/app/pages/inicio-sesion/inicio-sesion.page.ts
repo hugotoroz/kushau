@@ -4,6 +4,8 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { NavController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
 
+
+
 @Component({
   selector: 'app-inicio-sesion',
   templateUrl: './inicio-sesion.page.html',
@@ -11,13 +13,15 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 })
 export class InicioSesionPage implements OnInit {
   usuario: string="";
-  clave: string="";
+  clave: string=""; 
+
+  
 
   datos: any = {
     correo3: '',
     tipo: ''
   }
-  constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController,private servicioDB: BasededatosService) { }
+  constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController,private servicioDB: BasededatosService,) { }
 
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
@@ -28,6 +32,7 @@ export class InicioSesionPage implements OnInit {
       }
     })
   }
+
   
 
 

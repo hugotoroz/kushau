@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <h1>Datos personales</h1>
+    <ion-avatar class="imagen">
+      <img src="../assets/Imagenes/Perfil.png" style="align-self: center;" />
+    </ion-avatar>
+    <ion-icon name="camera-outline"></ion-icon>
+    
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess" >Nombre</ion-label>
+      <ion-input [(ngModel)]="nombre"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess" >Apellido</ion-label>
+      <ion-input [(ngModel)]="apellido"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess" >RUT</ion-label>
+      <ion-input [(ngModel)]="rut"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="sucess">Correo</ion-label>
+      <ion-input [(ngModel)]="correo" type="email"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess" >Dirección</ion-label>
+      <ion-input [(ngModel)]="direccion"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess" >Número de teléfono</ion-label>
+      <ion-input [(ngModel)]="telefono"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess">Contraseña</ion-label>
+      <ion-input type="password" class="inputc" [(ngModel)]="clave"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess" >Repetir contraseña</ion-label>
+      <ion-input type="password" class="inputc" [(ngModel)]="clave1"></ion-input>
+    </ion-item>
+    <h1>Datos vehículo</h1>
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess" >Marca</ion-label>
+      <ion-input [(ngModel)]="Marca"></ion-input>
+    </ion-item>
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess" >Modelo</ion-label>
+      <ion-input [(ngModel)]="Modelo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="sucess">Patente</ion-label>
+      <ion-input [(ngModel)]="Patente"></ion-input>
+    </ion-item>
+
+  </div>
+<div class="boton">
+  <ion-button class="inicia" (click)="validarconductor()" type="submit">Registrarse</ion-button>
+</div>
+
+</ion-content>

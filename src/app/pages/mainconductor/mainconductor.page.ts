@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap } from '@capacitor/google-maps';
 import { environment } from 'src/environments/environment';
 
+
 @Component({
   selector: 'app-mainconductor',
   templateUrl: './mainconductor.page.html',
@@ -16,13 +17,16 @@ export class MainconductorPage implements OnInit {
   ionViewDidEnter() {
     this.createMap();
   }
+  laat=localStorage.getItem('lat')
+  lngg=localStorage.getItem('lng');
+  
   
   @ViewChild('map') mapRef: ElementRef<HTMLElement>;
   newMap: GoogleMap;
   center: any ={
-    lat: -33.2860241,
-    lng: -70.8859415
-  };
+    lat: this.laat,
+    lng: this.lngg
+  };  
   async createMap() {
     this.newMap = await GoogleMap.create({
       id: 'capacitor-google-maps',
@@ -30,7 +34,7 @@ export class MainconductorPage implements OnInit {
       apiKey: environment.google_maps_api_key,
       config: {
         center: this.center,
-        zoom: 13,
+        zoom: 15,
       },
     });
   }

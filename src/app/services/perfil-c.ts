@@ -5,4 +5,5 @@ export class PerfilC {
     nombreCompleto4:string;
     vehiculo:string;
     telefonoC:number;
+    foto1:Blob;
 }
