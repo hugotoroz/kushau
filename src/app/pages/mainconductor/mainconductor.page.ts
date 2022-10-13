@@ -79,7 +79,7 @@ export class MainconductorPage implements OnInit {
 
       });
       console.log('newmap', this.newMap);
-
+      this.locate();
       //await this.addMarker(this.laat, this.lnng);
       //await this.addListeners();
     }
