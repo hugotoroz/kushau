@@ -2,24 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasededatosService } from 'src/app/services/basededatos.service';
+import { ApiCamaraService } from 'src/app/services/api-camara.service';
 @Component({
   selector: 'app-configuracion-conductor',
   templateUrl: './configuracion-conductor.page.html',
   styleUrls: ['./configuracion-conductor.page.scss'],
 })
 export class ConfiguracionConductorPage implements OnInit {
+  imagen:any;
+  foto:'';
   nom: '';
   app: '';
   tel: '';
   area: string=" +569"
   usuario = localStorage.getItem('usuario');
 
-  constructor(public toastController: ToastController,private router: Router,private activedRouter: ActivatedRoute,public navCtrl: NavController,private alertController: AlertController,private servicioDB: BasededatosService) { 
+  constructor(public toastController: ToastController,private router: Router,private activedRouter: ActivatedRoute,public navCtrl: NavController,private alertController: AlertController,private servicioDB: BasededatosService,private camara:ApiCamaraService) { 
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
         this.nom= this.router.getCurrentNavigation().extras.state.n;
         this.app= this.router.getCurrentNavigation().extras.state.ap;
         this.tel= this.router.getCurrentNavigation().extras.state.tel;
+        this.imagen =this.router.getCurrentNavigation().extras.state.foto1;
         
       }
     })
@@ -35,7 +39,7 @@ export class ConfiguracionConductorPage implements OnInit {
     }
     else{
       
-      this.servicioDB.actPerfil(this.nom,this.app,this.tel,this.usuario);
+      this.servicioDB.actPerfil(this.nom,this.app,this.tel,this.foto,this.usuario);
       this.router.navigate(['tabconductor/']);
     }
 
@@ -48,8 +52,14 @@ export class ConfiguracionConductorPage implements OnInit {
     toast.present();
   }
   
-  ngOnInit() {
+  CambiarFoto(){
+    this.camara.tomarFoto();
   }
-
+  
+  ngOnInit() {
+    this.camara.fetchFoto().subscribe(item=>{
+      this.foto = item;
+    })
+  }
 
 }

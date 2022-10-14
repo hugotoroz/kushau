@@ -86,6 +86,7 @@ export class MiperfilConductorPage implements OnInit {
         n: this.arregloUsuario[0].nombre4,
         ap: this.arregloUsuario[0].apellido4,
         tel:this.arregloUsuario[0].telefonoC,
+        foto:this.arregloUsuario[0].foto1
       }
     }
     this.router.navigate(['/configuracion-conductor']);

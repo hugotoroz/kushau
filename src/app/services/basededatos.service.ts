@@ -36,7 +36,7 @@ export class BasededatosService {
   listaRol = new BehaviorSubject([]);
   //tabla usuarios
   tUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL,telefono INTEGER, contrasennia VARCHAR(40) NOT NULL,foto BLOB, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,foto,tR_idRol) VALUES ('a@a.com','Ignacio','Salas Messi',12345678,'123','../../assets/Imagenes/Shalas.webp',2);";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,foto,tR_idRol) VALUES ('a@a.com','Ignacio','Salas Messi',12345678,'123','../../assets/Imagenes/shalas.jpg',2);";
   registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,foto,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123','../../assets/Imagenes/usuario.jpeg',1);";
   listaUsuarios = new BehaviorSubject([]);
   //tabla auto
@@ -572,7 +572,7 @@ export class BasededatosService {
     });
   }
   cancelarViaje(id){
-    return this.database.executeSql('UPDATE detalle_viaje set estado="Terminado" where tV_idViaje =?', id).then(res=>{
+    return this.database.executeSql('DELETE detalle_viaje  where tV_idViaje =?', id).then(res=>{
       this.buscarDetalle();
     });
   }
@@ -590,14 +590,14 @@ export class BasededatosService {
       //id_detalle,estado,u_correo,tV_idViaje
     });
   }
- actPerfil(nom,app,tel,id){
-  let data = [nom,app,tel,id];
-  return this.database.executeSql('UPDATE usuario SET nombre=?, apellido=?, telefono=? WHERE correo=?',data).then(res => {
-    this.buscarPerfil(id);
-    this.buscarPerfilC(id);
-    this.presentToast("Tu perfil ha sido modificado correctamente.");
-  });
- }
+  actPerfil(nom,app,tel,foto,id){
+    let data = [nom,app,tel,foto,id];
+    return this.database.executeSql('UPDATE usuario SET nombre=?, apellido=?, telefono=?,foto= ? WHERE correo=?',data).then(res => {
+      this.buscarPerfil(id);
+      this.buscarPerfilC(id);
+      this.presentToast("Tu perfil ha sido modificado correctamente.");
+    });
+   }
 
  
   async presentAlert(msj:string) {

@@ -11,6 +11,7 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
   styleUrls: ['./configuracion.page.scss'],
 })
 export class ConfiguracionPage implements OnInit {
+  imagen:any;
   foto:'';
   nom: '';
   app: '';
@@ -25,6 +26,7 @@ export class ConfiguracionPage implements OnInit {
         this.nom= this.router.getCurrentNavigation().extras.state.n;
         this.app= this.router.getCurrentNavigation().extras.state.ap;
         this.tel= this.router.getCurrentNavigation().extras.state.tel;
+        this.imagen =this.router.getCurrentNavigation().extras.state.foto1;
       }
     })
    }
@@ -39,7 +41,7 @@ export class ConfiguracionPage implements OnInit {
     }
     else{
       
-      this.servicioDB.actPerfil(this.nom,this.app,this.tel,this.usuario);
+      this.servicioDB.actPerfil(this.nom,this.app,this.tel,this.foto,this.usuario);
       this.router.navigate(['tabs/']);
     }
 
