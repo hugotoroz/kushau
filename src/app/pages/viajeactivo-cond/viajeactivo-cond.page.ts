@@ -23,7 +23,7 @@ export class ViajeactivoCondPage implements OnInit {
     comuna:'',
     correo:''
   }]
-
+  usuario = localStorage.getItem('usuario');
   constructor(private alertController: AlertController,public navCtrl: NavController,private router: Router,private activedRouter: ActivatedRoute,public toastController: ToastController,private servicioDB: BasededatosService) {
    }
   ngOnInit() {
@@ -66,29 +66,11 @@ export class ViajeactivoCondPage implements OnInit {
     });
     await alert.present();
   }
-  async alerta2() {
-    const alert = await this.alertController.create({
-      header: 'Terminar viaje',
-      cssClass:'boton-registro',
-      message: '¿Estás seguro que deseas terminar tu viaje?',
-      buttons: [
-        {
-          text: 'Terminar viaje',
-          handler: () => {
-            this.servicioDB.terminarViaje(this.idV);
-            this.servicioDB.darBono(this.idV)
-            this.router.navigate(['/tabconductor']);
-            this.idV="";
-            this.presentToast("Tu viaje ha terminado exitosamente.");
-          }
-         }, {
-          text: 'No',
-          cssClass: 'alert-button-confirm',
-        }
-     ]
-    });
-    await alert.present();
-  }
+
+terminarViaje(){
+  this.servicioDB.terminarViaje(this.idV);
+  this.servicioDB.darBono(this.usuario); 
+}
   async presentAlert(msj) {
     const alert = await this.alertController.create({
       header: 'Alert',

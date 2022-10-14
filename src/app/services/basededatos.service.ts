@@ -42,7 +42,7 @@ export class BasededatosService {
   registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,foto,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123','../../assets/Imagenes/usuario.jpeg',1);";
   listaUsuarios = new BehaviorSubject([]);
   //tabla bono
-  tBono: string = "CREATE TABLE IF NOT EXISTS bono(id_bono INTEGER PRIMARY KEY, bonificacion INTEGER,id_usuario VARCHAR(50),FOREIGN KEY(id_usuario) REFERENCES usuario(correo));";
+  tBono: string = "CREATE TABLE IF NOT EXISTS bono(id_bono INTEGER PRIMARY KEY AUTOINCREMENT, bonificacion INTEGER,id_usuario VARCHAR(50),FOREIGN KEY(id_usuario) REFERENCES usuario(correo));";
   registroBono: string = "INSERT or IGNORE INTO bono(bonificacion,id_usuario) VALUES (0,'a@a.com');";
   listaBono = new BehaviorSubject([]);
   //tabla auto
@@ -594,7 +594,7 @@ export class BasededatosService {
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
-            bono1: res.rows.item(i).bono,
+            bono1: res.rows.item(i).bonificacion,
           })
         }
       }
@@ -602,10 +602,11 @@ export class BasededatosService {
       this.listaBono.next(items);
     })
   }
-  
+
   darBono(id){
     let data = [id];
     return this.database.executeSql('UPDATE bono set bonificacion = bonificacion + 1000 where id_usuario =?', data).then(res=>{
+      this.fetchBono();
     })
   }
   terminarViaje(id){
