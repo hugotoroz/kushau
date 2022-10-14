@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
@@ -14,6 +14,7 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 export class InicioSesionPage implements OnInit {
   usuario: string="";
   clave: string=""; 
+  boleano:string='0';
 
   
 
@@ -33,11 +34,6 @@ export class InicioSesionPage implements OnInit {
     })
   }
 
-  
-
-
-
-
 async validarUsuario(){
   var usuarioValidado= this.usuario.toLowerCase().replace(/\s/g, "");
   if (usuarioValidado == "" || this.clave == "") {
@@ -47,6 +43,14 @@ async validarUsuario(){
   else{
     this.servicioDB.loginUsuario(usuarioValidado,this.clave);
     localStorage.setItem('usuario',usuarioValidado)
+    let navigationExtras: NavigationExtras = {
+      state: {
+        bol: this.boleano,
+
+      }
+    }
+    this.router.navigate(['/tabconductor']);
+    this.router.navigate(['/tabconductor'], navigationExtras);
     await this.loadingUI();
     this.usuario=""
     this.clave=""

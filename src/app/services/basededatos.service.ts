@@ -7,10 +7,9 @@ import { Viajes } from './viajes';
 import { Detalle } from './detalle';
 import { Comuna } from './comuna';
 import { Autos } from './autos';
-import { ViajeComuna } from './viaje-comuna';
 import { Rol } from './rol';
 import { Login } from './login';
-import { Router, RouterLinkWithHref } from '@angular/router';
+import { Router } from '@angular/router';
 import { Perfil } from './perfil';
 import { Activos } from './activos';
 import { PerfilC } from './perfil-c';
@@ -19,7 +18,6 @@ import { idViaje } from './id-viaje';
 import { AutoC } from './auto-c';
 import { MotrarV } from './motrar-v';
 import { DetalleConductor } from './detalle-conductor';
-import { Navigation } from 'selenium-webdriver';
 import { Bono } from './bono';
 
 
@@ -168,7 +166,7 @@ export class BasededatosService {
     this.platform.ready().then(() => {
       //creamos la BD
       this.sqlite.create({
-        name: 'kushau.db',
+        name: 'test1.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         //guardamos la conexion a la BD en la variable propia
@@ -452,7 +450,6 @@ export class BasededatosService {
             tR_idRol2: res.rows.item(i).tR_idRol
           });
         }
-
         //crear variables storage
         if (item2[0].tR_idRol2 == 1) {
           this.router.navigate(['/tabs'])
@@ -460,8 +457,6 @@ export class BasededatosService {
         }
         else {
           this.router.navigate(['/tabconductor'])
-
-
           //redirigir con el navigate
         }
 
@@ -606,7 +601,7 @@ export class BasededatosService {
   darBono(id){
     let data = [id];
     return this.database.executeSql('UPDATE bono set bonificacion = bonificacion + 1000 where id_usuario =?', data).then(res=>{
-      this.fetchBono();
+      this.buscarBono(id);
     })
   }
   terminarViaje(id){

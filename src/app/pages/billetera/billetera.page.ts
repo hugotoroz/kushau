@@ -9,11 +9,9 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 export class BilleteraPage implements OnInit {
   num: number= 60000;
   constructor(private servicioDB: BasededatosService) { }
-
   bono: any=[{
     bono1:''
   }];
-  
   usuario = localStorage.getItem('usuario');
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{

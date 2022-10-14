@@ -3,10 +3,6 @@ import { GoogleMap } from '@capacitor/google-maps';
 import { environment } from 'src/environments/environment';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Platform } from '@ionic/angular';
-import { Capacitor } from '@capacitor/core';
-import { toUnicode } from 'punycode';
-import { BasededatosService } from 'src/app/services/basededatos.service';
-
 @Component({
   selector: 'app-mainconductor',
   templateUrl: './mainconductor.page.html',
@@ -15,7 +11,9 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 export class MainconductorPage implements OnInit {
   latitud: any;
   longitud: any;
-  markerId: string;
+  markerId: string; 
+
+  
 
   constructor(private geolocation: Geolocation, protected platform: Platform) {
     
@@ -23,7 +21,6 @@ export class MainconductorPage implements OnInit {
 
   ngOnInit() {
     this.getGeolocation();
-    
     
   }
   ionViewDidEnter() {

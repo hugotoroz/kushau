@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GoogleMap } from '@capacitor/google-maps';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-viajeactivo-cond',
@@ -44,32 +43,24 @@ export class ViajeactivoCondPage implements OnInit {
     });
     toast.present();
   }
-  async alerta() {
-    const alert = await this.alertController.create({
-      header: 'Cancelar viaje',
-      cssClass:'boton-registro',
-      message: '¿Estás seguro que deseas cancelar tu viaje?',
-      buttons: [
-        {
-          text: 'Cancelar viaje',
-          handler: () => {
-            this.servicioDB.cancelarViaje(this.idV);
-            this.router.navigate(['/tabconductor']);
-            this.idV="";
-            this.presentToast("Tu viaje ha sido cancelado exitosamente.");
-          }
-         }, {
-          text: 'No',
-          cssClass: 'alert-button-confirm',
-        }
-     ]
-    });
-    await alert.present();
-  }
+volverMenu(){
+  this.router.navigate(['/tabconductor']);
+
+}
+cancelarViaje(){
+  this.servicioDB.cancelarViaje(this.idV);
+  this.idV="";
+  this.presentToast("Tu viaje ha sido cancelado.")
+  this.router.navigate(['/tabconductor']);
+}
 
 terminarViaje(){
   this.servicioDB.terminarViaje(this.idV);
   this.servicioDB.darBono(this.usuario); 
+  this.presentToast("Tu viaje ha terminado.")
+  this.idV="";
+  this.router.navigate(['/tabconductor']);
+  
 }
   async presentAlert(msj) {
     const alert = await this.alertController.create({

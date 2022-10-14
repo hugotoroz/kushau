@@ -27,18 +27,8 @@
     </div>
   </ion-item>
   <!--******************************************************* MAPA *******************************************************-->
-  <capacitor-google-maps #map></capacitor-google-maps>
-  <ion-card>
-    <ion-card-content>
-      <ion-item *ngFor="let x of arregloDetalle">
-        <ion-label>
-          {{x.correo}}
-        </ion-label>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
   <div style="text-align: center;">
-    <ion-button class="boton" routerLink="/tabconductor">Menú principal</ion-button>
+    <ion-button class="boton"(click)="volverMenu()">Menú principal</ion-button>
   </div>
   <div style="text-align: center;">
     <ion-button class="boton" (click)="terminarViaje()">Terminar Viaje</ion-button>
