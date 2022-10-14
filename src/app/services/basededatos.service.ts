@@ -20,6 +20,7 @@ import { AutoC } from './auto-c';
 import { MotrarV } from './motrar-v';
 import { DetalleConductor } from './detalle-conductor';
 import { Navigation } from 'selenium-webdriver';
+import { Bono } from './bono';
 
 
 
@@ -30,6 +31,7 @@ import { Navigation } from 'selenium-webdriver';
 export class BasededatosService {
   //Nueva tabla de base de datos
   //tabla rol usuario
+  
   tRol: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY, nombre_r VARCHAR(15) NOT NULL);";
   registroRol: string = "INSERT or IGNORE INTO rol(id_rol,nombre_r) VALUES (1,'Usuario');";
   registroRol2: string = "INSERT or IGNORE INTO rol(id_rol,nombre_r) VALUES (2,'Conductor');";
@@ -39,6 +41,10 @@ export class BasededatosService {
   registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,foto,tR_idRol) VALUES ('a@a.com','Ignacio','Salas Messi',12345678,'123','../../assets/Imagenes/shalas.jpg',2);";
   registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,foto,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123','../../assets/Imagenes/usuario.jpeg',1);";
   listaUsuarios = new BehaviorSubject([]);
+  //tabla bono
+  tBono: string = "CREATE TABLE IF NOT EXISTS bono(id_bono INTEGER PRIMARY KEY, bonificacion INTEGER,id_usuario VARCHAR(50),FOREIGN KEY(id_usuario) REFERENCES usuario(correo));";
+  registroBono: string = "INSERT or IGNORE INTO bono(bonificacion,id_usuario) VALUES (0,'a@a.com');";
+  listaBono = new BehaviorSubject([]);
   //tabla auto
   tAuto: string = "CREATE TABLE IF NOT EXISTS auto(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(35),marca VARCHAR(35),annio INTEGER, tU_correo VARCHAR(150), FOREIGN KEY (tU_correo) REFERENCES Usuario(correo));";
   registroAuto: string = "INSERT or IGNORE INTO auto(patente,modelo,marca,annio,tU_correo) VALUES ('1122AA','SkyLine','Nisssan',2019,'a@a.com');";
@@ -153,6 +159,9 @@ export class BasededatosService {
   fetchDetalleV(): Observable<DetalleConductor[]> {
     return this.listaDetalleV.asObservable();
   }
+  fetchBono():Observable<Bono[]>{
+    return this.listaBono.asObservable();
+  }
 
   crearBD() {
     //verificamos que la plataforma este lista
@@ -179,6 +188,7 @@ export class BasededatosService {
       //ejecuto mis tablas
       await this.database.executeSql(this.tRol, []);
       await this.database.executeSql(this.tUsuario, []);
+      await this.database.executeSql(this.tBono, []);
       await this.database.executeSql(this.tAuto, []);
       await this.database.executeSql(this.tViaje, []);
       await this.database.executeSql(this.tComuna, []);
@@ -190,6 +200,7 @@ export class BasededatosService {
       await this.database.executeSql(this.registroRol2, []);
       await this.database.executeSql(this.registroUsuario, []);
       await this.database.executeSql(this.registroUsuario2, []);
+      await this.database.executeSql(this.registroBono, []);
       await this.database.executeSql(this.registroViaje, []);
       await this.database.executeSql(this.registroViaje2, []);
       await this.database.executeSql(this.registroAuto, []);
@@ -449,6 +460,8 @@ export class BasededatosService {
         }
         else {
           this.router.navigate(['/tabconductor'])
+
+
           //redirigir con el navigate
         }
 
@@ -569,6 +582,35 @@ export class BasededatosService {
       this.filtrarViaje();
       this.idDV= res.insertId
 
+    });
+  }
+
+  buscarBono(usuario){
+    let data = [usuario];
+    return this.database.executeSql('SELECT bonificacion from bono where id_usuario =?', data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Bono[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            bono1: res.rows.item(i).bono,
+          })
+        }
+      }
+      //actualizamos el observable de las noticias
+      this.listaBono.next(items);
+    })
+  }
+  
+  darBono(id){
+    let data = [id];
+    return this.database.executeSql('UPDATE bono set bonificacion = bonificacion + 1000 where id_usuario =?', data).then(res=>{
+    })
+  }
+  terminarViaje(id){
+    return this.database.executeSql('UPDATE detalle_viaje set estado ="Terminado" where tV_idViaje =?', id).then(res=>{
+      this.buscarDetalle();
     });
   }
   cancelarViaje(id){

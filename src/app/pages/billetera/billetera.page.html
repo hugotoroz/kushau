@@ -18,7 +18,7 @@
       </ion-card-content>
     <ion-card-header>
       <ion-card-subtitle>Saldo actual</ion-card-subtitle>
-      <ion-card-title><h1>{{ num | currency: 'CLP' }}</h1></ion-card-title>
+      <ion-card-title *ngFor="let x of bono"><h1>{{ x.bono1 | currency: 'CLP' }}</h1></ion-card-title>
     </ion-card-header>
   
     <ion-card-content>

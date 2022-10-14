@@ -37,9 +37,6 @@ export class ViajeactivoCondPage implements OnInit {
     })
     
   }
-  ngAfterViewInit() {
-    this.createMap();
-  }
   async presentToast(msj) {
     const toast = await this.toastController.create({
       message: msj,
@@ -64,7 +61,29 @@ export class ViajeactivoCondPage implements OnInit {
          }, {
           text: 'No',
           cssClass: 'alert-button-confirm',
-
+        }
+     ]
+    });
+    await alert.present();
+  }
+  async alerta2() {
+    const alert = await this.alertController.create({
+      header: 'Terminar viaje',
+      cssClass:'boton-registro',
+      message: '¿Estás seguro que deseas terminar tu viaje?',
+      buttons: [
+        {
+          text: 'Terminar viaje',
+          handler: () => {
+            this.servicioDB.terminarViaje(this.idV);
+            this.servicioDB.darBono(this.idV)
+            this.router.navigate(['/tabconductor']);
+            this.idV="";
+            this.presentToast("Tu viaje ha terminado exitosamente.");
+          }
+         }, {
+          text: 'No',
+          cssClass: 'alert-button-confirm',
         }
      ]
     });
@@ -87,22 +106,5 @@ export class ViajeactivoCondPage implements OnInit {
       event.target.complete();
     }, 2000);
   }
-  @ViewChild('map') mapRef: ElementRef<HTMLElement>;
-  newMap: GoogleMap;
-  center: any ={
-    lat: this.latitude,
-    lng: this.long
-  };
-  async createMap() {
-    this.newMap = await GoogleMap.create({
-      id: 'capacitor-google-maps',
-      element: this.mapRef.nativeElement,
-      apiKey: environment.google_maps_api_key,
-      config: {
-        center: this.center,
-        zoom: 15,
-        
-      },
-    });
-  }
+
 }
