@@ -16,7 +16,7 @@ export class FormvPage implements OnInit {
   asientos: number=null;
   idDv: any;
   
-  
+  boleano:any;
   usuario = localStorage.getItem('usuario');
   estado1: string="Empezado";
   listaComuna: any=[
@@ -42,7 +42,13 @@ export class FormvPage implements OnInit {
   estado: string="Mostrar Filas"
   private Desplegarimagen: boolean = false;
 
-  constructor(public toastController: ToastController,public navCtrl: NavController,public alertController: AlertController,private activedRouter: ActivatedRoute,private router: Router,private servicioDB: BasededatosService) { }
+  constructor(public toastController: ToastController,public navCtrl: NavController,public alertController: AlertController,private activedRouter: ActivatedRoute,private router: Router,private servicioDB: BasededatosService) {
+    this.activedRouter.queryParams.subscribe(params =>{
+      if(this.router.getCurrentNavigation().extras.state){
+        this.boleano= this.router.getCurrentNavigation().extras.state.bol;
+      }
+    })
+   }
 
   ngOnInit() {
     //Suscribirse al obervable del id
@@ -96,7 +102,8 @@ export class FormvPage implements OnInit {
           id: this.idDv,
           nComuna: this.listaComuna[0].nombre_comuna,
           precio: this.precio,
-          asientos: this.asientos
+          asientos: this.asientos,
+          bol:this.boleano
 
         }
       }
@@ -113,7 +120,14 @@ export class FormvPage implements OnInit {
     });
     toast.present();
   }
+  
   async alerta() {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        bol:this.boleano
+
+      }
+    }
     const alert = await this.alertController.create({
       header: 'Viaje creado',
       cssClass:'boton-registro',
@@ -122,7 +136,7 @@ export class FormvPage implements OnInit {
         {
           text: 'Ver viaje',
           handler: () => {
-            this.router.navigate(['/viajeactivo-cond']);
+            this.router.navigate(['/viajeactivo-cond'],navigationExtras);
           }
          }
      ]

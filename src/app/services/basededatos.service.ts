@@ -35,14 +35,10 @@ export class BasededatosService {
   registroRol2: string = "INSERT or IGNORE INTO rol(id_rol,nombre_r) VALUES (2,'Conductor');";
   listaRol = new BehaviorSubject([]);
   //tabla usuarios
-  tUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL,telefono INTEGER, contrasennia VARCHAR(40) NOT NULL,foto BLOB, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,foto,tR_idRol) VALUES ('a@a.com','Ignacio','Salas Messi',12345678,'123','../../assets/Imagenes/shalas.jpg',2);";
-  registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,foto,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123','../../assets/Imagenes/usuario.jpeg',1);";
+  tUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL,telefono INTEGER, contrasennia VARCHAR(40) NOT NULL,bonificacion INTEGER,foto BLOB, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,bonificacion,foto,tR_idRol) VALUES ('a@a.com','Ignacio','Salas Messi',12345678,'123',0,'../../assets/Imagenes/shalas.jpg',2);";
+  registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,bonificacion,foto,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123',0,'../../assets/Imagenes/usuario.jpeg',1);";
   listaUsuarios = new BehaviorSubject([]);
-  //tabla bono
-  tBono: string = "CREATE TABLE IF NOT EXISTS bono(id_bono INTEGER PRIMARY KEY AUTOINCREMENT, bonificacion INTEGER,id_usuario VARCHAR(50),FOREIGN KEY(id_usuario) REFERENCES usuario(correo));";
-  registroBono: string = "INSERT or IGNORE INTO bono(bonificacion,id_usuario) VALUES (0,'a@a.com');";
-  listaBono = new BehaviorSubject([]);
   //tabla auto
   tAuto: string = "CREATE TABLE IF NOT EXISTS auto(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(35),marca VARCHAR(35),annio INTEGER, tU_correo VARCHAR(150), FOREIGN KEY (tU_correo) REFERENCES Usuario(correo));";
   registroAuto: string = "INSERT or IGNORE INTO auto(patente,modelo,marca,annio,tU_correo) VALUES ('1122AA','SkyLine','Nisssan',2019,'a@a.com');";
@@ -82,6 +78,7 @@ export class BasededatosService {
   listaAutoC = new BehaviorSubject([]);
   listaDetalleV = new BehaviorSubject([]);
   listaMostrarV = new BehaviorSubject([]);
+  listaBono = new BehaviorSubject([]);
 
 
   // variable para manipular la conexion a la base de datos
@@ -186,19 +183,16 @@ export class BasededatosService {
       //ejecuto mis tablas
       await this.database.executeSql(this.tRol, []);
       await this.database.executeSql(this.tUsuario, []);
-      await this.database.executeSql(this.tBono, []);
       await this.database.executeSql(this.tAuto, []);
       await this.database.executeSql(this.tViaje, []);
       await this.database.executeSql(this.tComuna, []);
       /*await this.database.executeSql(this.tViajeC, []);*/
       await this.database.executeSql(this.tDetalleV, []);
-
       //registro datos en mis tablas
       await this.database.executeSql(this.registroRol, []);
       await this.database.executeSql(this.registroRol2, []);
       await this.database.executeSql(this.registroUsuario, []);
       await this.database.executeSql(this.registroUsuario2, []);
-      await this.database.executeSql(this.registroBono, []);
       await this.database.executeSql(this.registroViaje, []);
       await this.database.executeSql(this.registroViaje2, []);
       await this.database.executeSql(this.registroAuto, []);
@@ -243,6 +237,7 @@ export class BasededatosService {
             nombre2: res.rows.item(i).nombre,
             apellido2: res.rows.item(i).apellido,
             contrasennia2: res.rows.item(i).contrasennia,
+            bono2:res.rows.item(i).bonificacion,
             tR_idRol2: res.rows.item(i).tR_idRol
 
           })
@@ -582,7 +577,7 @@ export class BasededatosService {
 
   buscarBono(usuario){
     let data = [usuario];
-    return this.database.executeSql('SELECT bonificacion from bono where id_usuario =?', data).then(res => {
+    return this.database.executeSql('SELECT bonificacion from usuario where correo =?', data).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Bono[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -600,7 +595,7 @@ export class BasededatosService {
 
   darBono(id){
     let data = [id];
-    return this.database.executeSql('UPDATE bono set bonificacion = bonificacion + 1000 where id_usuario =?', data).then(res=>{
+    return this.database.executeSql('UPDATE usuario set bonificacion = bonificacion + 1000 where correo =?', data).then(res=>{
       this.buscarBono(id);
     })
   }
@@ -618,7 +613,6 @@ export class BasededatosService {
     let data =[u_correo,id]
     return this.database.executeSql('UPDATE detalle_viaje set u_correo = ? where tV_idViaje =?', data).then(res=>{
     })
-
   }
   insertarDV(estado,tV_idViaje) {
     let data = [estado,tV_idViaje];

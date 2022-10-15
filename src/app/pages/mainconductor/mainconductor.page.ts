@@ -3,6 +3,7 @@ import { GoogleMap } from '@capacitor/google-maps';
 import { environment } from 'src/environments/environment';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Platform } from '@ionic/angular';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 @Component({
   selector: 'app-mainconductor',
   templateUrl: './mainconductor.page.html',
@@ -12,11 +13,16 @@ export class MainconductorPage implements OnInit {
   latitud: any;
   longitud: any;
   markerId: string; 
+  boleano:any;
 
   
 
-  constructor(private geolocation: Geolocation, protected platform: Platform) {
-    
+  constructor(private geolocation: Geolocation, protected platform: Platform,private sisi:ActivatedRoute,private router: Router) {
+    this.sisi.queryParams.subscribe(params =>{
+      if(this.router.getCurrentNavigation().extras.state){
+        this.boleano= this.router.getCurrentNavigation().extras.state.bol;
+      }
+    })
   }
 
   ngOnInit() {
@@ -29,6 +35,24 @@ export class MainconductorPage implements OnInit {
     
 
   }
+  iniciar(){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        bol: this.boleano,
+
+      }
+    }
+    this.router.navigate(['/formv'],navigationExtras)
+  }
+activo(){
+  let navigationExtras: NavigationExtras = {
+    state: {
+      bol: this.boleano,
+
+    }
+  }
+  this.router.navigate(['/viajeactivo-cond'],navigationExtras)
+}
   //laat=localStorage.getItem('lat');
   //lngg=localStorage.getItem('lng');
 

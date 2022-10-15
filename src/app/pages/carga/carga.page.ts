@@ -8,10 +8,9 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 })
 export class CargaPage implements OnInit {
 
-  constructor(public nativeStorage: NativeStorage) { }
+  constructor() { }
 
   ngOnInit() {
-    this.nativeStorage.remove('boleano');
   }
 
 }

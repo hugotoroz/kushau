@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { GoogleMap } from '@capacitor/google-maps';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
@@ -13,6 +13,9 @@ export class ViajeactivoCondPage implements OnInit {
   num: number= 2000;
   idV:any ="";
   bandera:boolean=false;
+  boleano:any;
+  cambia:number =1;
+  nocambia:number =0;
 
   latitude = localStorage.getItem('laat');
   long= localStorage.getItem('lng');
@@ -24,6 +27,11 @@ export class ViajeactivoCondPage implements OnInit {
   }]
   usuario = localStorage.getItem('usuario');
   constructor(private alertController: AlertController,public navCtrl: NavController,private router: Router,private activedRouter: ActivatedRoute,public toastController: ToastController,private servicioDB: BasededatosService) {
+    this.activedRouter.queryParams.subscribe(params =>{
+      if(this.router.getCurrentNavigation().extras.state){
+        this.boleano= this.router.getCurrentNavigation().extras.state.bol;
+      }
+    })
    }
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
@@ -44,22 +52,40 @@ export class ViajeactivoCondPage implements OnInit {
     toast.present();
   }
 volverMenu(){
-  this.router.navigate(['/tabconductor']);
+  let navigationExtras: NavigationExtras = {
+    state: {
+      bol:this.cambia
+
+    }
+  }
+  this.router.navigate(['/tabconductor'],navigationExtras);
 
 }
 cancelarViaje(){
+  let navigationExtras: NavigationExtras = {
+    state: {
+      bol:this.nocambia
+
+    }
+  }
   this.servicioDB.cancelarViaje(this.idV);
   this.idV="";
   this.presentToast("Tu viaje ha sido cancelado.")
-  this.router.navigate(['/tabconductor']);
+  this.router.navigate(['/tabconductor'],navigationExtras);
 }
 
 terminarViaje(){
+  let navigationExtras: NavigationExtras = {
+    state: {
+      bol:this.nocambia
+
+    }
+  }
   this.servicioDB.terminarViaje(this.idV);
   this.servicioDB.darBono(this.usuario); 
   this.presentToast("Tu viaje ha terminado.")
   this.idV="";
-  this.router.navigate(['/tabconductor']);
+  this.router.navigate(['/tabconductor'],navigationExtras);
   
 }
   async presentAlert(msj) {
