@@ -12,6 +12,7 @@ export class ConfiguracionAutoPage implements OnInit {
   marca: '';
   modelo: '';
   annio:'';
+  usuario = localStorage.getItem('usuario');
   constructor(public toastController: ToastController,private router: Router,private activedRouter: ActivatedRoute,public navCtrl: NavController,private alertController: AlertController,private servicioDB: BasededatosService) { 
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
@@ -31,16 +32,20 @@ export class ConfiguracionAutoPage implements OnInit {
     if(this.patente == "" || this.modelo == "" ||this.marca == ""||this.annio == ""){
       this.presentToast("Debe completar todos los campos.");
     }
-    
+    /*
     else if (this.patente['length'] < 6 || this.patente['length'] > 6){
       this.presentToast("La patente debe contener solo 6 dígitos.");
-    }
+    }*/
+    /*
     else if (this.annio['length'] < 4 || this.patente['length'] > 4){
       this.presentToast("Escriba un año válido.");
-    }
+    }*/
+    /*
+    else if(this.annio > 2022){
+      this.presentToast("El año del vehiculo no puede ser mayor a 2022");
+    }*/
     else{
-      
-      //this.servicioDB.actPerfil(this.nom,this.app,this.tel,this.usuario);
+      this.servicioDB.actAuto(this.modelo,this.marca,this.annio,this.usuario);
       this.router.navigate(['tabconductor/']);
     }
 

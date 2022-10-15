@@ -14,7 +14,7 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 export class InicioSesionPage implements OnInit {
   usuario: string="";
   clave: string=""; 
-  boleano:string='0';
+  
 
   
 
@@ -34,7 +34,7 @@ export class InicioSesionPage implements OnInit {
     })
   }
 
-async validarUsuario(){
+validarUsuario(){
   var usuarioValidado= this.usuario.toLowerCase().replace(/\s/g, "");
   if (usuarioValidado == "" || this.clave == "") {
     this.presentAlert("Inicio sesión","Debe rellenar todos los campos");
@@ -43,15 +43,7 @@ async validarUsuario(){
   else{
     this.servicioDB.loginUsuario(usuarioValidado,this.clave);
     localStorage.setItem('usuario',usuarioValidado)
-    let navigationExtras: NavigationExtras = {
-      state: {
-        bol: this.boleano,
-
-      }
-    }
-    this.router.navigate(['/tabconductor']);
-    this.router.navigate(['/tabconductor'], navigationExtras);
-    await this.loadingUI();
+    
     this.usuario=""
     this.clave=""
     

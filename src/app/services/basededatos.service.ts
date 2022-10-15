@@ -9,7 +9,7 @@ import { Comuna } from './comuna';
 import { Autos } from './autos';
 import { Rol } from './rol';
 import { Login } from './login';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Perfil } from './perfil';
 import { Activos } from './activos';
 import { PerfilC } from './perfil-c';
@@ -88,6 +88,7 @@ export class BasededatosService {
 
   //idea nefasta
   idDV: any ="";
+  boleano:string='0';
   //
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -450,8 +451,14 @@ export class BasededatosService {
           this.router.navigate(['/tabs'])
           //redirigir con el navigate
         }
-        else {
-          this.router.navigate(['/tabconductor'])
+        else if (item2[0].tR_idRol2 == 2){
+          let navigationExtras: NavigationExtras = {
+            state: {
+              bol: this.boleano,
+      
+            }
+          }
+          this.router.navigate(['/tabconductor'],navigationExtras)
           //redirigir con el navigate
         }
 
@@ -460,9 +467,7 @@ export class BasededatosService {
         this.presentToast("Usuario y/o clave incorrecta");
       }
       this.listaLogin.next(item2);
-
     })
-
   }
 
   buscarPerfil(usuario) {
@@ -627,6 +632,14 @@ export class BasededatosService {
     return this.database.executeSql('UPDATE usuario SET nombre=?, apellido=?, telefono=?,foto= ? WHERE correo=?',data).then(res => {
       this.buscarPerfil(id);
       this.buscarPerfilC(id);
+      this.presentToast("Tu perfil ha sido modificado correctamente.");
+    });
+   }
+   actAuto(modelo,marca,annio,usuario){
+    let data = [modelo,marca,annio,usuario];
+    return this.database.executeSql('UPDATE auto SET modelo=?, marca=?, annio=? WHERE tU_correo=?',data).then(res => {
+      this.buscarAutos();
+      this.buscarAutoC(usuario);
       this.presentToast("Tu perfil ha sido modificado correctamente.");
     });
    }
