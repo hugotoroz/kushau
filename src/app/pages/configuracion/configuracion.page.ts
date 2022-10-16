@@ -11,6 +11,17 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
   styleUrls: ['./configuracion.page.scss'],
 })
 export class ConfiguracionPage implements OnInit {
+  arregloUsuario: any=[
+    {
+      correo2:'',
+      nombre2:'',
+      apellido2:'',
+      nombreCompleto2: '',
+      telefono:'',
+      foto1:''
+    }
+  ]
+  boleano :any=1;
   imagen:any;
   foto:'';
   nom: '';
@@ -55,9 +66,18 @@ export class ConfiguracionPage implements OnInit {
   }
   CambiarFoto(){
     this.camara.tomarFoto();
+    this.boleano = 0;
   }
   
   ngOnInit() {
+    this.servicioDB.dbState().subscribe(res=>{
+      this.servicioDB.buscarPerfil(this.usuario);
+      if(res){
+        this.servicioDB.fetchperfil().subscribe(item=>{
+          this.arregloUsuario = item;
+        })
+      }
+    })
     this.camara.fetchFoto().subscribe(item=>{
       this.foto = item;
     })

@@ -73,7 +73,6 @@ pasarDatos(){
       n: this.arregloUsuario[0].nombre2,
       ap: this.arregloUsuario[0].apellido2,
       tel:this.arregloUsuario[0].telefono,
-      foto:this.arregloUsuario[0].foto1
     }
   }
   this.router.navigate(['/configuracion']);

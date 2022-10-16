@@ -9,6 +9,7 @@ import { ApiCamaraService } from 'src/app/services/api-camara.service';
   styleUrls: ['./configuracion-conductor.page.scss'],
 })
 export class ConfiguracionConductorPage implements OnInit {
+  boleano :any=1;
   imagen:any;
   foto:'';
   nom: '';
@@ -16,6 +17,17 @@ export class ConfiguracionConductorPage implements OnInit {
   tel: '';
   area: string=" +569"
   usuario = localStorage.getItem('usuario');
+  arregloUsuario: any=[
+    {
+      correo4:'',
+      nombre4:'',
+      apellido4:'',
+      nombreCompleto4: '',
+      vehiculo:'',
+      telefonoC:'',
+      foto1:''
+    }
+  ]
 
   constructor(public toastController: ToastController,private router: Router,private activedRouter: ActivatedRoute,public navCtrl: NavController,private alertController: AlertController,private servicioDB: BasededatosService,private camara:ApiCamaraService) { 
     this.activedRouter.queryParams.subscribe(params =>{
@@ -23,7 +35,6 @@ export class ConfiguracionConductorPage implements OnInit {
         this.nom= this.router.getCurrentNavigation().extras.state.n;
         this.app= this.router.getCurrentNavigation().extras.state.ap;
         this.tel= this.router.getCurrentNavigation().extras.state.tel;
-        this.imagen =this.router.getCurrentNavigation().extras.state.foto1;
         
       }
     })
@@ -54,9 +65,19 @@ export class ConfiguracionConductorPage implements OnInit {
   
   CambiarFoto(){
     this.camara.tomarFoto();
+    this.boleano = 0;
+  
   }
   
   ngOnInit() {
+    this.servicioDB.dbState().subscribe(res=>{
+      this.servicioDB.buscarPerfilC(this.usuario);
+      if(res){
+        this.servicioDB.fetchPerfilC().subscribe(item=>{
+          this.arregloUsuario = item;
+        })
+      }
+    })
     this.camara.fetchFoto().subscribe(item=>{
       this.foto = item;
     })

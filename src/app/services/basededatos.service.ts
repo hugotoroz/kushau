@@ -616,8 +616,11 @@ export class BasededatosService {
   }
   tomarViaje(u_correo,id){
     let data =[u_correo,id]
-    return this.database.executeSql('UPDATE detalle_viaje set u_correo = ? where tV_idViaje =?', data).then(res=>{
-    })
+    return this.database.executeSql('INSERT INTO detalle_Viaje(u_correo, tV_idViaje) VALUES (?,?);', data).then((res) => {
+      this.buscarDetalle();
+      this.presentToast("¡Viaje tomado exitosamente!")
+      console.log(res)
+    });
   }
   insertarDV(estado,tV_idViaje) {
     let data = [estado,tV_idViaje];
