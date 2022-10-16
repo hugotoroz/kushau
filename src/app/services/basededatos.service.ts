@@ -287,12 +287,13 @@ export class BasededatosService {
       }
       //actualizamos el observable de las noticias
       this.listaActivos.next(items);
+
     })
   }
   mostrarViaje(x) {
     //retorno la ejecución del select
     let data = [x];
-    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio,v.fila_u,v.asientos_disp, u.nombre||' '||u.apellido as nombre, a.patente,a.marca||' '||a.modelo as auto,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where id_viaje = ? ;", data).then(res => {
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio,v.fila_u,v.asientos_disp, u.nombre||' '||u.apellido as nombre,u.foto, a.patente,a.marca||' '||a.modelo as auto,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where id_viaje = ? ;", data).then(res => {
       //select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';
       //creo mi lista de objetos de noticias vacio
       let items: MotrarV[] = [];
@@ -306,6 +307,7 @@ export class BasededatosService {
             fila3:res.rows.item(i).fila_u,
             asientos_disp3: res.rows.item(i).asientos_disp,
             nombre3: res.rows.item(i).nombre,
+            foto3: res.rows.item(i).foto,
             patente3: res.rows.item(i).patente,
             auto3:res.rows.item(i).auto,
             nombre_comuna3: res.rows.item(i).nombre_comuna,
@@ -634,7 +636,7 @@ export class BasededatosService {
     let data = [nom,app,tel,foto,id];
     return this.database.executeSql('UPDATE usuario SET nombre=?, apellido=?, telefono=?,foto= ? WHERE correo=?',data).then(res => {
       this.buscarPerfil(id);
-      this.buscarPerfilC(id);
+      this.buscarPerfilC(id); 
       this.presentToast("Tu perfil ha sido modificado correctamente.");
     });
    }

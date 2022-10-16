@@ -18,6 +18,7 @@ export class TomarautoPage implements OnInit {
       fila3:'',
       asientos_disp3: '',
       nombre3: '',
+      foto3:'',
       patente3: '',
       auto3:'',
       nombre_comuna3:'',
