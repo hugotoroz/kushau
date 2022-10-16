@@ -9,7 +9,9 @@
   <p style="text-align: center;">Este es el viaje que tienes activo:</p>
   <ion-grid>
     <!--Es solo una imagen no es el mapa-->
-    <ion-img src="assets/Imagenes/mapa.jpeg" class="imgmap" ></ion-img>
+    <div class="maps">
+      <capacitor-google-maps #map></capacitor-google-maps>
+    </div>  
   </ion-grid>
   <ion-card *ngFor="let x of arregloViaje">
     <ion-card-content>
@@ -71,7 +73,7 @@
   
   
   <div style="text-align: center;">
-    <ion-button class="boton" routerLink="/tabs">Menú principal</ion-button>
+    <ion-button class="boton" (click)="volverMenu()">Menú principal</ion-button>
   </div>
   <div style="text-align: center;">
     <ion-button class="boton" (click)="alerta()">Cancelar viaje</ion-button>

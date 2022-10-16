@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
 import { ApiRestService } from 'src/app/services/api-rest.service';
 import { BasededatosService } from 'src/app/services/basededatos.service';
 
-
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -15,7 +15,8 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 export class InicioSesionPage implements OnInit {
   usuario: string="";
   clave: string=""; 
-  
+  latitud: any;
+  longitud: any;
   api:any=[
     {
       id: '',
@@ -43,9 +44,10 @@ export class InicioSesionPage implements OnInit {
     correo3: '',
     tipo: ''
   }
-  constructor(public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController,private servicioDB: BasededatosService,public apirest:ApiRestService) { }
+  constructor(private geolocation: Geolocation, public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController,private servicioDB: BasededatosService,public apirest:ApiRestService) { }
 
   ngOnInit() {
+    this.getGeolocation();
     this.servicioDB.dbState().subscribe(res=>{
       if(res){
         this.servicioDB.fetchLogin().subscribe(item=>{
@@ -71,7 +73,7 @@ validarUsuario(){
   else{
     this.servicioDB.loginUsuario(usuarioValidado,this.clave);
     localStorage.setItem('usuario',usuarioValidado)
-    
+    this.loadingUI();
     this.usuario=""
     this.clave=""
     
@@ -108,7 +110,28 @@ validarUsuario(){
 
   }
 
+  getGeolocation() {
 
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.latitud = resp.coords.latitude
+      this.longitud = resp.coords.longitude
+      localStorage.setItem('lat',this.latitud)
+      localStorage.setItem('lng',this.longitud)
+      console.log(this.latitud);
+      console.log(this.longitud);
+
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+
+    let watch = this.geolocation.watchPosition();
+    watch.subscribe((data) => {
+
+      // data can be a set of coordinates, or an error (if an error occurred).
+      // data.coords.latitude
+      // data.coords.longitude
+    });
+  }
 
 }
 

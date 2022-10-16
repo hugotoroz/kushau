@@ -314,7 +314,7 @@ export class BasededatosService {
       }
       //actualizamos el observable de las noticias
       this.listaMostrarV.next(items);
-      this.router.navigate(['/tomarauto']);
+      
     })
   }
   buscarDetalle() {
@@ -442,7 +442,13 @@ export class BasededatosService {
         }
         //crear variables storage
         if (item2[0].tR_idRol2 == 1) {
-          this.router.navigate(['/tabs'])
+          let navigationExtras: NavigationExtras = {
+            state: {
+              bol: this.boleano,
+      
+            }
+          }
+          this.router.navigate(['/tabs'],navigationExtras)
           //redirigir con el navigate
         }
         else if (item2[0].tR_idRol2 == 2){

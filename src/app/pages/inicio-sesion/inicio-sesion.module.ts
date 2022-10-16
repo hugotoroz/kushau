@@ -9,6 +9,7 @@ import { InicioSesionPageRoutingModule } from './inicio-sesion-routing.module';
 import { InicioSesionPage } from './inicio-sesion.page';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +17,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     IonicModule,
     InicioSesionPageRoutingModule,
     MatProgressSpinnerModule
+  ],
+  providers: [
+    Geolocation
   ],
   declarations: [InicioSesionPage]
 })

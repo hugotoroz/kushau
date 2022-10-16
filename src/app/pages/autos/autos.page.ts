@@ -10,6 +10,8 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 export class AutosPage implements OnInit {
   u:string="";
   ap:string="";
+  boleano:any;
+
 
   id:string="";
   arregloViaje: any=[
@@ -25,11 +27,13 @@ export class AutosPage implements OnInit {
   ]
 
 
-  constructor(private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) {
-    this.activedRouter.queryParams.subscribe(params =>{
+  constructor(private sisi: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) {
+    console.log(this.boleano);
+    this.sisi.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
         this.u= this.router.getCurrentNavigation().extras.state.usu;
         this.ap= this.router.getCurrentNavigation().extras.state.app;
+        this.boleano= this.router.getCurrentNavigation().extras.state.bol;
         
       }
     })
@@ -46,7 +50,23 @@ export class AutosPage implements OnInit {
     })
   }
   viaje(x){
-      this.servicioDB.mostrarViaje(x.id_viaje3)
+    this.servicioDB.mostrarViaje(x.id_viaje3);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        bol: this.boleano,
+
+      }
+    }
+    this.router.navigate(['/tomarauto'],navigationExtras);
+  }
+  activo(){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        bol: this.boleano,
+  
+      }
+    }
+    this.router.navigate(['/viajeactivo'],navigationExtras);
   }
 
 }

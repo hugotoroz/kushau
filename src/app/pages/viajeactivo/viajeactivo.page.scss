@@ -6,14 +6,9 @@
     --background: #74121D;
     margin-top: 20px;
 }
-.imgmap{
-    margin: auto; 
-    width: 96%;
-    height: 96%; 
-    margin-top: 20px; 
-    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0,0.35);
-    border-radius: 10px;
-
+.maps{
+    width: 100%;
+    height: 90%;
 }
 .ictxt{
     text-align: center; 
@@ -21,7 +16,7 @@
     color: #5f5f5f;
 }
 ion-content{
-    --background: #fff;
+    --background: none!important;
     //--background: url('/assets/Imagenes/Inicio.png') no-repeat;
 }
 
@@ -43,4 +38,10 @@ ion-toolbar{
 ion-card{
     --background: #fff;
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0,0.35);
+}
+capacitor-google-maps {
+    
+    display: inline-block;
+    width: 100%;
+    height: 90%;
 }

@@ -36,11 +36,11 @@
         {{x.asientos_disp3}}
       </ion-card-subtitle>
       <div class="si">
-        <ion-button class="boton" (click) ="viaje(x)"><ion-icon name="car-outline"></ion-icon> Tomar viaje</ion-button>
+        <ion-button class="boton" *ngIf="boleano == 0" (click)="viaje(x)" ><ion-icon name="car-outline"></ion-icon> Tomar viaje</ion-button>
       </div>
     </ion-card-content>
   </ion-card>
   <div class="si">
-    <ion-button class="boton" routerLink="/viajeactivo">Viaje Activo</ion-button>
+    <ion-button class="boton" *ngIf="boleano == 1" (click)="activo()" >Viaje Activo</ion-button>
   </div>
 </ion-content>
