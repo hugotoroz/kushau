@@ -9,11 +9,11 @@
   <ion-card>
     
       <ion-avatar class="imagen">
-        <img src="../assets/Imagenes/shalas.jpg" style="align-self: center;" />
+        <img [src]="arregloUsuario[0].foto1" style="align-self: center;" />
       </ion-avatar>
       <ion-card-content>
         <ion-card-title style="text-align: center;">
-          Ignacio Salas Messi
+          {{arregloUsuario[0].nombreCompleto4}}
         </ion-card-title>
       </ion-card-content>
     <ion-card-header>

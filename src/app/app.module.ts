@@ -8,11 +8,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },SQLite,Camera,NativeStorage],
   bootstrap: [AppComponent],
 })

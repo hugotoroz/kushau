@@ -17,7 +17,7 @@
   </ion-list>
   <ion-card *ngFor="let x of arregloViaje">
     <ion-avatar class="imagen">
-      <img src="../assets/Imagenes/Oliva.webp" style="align-self: center;" />
+      <img [src]="x.foto3" style="align-self: center;" />
     </ion-avatar>
     <ion-card-content>
       <ion-card-title>

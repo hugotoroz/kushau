@@ -20,9 +20,6 @@ import { MotrarV } from './motrar-v';
 import { DetalleConductor } from './detalle-conductor';
 import { Bono } from './bono';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -36,8 +33,6 @@ export class BasededatosService {
   listaRol = new BehaviorSubject([]);
   //tabla usuarios
   tUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(correo VARCHAR(150) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL,telefono INTEGER, contrasennia VARCHAR(40) NOT NULL,bonificacion INTEGER,foto BLOB, tR_idRol INTEGER, FOREIGN KEY(tR_idRol) REFERENCES Rol(id_rol));";
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,bonificacion,foto,tR_idRol) VALUES ('a@a.com','Ignacio','Salas Messi',12345678,'123',0,'../../assets/Imagenes/shalas.jpg',2);";
-  registroUsuario2: string = "INSERT or IGNORE INTO usuario(correo,nombre,apellido,telefono,contrasennia,bonificacion,foto,tR_idRol) VALUES ('b@a.com','Hugo','Salas Messi',87654321,'123',0,'../../assets/Imagenes/usuario.jpeg',1);";
   listaUsuarios = new BehaviorSubject([]);
   //tabla auto
   tAuto: string = "CREATE TABLE IF NOT EXISTS auto(patente VARCHAR(6) PRIMARY KEY,modelo VARCHAR(35),marca VARCHAR(35),annio INTEGER, tU_correo VARCHAR(150), FOREIGN KEY (tU_correo) REFERENCES Usuario(correo));";
@@ -192,8 +187,6 @@ export class BasededatosService {
       //registro datos en mis tablas
       await this.database.executeSql(this.registroRol, []);
       await this.database.executeSql(this.registroRol2, []);
-      await this.database.executeSql(this.registroUsuario, []);
-      await this.database.executeSql(this.registroUsuario2, []);
       await this.database.executeSql(this.registroViaje, []);
       await this.database.executeSql(this.registroViaje2, []);
       await this.database.executeSql(this.registroAuto, []);
@@ -274,7 +267,7 @@ export class BasededatosService {
   filtrarViaje() {
     //retorno la ejecución del select
 
-    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio, v.asientos_disp, u.nombre, a.patente,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna;", []).then(res => {
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio, v.asientos_disp, u.nombre, u.foto,a.patente,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna;", []).then(res => {
       //select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';
       //creo mi lista de objetos de noticias vacio
       let items: Activos[] = [];
@@ -286,6 +279,7 @@ export class BasededatosService {
             precio3: res.rows.item(i).precio,
             asientos_disp3: res.rows.item(i).asientos_disp,
             nombre3: res.rows.item(i).nombre,
+            foto3:res.rows.item(i).foto,
             patente3: res.rows.item(i).patente,
             nombre_comuna3: res.rows.item(i).nombre_comuna,
           })
@@ -654,5 +648,10 @@ export class BasededatosService {
 
     await alert.present();
   }
-
+  insertarU(correo,nombre,apellido,telefono,pass,bono,foto,rol){
+    let data= [correo,nombre,apellido,telefono,pass,bono,foto,rol]
+    return this.database.executeSql('INSERT INTO usuario(correo,nombre,apellido,telefono,contrasennia,bonificacion,foto,tR_idRol) VALUES (?,?,?,?,?,?,?,?);', data).then(res => {
+      this.buscarUsuarios();
+    });
+  }
 }

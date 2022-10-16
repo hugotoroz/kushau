@@ -12,12 +12,27 @@ export class BilleteraPage implements OnInit {
   bono: any=[{
     bono1:''
   }];
+  arregloUsuario: any=[
+    {
+      correo4:'',
+      nombre4:'',
+      apellido4:'',
+      nombreCompleto4: '',
+      vehiculo:'',
+      telefonoC:'',
+      foto1:''
+    }
+  ]
+
   usuario = localStorage.getItem('usuario');
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       this.servicioDB.buscarBono(this.usuario);
       this.servicioDB.fetchBono().subscribe(item=>{
         this.bono = item;
+      })
+      this.servicioDB.fetchPerfilC().subscribe(item=>{
+        this.arregloUsuario = item;
       })
     })
     

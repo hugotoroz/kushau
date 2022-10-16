@@ -18,6 +18,7 @@ export class AutosPage implements OnInit {
       precio3: '',
       asientos_disp3: '',
       patente3: '',
+      foto3:'',
       nombre3: '',
       nombre_comuna3: '',
     }
