@@ -4,6 +4,6 @@ export class Perfil {
     apellido2:string;
     nombreCompleto2:string;
     telefono: number;
-    foto1:Blob;
+    foto2:Blob;
 }
 

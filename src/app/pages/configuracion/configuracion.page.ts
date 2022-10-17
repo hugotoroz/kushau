@@ -18,7 +18,7 @@ export class ConfiguracionPage implements OnInit {
       apellido2:'',
       nombreCompleto2: '',
       telefono:'',
-      foto1:''
+      foto2:''
     }
   ]
   boleano :any=1;

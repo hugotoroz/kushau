@@ -16,7 +16,7 @@ export class MiperfilPage implements OnInit {
       apellido2:'',
       nombreCompleto2: '',
       telefono:'',
-      foto1:''
+      foto2:''
     }
   ]
 

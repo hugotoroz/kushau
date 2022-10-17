@@ -487,7 +487,7 @@ export class BasededatosService {
             apellido2: res.rows.item(i).apellido,
             nombreCompleto2: res.rows.item(i).completo,
             telefono: res.rows.item(i).telefono,
-            foto1:res.rows.item(i).foto
+            foto2:res.rows.item(i).foto
           })
         }
       }
