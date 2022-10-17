@@ -49,9 +49,16 @@ export class ConfiguracionConductorPage implements OnInit {
       this.presentToast("El telefono debe contener 8 dígitos.");
     }
     else{
-      
-      this.servicioDB.actPerfil(this.nom,this.app,this.tel,this.foto,this.usuario);
+      if(this.foto == ''){
+        this.servicioDB.actPerfil(this.nom,this.app,this.tel,this.arregloUsuario[0].foto1,this.usuario);
       this.router.navigate(['tabconductor/']);
+      }
+      else{
+        this.servicioDB.actPerfil(this.nom,this.app,this.tel,this.foto,this.usuario);
+        this.router.navigate(['tabconductor/']);
+      }
+      
+      
     }
 
   }

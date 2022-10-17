@@ -49,46 +49,6 @@ export class ViajeactivoPage implements OnInit {
       }
     })
   }
-  ionViewDidEnter() {
-    
-    this.createMap();
-    
-
-  }
-  @ViewChild('map') mapRef: ElementRef<HTMLElement>;
-  newMap: GoogleMap;
-  //GEO LOCALIZACION
-
-  //CREAR EL MAPA
-  async createMap() {
-    try {
-      this.newMap = await GoogleMap.create({
-        id: 'capacitor-google-maps',
-        element: this.mapRef.nativeElement,
-        apiKey: environment.google_maps_api_key,
-        config: {
-          center: {
-            lat: parseFloat(this.latGet),
-            lng: parseFloat(this.longGet),
-          },
-          zoom: 16,
-        },
-
-      });
-      console.log('newmap', this.newMap);
-      this.locate();
-      //await this.addMarker(this.laat, this.lnng);
-      //await this.addListeners();
-    }
-    
-    catch (e) {
-      console.log(e);
-      // alert(e);
-    }
-  }
-  async locate() {
-    if (this.newMap) await this.newMap.enableCurrentLocation(true);
-  }
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Tu viaje ha sido cancelado exitosamente.',
