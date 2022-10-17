@@ -71,6 +71,7 @@ validarUsuario(){
   
   }
   else{
+    this.getGeolocation();
     this.servicioDB.loginUsuario(usuarioValidado,this.clave);
     localStorage.setItem('usuario',usuarioValidado)
     this.loadingUI();
@@ -107,12 +108,14 @@ validarUsuario(){
       
     });
     return await loadingUI.present();
-
+    
   }
 
   getGeolocation() {
+    
 
     this.geolocation.getCurrentPosition().then((resp) => {
+      
       this.latitud = resp.coords.latitude
       this.longitud = resp.coords.longitude
       localStorage.setItem('lat',this.latitud)

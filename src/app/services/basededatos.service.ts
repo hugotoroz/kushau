@@ -59,7 +59,7 @@ export class BasededatosService {
 
   //Tabla detalle
   tDetalleV: string = "CREATE TABLE IF NOT EXISTS detalle_viaje(id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, estado VARCHAR(10), u_correo VARCHAR(150), tV_idViaje INTEGER, FOREIGN KEY(u_correo) REFERENCES usuario(correo), FOREIGN KEY (tV_idViaje) REFERENCES viaje(id_viaje));";
-  registroDetalle: string = "INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (1,'Comenzado','b@a.com',1);";
+  registroDetalle: string = "INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (1,'Empezado','b@a.com',1);";
   registroDetalle2: string = "INSERT or IGNORE INTO detalle_viaje(id_detalle,estado,u_correo,tV_idViaje) VALUES (2,'Terminado','b@a.com',2);";
   listaDetalle = new BehaviorSubject([]);
 
@@ -159,7 +159,7 @@ export class BasededatosService {
     this.platform.ready().then(() => {
       //creamos la BD
       this.sqlite.create({
-        name: 'test1.db',
+        name: 'test7.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         //guardamos la conexion a la BD en la variable propia
@@ -267,7 +267,7 @@ export class BasededatosService {
   filtrarViaje() {
     //retorno la ejecución del select
 
-    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio, v.asientos_disp, u.nombre, u.foto,a.patente,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna;", []).then(res => {
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio, v.asientos_disp, u.nombre, u.foto,a.patente,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna join detalle_viaje dv on v.id_viaje = dv.tv_idviaje where dv.estado = 'Empezado';", []).then(res => {
       //select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';
       //creo mi lista de objetos de noticias vacio
       let items: Activos[] = [];
@@ -640,6 +640,15 @@ export class BasededatosService {
       this.presentToast("Tu perfil ha sido modificado correctamente.");
     });
    }
+   //AUTO CONDUCTOR
+   agregarV(patente,modelo,marca,annio,usuario){
+    let data = [patente,modelo,marca,annio,usuario];
+    return this.database.executeSql("INSERT INTO auto(patente,modelo,marca,annio,tU_correo) VALUES (?,?,?,?,?);",data).then(res => {
+      this.buscarAutoC(usuario);
+      this.presentAlert(res)
+      this.presentToast("Vehículo agregado correctamente.");
+    });    
+   }
    actAuto(modelo,marca,annio,usuario){
     let data = [modelo,marca,annio,usuario];
     return this.database.executeSql('UPDATE auto SET modelo=?, marca=?, annio=? WHERE tU_correo=?',data).then(res => {
@@ -648,7 +657,16 @@ export class BasededatosService {
       this.presentToast("Tu perfil ha sido modificado correctamente.");
     });
    }
+   /*
+  eliminarVehiculo(patente, usuario) {
+    let data = [patente, usuario]
+    return this.database.executeSql('DELETE FROM auto WHERE patente = ?', data).then(a => {
+      this.buscarAutoC(usuario);
 
+      this.presentToast("Auto eliminado exitosamente");
+    })
+  }
+  */
  
   async presentAlert(msj:string) {
     const alert = await this.alertController.create({

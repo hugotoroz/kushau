@@ -65,55 +65,69 @@
     </ion-col>
   </ion-row>
   <!--Datos del auto-->
-  <div *ngFor="let a of arregloAuto">
-  <ion-row>
-    <ion-col col-8>
-      <ion-item>
-        <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{a.patente}}
-        </ion-label>
-        <div class="ictxt">
-          Patente
-        </div>
-      </ion-item>
-      <ion-item>
-        <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{a.marca}}
-        </ion-label>
-        <div class="ictxt">
-          Marca
-        </div>
-      </ion-item>
-
-      <ion-item>
-        <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{a.modelo}}
-        </ion-label>
-        <div class="ictxt">
-          Modelo
-        </div>
-
-      </ion-item>
-      <ion-item>
-        <ion-label style="word-wrap: break-word; white-space: normal;">
-          {{a.annio}}
-        </ion-label>
-        <div class="ictxt">
-          Año
-        </div>
-
-      </ion-item>
-    </ion-col>
-  </ion-row>
+  <div *ngIf="booleano == false">
+    <div *ngFor="let a of arregloAuto" >
+      <ion-row>
+        <ion-col col-8>
+          <ion-item>
+            <ion-label style="word-wrap: break-word; white-space: normal;">
+              {{a.patente}}
+            </ion-label>
+            <div class="ictxt">
+              Patente
+            </div>
+          </ion-item>
+          <ion-item>
+            <ion-label style="word-wrap: break-word; white-space: normal;">
+              {{a.marca}}
+            </ion-label>
+            <div class="ictxt">
+              Marca
+            </div>
+          </ion-item>
+    
+          <ion-item>
+            <ion-label style="word-wrap: break-word; white-space: normal;">
+              {{a.modelo}}
+            </ion-label>
+            <div class="ictxt">
+              Modelo
+            </div>
+    
+          </ion-item>
+          <ion-item>
+            <ion-label style="word-wrap: break-word; white-space: normal;">
+              {{a.annio}}
+            </ion-label>
+            <div class="ictxt">
+              Año
+            </div>
+    
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      </div>
+  </div>
+  
+  <div class="si">
+    <ion-button class="boton" (click)="agregarV()" *ngIf="booleano == true">
+      <ion-icon name="car-outline"></ion-icon> Agregar mi vehículo
+    </ion-button>
   </div>
   <div class="si">
-    <ion-button class="boton" (click)="pasarDatosV()">
+    <ion-button class="boton" (click)="pasarDatosV()" *ngIf="booleano == false">
       <ion-icon name="car-outline"></ion-icon> Modificar vehículo
     </ion-button>
   </div>
-
+  <!--
   <div class="si">
-    <ion-button class="boton" (click)="alerta()">
+    <ion-button class="boton" (click)="alertaAuto()" *ngIf="booleano == false">
+      <ion-icon name="car-outline"></ion-icon> Eliminar vehículo
+    </ion-button>
+  </div>
+-->
+  <div class="si">
+    <ion-button class="boton" (click)="alertaSesion()">
       <ion-icon name="log-out-outline"></ion-icon> Cerrar sesión
     </ion-button>
   </div>

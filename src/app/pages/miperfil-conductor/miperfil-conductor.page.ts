@@ -9,6 +9,7 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
   styleUrls: ['./miperfil-conductor.page.scss'],
 })
 export class MiperfilConductorPage implements OnInit {
+  booleano:boolean=false;
   arregloUsuario: any=[
     {
       correo4:'',
@@ -30,7 +31,14 @@ export class MiperfilConductorPage implements OnInit {
     }
   ]
   usuario = localStorage.getItem('usuario');
-  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) { }
+  constructor(private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController, private activedRouter: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) { 
+    this.activedRouter.queryParams.subscribe(params =>{
+      if(this.router.getCurrentNavigation().extras.state){
+        this.booleano= this.router.getCurrentNavigation().extras.state.bolAuto;
+      }
+    })
+
+  }
 
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
@@ -50,36 +58,7 @@ export class MiperfilConductorPage implements OnInit {
       }
     })
   }
-  async presentToast(msj) {
-    const toast = await this.toastController.create({
-      message: msj,
-      duration: 2000
-    });
-    toast.present();
-  }
-  async alerta() {
-    const alert = await this.alertController.create({
-      header: 'Cerrar sesión',
-      cssClass:'boton-registro',
-      message: '¿Estás seguro que deseas cerrar sesión?',
-      buttons: [
-        {
-          text: 'Cerrar sesión',
-          cssClass: 'alert-button-confirm',
-          handler: () => {
-            this.navCtrl.navigateRoot('/inicio-sesion');
-            this.presentToast("Has cerrado sesión.");
-            localStorage.removeItem('usuario');
-          }
-        },
-        {
-          text: 'No'
-         }
 
-     ]
-    });
-    await alert.present();
-  }
   pasarDatos(){
     let navigationExtras: NavigationExtras = {
       state: {
@@ -103,5 +82,66 @@ export class MiperfilConductorPage implements OnInit {
     }
     this.router.navigate(['/configuracion-auto']);
     this.router.navigate(['/configuracion-auto'], navigationExtras);
+  }
+  agregarV(){
+
+    
+    this.router.navigate(['/registrarauto']);
+  }
+  
+  
+  async presentToast(msj) {
+    const toast = await this.toastController.create({
+      message: msj,
+      duration: 2000
+    });
+    toast.present();
+  }
+  async alertaSesion() {
+    const alert = await this.alertController.create({
+      header: 'Cerrar sesión',
+      cssClass:'boton-registro',
+      message: '¿Está seguro que desea cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cerrar sesión',
+          cssClass: 'alert-button-confirm',
+          handler: () => {
+            this.navCtrl.navigateRoot('/inicio-sesion');
+            this.presentToast("Has cerrado sesión.");
+            localStorage.removeItem('usuario');
+          }
+        },
+        {
+          text: 'No'
+         }
+
+     ]
+    });
+    await alert.present();
+  }
+  async alertaAuto() {
+    const alert = await this.alertController.create({
+      header: 'Elimiar auto',
+      cssClass:'boton-registro',
+      message: '¿Está seguro que desea eliminar su vehículo?',
+      buttons: [
+        {
+          text: 'Eliminar',
+          cssClass: 'alert-button-confirm',
+          handler: () => {
+            this.booleano=true;
+            //this.servicioDB.eliminarVehiculo(this.arregloAuto[0].patente,this.usuario);
+            
+            
+          }
+        },
+        {
+          text: 'No'
+         }
+
+     ]
+    });
+    await alert.present();
   }
 }

@@ -6,21 +6,25 @@
 
 <ion-content>
   <div>
+    <ion-item>
+      <ion-label position="floating" color="sucess">Patente</ion-label>
+      <ion-input [(ngModel)]="patente"></ion-input>
+    </ion-item>
     <ion-item class="items">
       <ion-label position="floating" color="sucess" >Marca</ion-label>
-      <ion-input [(ngModel)]="Marca"></ion-input>
+      <ion-input [(ngModel)]="marca"></ion-input>
     </ion-item>
     <ion-item class="items">
       <ion-label position="floating" color="sucess" >Modelo</ion-label>
-      <ion-input [(ngModel)]="Modelo"></ion-input>
+      <ion-input [(ngModel)]="modelo"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating" color="sucess">Patente</ion-label>
-      <ion-input [(ngModel)]="Patente"></ion-input>
+    <ion-item class="items">
+      <ion-label position="floating" color="sucess" >Año</ion-label>
+      <ion-input [(ngModel)]="annio" type="number"></ion-input>
     </ion-item>
   </div>
 <div class="boton">
-  <ion-button class="inicia" (click)="validarAuto()" type="submit">Registrarse</ion-button>
+  <ion-button class="inicia" (click)="validarAuto()" type="submit">Registrar Auto</ion-button>
 </div>
   
 </ion-content>
