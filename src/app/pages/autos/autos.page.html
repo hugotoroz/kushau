@@ -6,7 +6,11 @@
 
 <ion-content>
   <!-- Searchbar with value -->
+  
   <h1>Conductores disponibles</h1>
+  <div *ngIf="noViajes== true">
+    <p>No existen viajes disponibles en este momento :(</p>
+  </div>
   <ion-card *ngFor="let x of arregloViaje">
     <ion-avatar class="imagen">
       <img [src]="x.foto3" style="align-self: center;" />

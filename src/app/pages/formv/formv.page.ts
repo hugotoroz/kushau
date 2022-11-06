@@ -90,7 +90,7 @@ export class FormvPage implements OnInit {
     else if(this.precio < 1000){
       this.presentToast("El precio debe ser mayor a $1000 pesos.");
     }
-    else if(this.asientos > 6 || this.asientos < 0){
+    else if(this.asientos > 6 || this.asientos < 1){
       this.presentToast("La cantidad de asientos debe ser entre 1 a 6");
     }
     else{

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { IonicModule } from '@ionic/angular';
 
 import { BilleteraPage } from './billetera.page';
@@ -10,7 +11,8 @@ describe('BilleteraPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BilleteraPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      providers:[SQLite]
     }).compileComponents();
 
     fixture = TestBed.createComponent(BilleteraPage);

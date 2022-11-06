@@ -8,10 +8,9 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
   styleUrls: ['./autos.page.scss'],
 })
 export class AutosPage implements OnInit {
-  u:string="";
-  ap:string="";
+  usu = localStorage.getItem('usuario');
   boleano:any;
-
+  noViajes: boolean=false;
 
   id:string="";
   arregloViaje: any=[
@@ -25,14 +24,22 @@ export class AutosPage implements OnInit {
       nombre_comuna3: '',
     }
   ]
+  arregloUsuario: any=[
+    {
+      correo2:'',
+      nombre2:'',
+      apellido2:'',
+      nombreCompleto2: '',
+      telefono:'',
+      foto2:''
+    }
+  ]
 
 
   constructor(private sisi: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) {
     console.log(this.boleano);
     this.sisi.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
-        this.u= this.router.getCurrentNavigation().extras.state.usu;
-        this.ap= this.router.getCurrentNavigation().extras.state.app;
         this.boleano= this.router.getCurrentNavigation().extras.state.bol;
         
       }
@@ -44,7 +51,19 @@ export class AutosPage implements OnInit {
       if(res){
         this.servicioDB.fetchActivos().subscribe(item=>{
           this.arregloViaje = item;
+          if (this.arregloViaje[0] == undefined){
+            this.noViajes=true;
+          }
         })
+        
+        //this.servicioDB.buscarPerfil(this.usu);
+        //this.servicioDB.fetchperfil().subscribe(item=>{
+        //  this.arregloUsuario = item;
+        //  if (this.arregloUsuario[0].apellido2 == undefined) {
+        //    this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder tomar un viaje.")
+        //  }
+        //})
+        
         
       }
     })

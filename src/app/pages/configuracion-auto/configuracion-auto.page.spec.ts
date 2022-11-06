@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ConfiguracionAutoPage } from './configuracion-auto.page';
@@ -10,7 +11,8 @@ describe('ConfiguracionAutoPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ConfiguracionAutoPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      providers:[ActivatedRoute]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ConfiguracionAutoPage);

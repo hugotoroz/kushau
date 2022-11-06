@@ -58,6 +58,7 @@
     "@angular/compiler-cli": "^14.0.0",
     "@angular/language-service": "^14.0.0",
     "@capacitor/cli": "4.1.0",
+    "@chiragrupani/karma-chromium-edge-launcher": "^2.2.2",
     "@ionic/angular-toolkit": "^6.0.0",
     "@ionic/lab": "3.2.13",
     "@types/google.maps": "^3.50.4",
@@ -76,8 +77,10 @@
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.0.3",
     "karma-coverage-istanbul-reporter": "~3.0.2",
+    "karma-ie-launcher": "^1.0.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "karma-opera-launcher": "^1.0.0",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "typescript": "~4.7.3"

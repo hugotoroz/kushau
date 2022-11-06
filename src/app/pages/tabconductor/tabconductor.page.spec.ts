@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { TabconductorPage } from './tabconductor.page';
@@ -10,7 +11,8 @@ describe('TabconductorPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TabconductorPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      providers:[ActivatedRoute]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TabconductorPage);

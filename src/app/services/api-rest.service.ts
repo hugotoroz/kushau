@@ -14,7 +14,10 @@ export class ApiRestService {
       'Access-Control-Allow-Origin': '*'
     })
   }
-  getUsers(): Observable<any> { return this.http.get(this.apiURL + '/users/').pipe(retry(3)); }
+  getUsers(): Observable<any> { return this.http.get(this.apiUsers + '/users/').pipe(retry(3)); }
+  getAutos(): Observable<any> { return this.http.get(this.apiAutos + '/autos/').pipe(retry(3)); }
+
   constructor(private http: HttpClient) { }
-  apiURL = 'https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos';
+  apiUsers = 'https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos';
+  apiAutos = 'https://my-json-server.typicode.com/victorrosendo/repoListadoAutos'
 }

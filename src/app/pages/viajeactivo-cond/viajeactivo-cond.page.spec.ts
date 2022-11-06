@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ViajeactivoCondPage } from './viajeactivo-cond.page';
@@ -10,7 +11,8 @@ describe('ViajeactivoCondPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ViajeactivoCondPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      providers:[ActivatedRoute]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ViajeactivoCondPage);
