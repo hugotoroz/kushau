@@ -683,10 +683,12 @@ export class BasededatosService {
       this.buscarUsuarios();
     });
   }
-  insertarA(patente, usuario, marca){
-    let data= [patente, marca,usuario]
+  
+  insertarA(patente,marca,usuario){
+    let data= [patente,marca,usuario]
     return this.database.executeSql('INSERT INTO auto(patente,marca,tU_correo) VALUES (?,?,?);', data).then(res => {
       this.buscarAutos();
     });
   }
+
 }
