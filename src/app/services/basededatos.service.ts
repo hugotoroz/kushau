@@ -19,6 +19,7 @@ import { AutoC } from './auto-c';
 import { MotrarV } from './motrar-v';
 import { DetalleConductor } from './detalle-conductor';
 import { Bono } from './bono';
+import { BuscarViajeC } from './buscar-viaje-c';
 
 @Injectable({
   providedIn: 'root'
@@ -74,7 +75,7 @@ export class BasededatosService {
   listaDetalleV = new BehaviorSubject([]);
   listaMostrarV = new BehaviorSubject([]);
   listaBono = new BehaviorSubject([]);
-
+  buscarViajeConductor = new BehaviorSubject([]);
 
   // variable para manipular la conexion a la base de datos
   public database: SQLiteObject;
@@ -153,7 +154,9 @@ export class BasededatosService {
   fetchBono():Observable<Bono[]>{
     return this.listaBono.asObservable();
   }
-
+  fetchbuscarViajeConductor(): Observable<BuscarViajeC[]> {
+    return this.buscarViajeConductor.asObservable();
+  }
   crearBD() {
     //verificamos que la plataforma este lista
     this.platform.ready().then(() => {
@@ -430,7 +433,24 @@ export class BasededatosService {
       this.listaAutoC.next(items);
     })
   }
-
+  buscarViajeCond(usuario){
+    let data = [usuario];
+    return this.database.executeSql("select v.tA_patente from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje where v.tA_patente = ? and dv.estado = 'Empezado';", data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: BuscarViajeC[] = [];
+      //falta arreglar por que no tira nada
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            tA_patente: res.rows.item(i).tA_patente,
+          })
+        }
+      }
+      //actualizamos el observable de las noticias
+      this.buscarViajeConductor.next(items);
+    })
+  }
   loginUsuario(correo, clave) {
     let data = [correo, clave];
     return this.database.executeSql('SELECT correo, tR_idRol FROM usuario WHERE correo = ? and contrasennia = ?', data).then((res) => {

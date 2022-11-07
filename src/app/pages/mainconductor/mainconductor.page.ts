@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Platform } from '@ionic/angular';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { BasededatosService } from 'src/app/services/basededatos.service';
 @Component({
   selector: 'app-mainconductor',
   templateUrl: './mainconductor.page.html',
@@ -13,10 +14,35 @@ export class MainconductorPage implements OnInit {
 
   markerId: string; 
   boleano:any;
+  crearViaje:boolean=false;
+  usu = localStorage.getItem('usuario')
+  arregloUsuario: any=[
+    {
+      correo4:'',
+      nombre4:'',
+      apellido4:'',
+      nombreCompleto4: '',
+      vehiculo:'',
+      telefonoC:'',
+      foto1:''
+    }
+  ]
+  arregloAuto: any=[
+    {
+      patente:'',
+      modelo:'',
+      marca:'',
+      annio:''
 
-  
+    }
+  ]
+  arregloViaje: any=[
+    {
+      tA_patente:'',
 
-  constructor(private geolocation: Geolocation, protected platform: Platform,private sisi:ActivatedRoute,private router: Router) {
+    }
+  ]
+  constructor(private geolocation: Geolocation, protected platform: Platform,private sisi:ActivatedRoute,private router: Router,private servicioDB: BasededatosService) {
     this.sisi.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
         this.boleano= this.router.getCurrentNavigation().extras.state.bol;
@@ -24,22 +50,48 @@ export class MainconductorPage implements OnInit {
     })
   }
 
-  ngOnInit() {    
+  ngOnInit() {
+    this.servicioDB.dbState().subscribe(res=>{
+      this.servicioDB.buscarPerfilC(this.usu);
+      this.servicioDB.buscarAutoC(this.usu);
+      this.servicioDB.buscarViajeCond(this.usu);
+      if(res){
+        this.servicioDB.fetchPerfilC().subscribe(item=>{
+          this.arregloUsuario = item;
+        })
+        this.servicioDB.fetchAutoC().subscribe(item=>{
+          this.arregloAuto = item;
+        })
+        this.servicioDB.fetchbuscarViajeConductor().subscribe(item=>{
+          this.arregloViaje= item;
+          if (this.arregloViaje[0] == undefined || this.arregloViaje[0].tA_patente== null|| this.arregloViaje[0]== '' ){
+            this.crearViaje=true;
+          }else{
+            this.crearViaje=false;
+          }
+        })
+      }
+    })       
   }
   ionViewDidEnter() {
     
     this.createMap();
-    
 
   }
   iniciar(){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        bol: this.boleano,
-
-      }
+    if (this.arregloUsuario[0] == undefined || this.arregloUsuario[0].apellido4 == null){
+      this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder crear un viaje.")
     }
-    this.router.navigate(['/formv'],navigationExtras)
+    else if(this.arregloAuto[0] == undefined || this.arregloAuto[0].modelo == null){
+      this.servicioDB.presentAlert("Debe completar los datos de su vehículo para poder crear un viaje.")
+    }else{
+      let navigationExtras: NavigationExtras = {
+        state: {
+          bol: this.boleano,
+        }
+      }
+      this.router.navigate(['/formv'],navigationExtras)
+    }
   }
 activo(){
   let navigationExtras: NavigationExtras = {

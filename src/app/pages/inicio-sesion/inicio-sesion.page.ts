@@ -59,6 +59,7 @@ export class InicioSesionPage implements OnInit {
       this.apirest.getAutos().subscribe((item)=>{
         this.apiAuto = item;
         this.servicioDB.insertarA(this.apiAuto[0].patente,this.apiAuto[0].marca,this.apiAuto[0].id_usuario )
+
       });
       //Usuarios pasajeros.
       this.servicioDB.insertarU(JSON.stringify(this.apiUsuario[1].id),this.apiUsuario[1].nombre,this.apiUsuario[1].clave,this.bono,this.apiUsuario[1].id_rol);
@@ -80,6 +81,8 @@ validarUsuario(){
     this.getGeolocation();
     this.servicioDB.loginUsuario(usuarioValidado,this.clave);
     localStorage.setItem('usuario',usuarioValidado)
+    localStorage.setItem('patente',this.apiAuto[0].patente)
+
     this.loadingUI();
     this.usuario="";
     this.clave="";

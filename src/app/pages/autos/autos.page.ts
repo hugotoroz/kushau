@@ -48,6 +48,7 @@ export class AutosPage implements OnInit {
 
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
+      this.servicioDB.buscarPerfil(this.usu);
       if(res){
         this.servicioDB.fetchActivos().subscribe(item=>{
           this.arregloViaje = item;
@@ -55,28 +56,24 @@ export class AutosPage implements OnInit {
             this.noViajes=true;
           }
         })
-        
-        //this.servicioDB.buscarPerfil(this.usu);
-        //this.servicioDB.fetchperfil().subscribe(item=>{
-        //  this.arregloUsuario = item;
-        //  if (this.arregloUsuario[0].apellido2 == undefined) {
-        //    this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder tomar un viaje.")
-        //  }
-        //})
-        
-        
+        this.servicioDB.fetchperfil().subscribe(item=>{
+          this.arregloUsuario = item;
+        })
       }
     })
   }
   viaje(x){
-    this.servicioDB.mostrarViaje(x.id_viaje3);
-    let navigationExtras: NavigationExtras = {
-      state: {
-        bol: this.boleano,
-
+    if (this.arregloUsuario[0] == undefined || this.arregloUsuario[0].apellido2 == null) {
+      this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder tomar un viaje.")
+    }else{
+      this.servicioDB.mostrarViaje(x.id_viaje3);
+      let navigationExtras: NavigationExtras = {
+        state: {
+          bol: this.boleano,
+        }
       }
+      this.router.navigate(['/tomarauto'],navigationExtras);
     }
-    this.router.navigate(['/tomarauto'],navigationExtras);
   }
   activo(){
     let navigationExtras: NavigationExtras = {

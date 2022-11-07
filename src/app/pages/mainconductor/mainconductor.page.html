@@ -11,9 +11,9 @@
   <capacitor-google-maps #map></capacitor-google-maps>
 </div>
   <div class="" >
-    <ion-button  *ngIf="boleano == 0" type="submit" (click)="iniciar()">Iniciar un nuevo viaje</ion-button>
+    <ion-button  *ngIf="crearViaje == true" type="submit" (click)="iniciar()">Iniciar un nuevo viaje</ion-button>
   </div>
   <div class="boton" >
-    <ion-button type="submit" *ngIf="boleano == 1" (click)="activo()">Mi viaje actual</ion-button>
+    <ion-button type="submit" *ngIf="crearViaje == false" (click)="activo()">Mi viaje actual</ion-button>
   </div>
 </ion-content>
