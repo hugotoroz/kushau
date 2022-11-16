@@ -26,6 +26,7 @@ export class ViajeactivoCondPage implements OnInit {
     correo:''
   }]
   usuario = localStorage.getItem('usuario');
+  idDD= localStorage.getItem('idDv');
   constructor(private alertController: AlertController,public navCtrl: NavController,private router: Router,private activedRouter: ActivatedRoute,public toastController: ToastController,private servicioDB: BasededatosService) {
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
@@ -36,7 +37,7 @@ export class ViajeactivoCondPage implements OnInit {
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       this.idV = this.servicioDB.idDV;
-      this.servicioDB.filtrarDetalle(this.idV)
+      this.servicioDB.filtrarDetalle(this.idDD)
       this.servicioDB.fetchDetalleV().subscribe(item=>{
         this.arregloDetalle = item
       })

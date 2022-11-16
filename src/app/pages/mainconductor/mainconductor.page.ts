@@ -15,7 +15,7 @@ export class MainconductorPage implements OnInit {
   markerId: string; 
   boleano:any;
   crearViaje:boolean;
-  usu = localStorage.getItem('patente')
+  usu = localStorage.getItem('usuario')
   patente = localStorage.getItem('patente')
   arregloUsuario: any=[
     {
@@ -51,7 +51,6 @@ export class MainconductorPage implements OnInit {
     this.servicioDB.dbState().subscribe(res=>{
       this.servicioDB.buscarPerfilC(this.usu);
       this.servicioDB.buscarAutoC(this.usu);
-      this.servicioDB.buscarViajeCond(this.patente);
       if(res){
         this.servicioDB.fetchPerfilC().subscribe(item=>{
           this.arregloUsuario = item;
@@ -59,12 +58,13 @@ export class MainconductorPage implements OnInit {
         this.servicioDB.fetchAutoC().subscribe(item=>{
           this.arregloAuto = item;
         })
+        
       }
     })       
   }
   ionViewDidEnter() {
     this.servicioDB.dbState().subscribe(res=>{
-      this.servicioDB.buscarViajeCond(this.usu);
+      this.servicioDB.buscarViajeCond(this.patente);
       if(res){
         this.servicioDB.fetchbuscarViajeConductor().subscribe(item=>{
           this.arregloViaje= item;

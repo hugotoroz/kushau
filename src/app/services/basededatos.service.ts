@@ -598,7 +598,7 @@ export class BasededatosService {
       this.buscarViaje();
       this.filtrarViaje();
       this.idDV= res.insertId
-
+      localStorage.setItem('idDv',res.insertId)
     });
   }
 
