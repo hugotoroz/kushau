@@ -68,10 +68,10 @@ export class MainconductorPage implements OnInit {
       if(res){
         this.servicioDB.fetchbuscarViajeConductor().subscribe(item=>{
           this.arregloViaje= item;
-          if (this.arregloViaje[0] == undefined || this.arregloViaje[0].tA_patente== null|| this.arregloViaje[0]== '' ){
+          if (this.arregloViaje[0] == undefined || this.arregloViaje[0].tA_patente == ""){
             this.crearViaje=true;
           }
-          if(this.arregloViaje[0].tA_patente.length > 0){
+          if(this.arregloViaje[0].tA_patente.length > 0 || this.arregloViaje[0].tA_patente != ""){
             this.crearViaje=false;
           }
         })
@@ -140,4 +140,18 @@ activo(){
   async locate() {
     if (this.newMap) await this.newMap.enableCurrentLocation(true);
   }
+  handleRefresh(event) {
+    setTimeout(() => {
+      this.servicioDB.fetchbuscarViajeConductor().subscribe(item=>{
+        this.arregloViaje= item;
+        if (this.arregloViaje[0] == undefined ||  this.arregloViaje[0].tA_patente == ""){
+          this.crearViaje=true;
+        }
+        if(this.arregloViaje[0].tA_patente.length > 0 ){
+          this.crearViaje=false;
+        }
+      })
+      event.target.complete();
+    }, 2000);
+  };
 }
