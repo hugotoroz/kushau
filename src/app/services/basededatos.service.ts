@@ -435,7 +435,7 @@ export class BasededatosService {
   }
   buscarViajeCond(usuario){
     let data = [usuario];
-      return this.database.executeSql("select u_correo from detalle_viaje where estado= 'Empezado' and u_correo= ?;", data).then(res => {
+      return this.database.executeSql("select a.tU_correo from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo join detalle_viaje dv on v.id_viaje = dv.tv_idviaje where dv.estado = 'Empezado' and a.tU_correo= ?;", data).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: BuscarViajeC[] = [];
       //falta arreglar por que no tira nada
