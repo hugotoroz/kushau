@@ -433,15 +433,9 @@ export class BasededatosService {
       this.listaAutoC.next(items);
     })
   }
-<<<<<<< HEAD
   buscarViajeCond(patente){
     let data = [patente];
       return this.database.executeSql("select v.tA_patente from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje where v.tA_patente = ? and dv.estado = 'Empezado';", data).then(res => {
-=======
-  buscarViajeCond(usuario){
-    let data = [usuario];
-      return this.database.executeSql("select a.tU_correo from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo join detalle_viaje dv on v.id_viaje = dv.tv_idviaje where dv.estado = 'Empezado' and a.tU_correo= ?;", data).then(res => {
->>>>>>> ed232f7fec7281c25f7d34b28c3390aebe5989f5
       //creo mi lista de objetos de noticias vacio
       let items: BuscarViajeC[] = [];
       //falta arreglar por que no tira nada
