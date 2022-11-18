@@ -433,9 +433,9 @@ export class BasededatosService {
       this.listaAutoC.next(items);
     })
   }
-  buscarViajeCond(usuario){
-    let data = [usuario];
-      return this.database.executeSql("select u_correo from detalle_viaje where estado= 'Empezado' and u_correo= ?;", data).then(res => {
+  buscarViajeCond(patente){
+    let data = [patente];
+      return this.database.executeSql("select v.tA_patente from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje where v.tA_patente = ? and dv.estado = 'Empezado';", data).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: BuscarViajeC[] = [];
       //falta arreglar por que no tira nada
@@ -443,7 +443,7 @@ export class BasededatosService {
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
-            u_correo: res.rows.item(i).u_correo,
+            tA_patente: res.rows.item(i).tA_patente,
           })
         }
       }
@@ -627,12 +627,14 @@ export class BasededatosService {
     })
   }
   terminarViaje(id){
-    return this.database.executeSql('UPDATE detalle_viaje set estado ="Terminado" where tV_idViaje =?', id).then(res=>{
+    let data = [id];
+    return this.database.executeSql('UPDATE detalle_viaje set estado ="Terminado" where tV_idViaje =?', data).then(res=>{
       this.buscarDetalle();
     });
   }
   cancelarViaje(id){
-    return this.database.executeSql('DELETE detalle_viaje  where tV_idViaje =?', id).then(res=>{
+    let data = [id];
+    return this.database.executeSql('DELETE detalle_viaje  where tV_idViaje =?', data).then(res=>{
       this.buscarDetalle();
     });
   }
@@ -710,9 +712,9 @@ export class BasededatosService {
       this.buscarAutos();
     });
   }
-  //Pruebas unitarias
-  obtenerLS():any []{
-    const arr = JSON.parse(localStorage.getItem('si'));
-    return arr || [];
+
+  getTodos(): any[]{
+    const result = JSON.parse(localStorage.getItem('todos'));
+    return result || [];
   }
 }

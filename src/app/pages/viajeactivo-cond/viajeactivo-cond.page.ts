@@ -19,13 +19,13 @@ export class ViajeactivoCondPage implements OnInit {
 
   latitude = localStorage.getItem('laat');
   long= localStorage.getItem('lng');
-
   arregloDetalle: any=[{
     precio:'',
     comuna:'',
     correo:''
   }]
   usuario = localStorage.getItem('usuario');
+  idDD= localStorage.getItem('idDv');
   constructor(private alertController: AlertController,public navCtrl: NavController,private router: Router,private activedRouter: ActivatedRoute,public toastController: ToastController,private servicioDB: BasededatosService) {
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
@@ -36,7 +36,7 @@ export class ViajeactivoCondPage implements OnInit {
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       this.idV = this.servicioDB.idDV;
-      this.servicioDB.filtrarDetalle(this.idV)
+      this.servicioDB.filtrarDetalle(this.idDD)
       this.servicioDB.fetchDetalleV().subscribe(item=>{
         this.arregloDetalle = item
       })
@@ -68,7 +68,7 @@ cancelarViaje(){
 
     }
   }
-  this.servicioDB.cancelarViaje(this.idV);
+  this.servicioDB.cancelarViaje(this.idDD);
   this.idV="";
   this.presentToast("Tu viaje ha sido cancelado.")
   this.router.navigate(['/tabconductor'],navigationExtras);
@@ -81,10 +81,10 @@ terminarViaje(){
 
     }
   }
-  this.servicioDB.terminarViaje(this.idV);
+  this.servicioDB.terminarViaje(this.idDD);
   this.servicioDB.darBono(this.usuario); 
   this.presentToast("Tu viaje ha terminado.")
-  this.idV="";
+  localStorage.setItem('idDv', "");
   this.router.navigate(['/tabconductor'],navigationExtras);
   
 }

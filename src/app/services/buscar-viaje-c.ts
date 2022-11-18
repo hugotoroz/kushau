@@ -1,3 +1,3 @@
 export class BuscarViajeC {
-    u_correo:number;
+    tA_patente:number;
 }

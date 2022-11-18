@@ -15,6 +15,7 @@ export class MainconductorPage implements OnInit {
   markerId: string; 
   boleano:any;
   crearViaje:boolean;
+  patente= localStorage.getItem('patente')
   usu = localStorage.getItem('usuario')
   arregloUsuario: any=[
     {
@@ -38,7 +39,7 @@ export class MainconductorPage implements OnInit {
   ]
   arregloViaje: any=[
     {
-      u_correo:'',
+      tA_patente:'',
 
     }
   ]
@@ -50,7 +51,7 @@ export class MainconductorPage implements OnInit {
     this.servicioDB.dbState().subscribe(res=>{
       this.servicioDB.buscarPerfilC(this.usu);
       this.servicioDB.buscarAutoC(this.usu);
-      this.servicioDB.buscarViajeCond(this.arregloViaje[0].u_correo);
+      this.servicioDB.buscarViajeCond(this.patente);
       if(res){
         this.servicioDB.fetchPerfilC().subscribe(item=>{
           this.arregloUsuario = item;
@@ -62,10 +63,10 @@ export class MainconductorPage implements OnInit {
 
         this.servicioDB.fetchbuscarViajeConductor().subscribe(item=>{
           this.arregloViaje= item;
-          if (this.arregloViaje[0] == undefined || this.arregloViaje[0].u_correo != this.usu ){
+          if (this.arregloViaje[0] == undefined || this.arregloViaje[0].tA_patente != this.patente ){
             this.crearViaje=true;
           }
-          else if(this.arregloViaje[0].u_correo == this.usu){
+          else if(this.arregloViaje[0].tA_patente == this.patente){
             this.crearViaje=false;
           }
         })
@@ -139,12 +140,12 @@ activo(){
   }
   handleRefresh(event) {
     setTimeout(() => {
-        if (this.arregloViaje[0] == undefined || this.arregloViaje[0].u_correo != this.usu){
-          this.crearViaje=true;
-        }
-        else if(this.arregloViaje[0].u_correo == this.usu){
-          this.crearViaje=false;
-        }
+      if (this.arregloViaje[0] == undefined || this.arregloViaje[0].tA_patente != this.patente ){
+        this.crearViaje=true;
+      }
+      else if(this.arregloViaje[0].tA_patente == this.patente){
+        this.crearViaje=false;
+      }
       event.target.complete();
     }, 2000);
   };

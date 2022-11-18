@@ -13,20 +13,20 @@ describe('BasededatosService', () => {
     service = TestBed.inject(BasededatosService);
   });
   afterEach(()=>{
-    localStorage.removeItem('si');
+    localStorage.removeItem('todos');
     service = null;
   })
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('should return si empty', () => {
-    expect(service.obtenerLS()).toEqual([]);
+  it('should return an empty array', () => {
+    expect(service.getTodos()).toEqual([]);
   });
-  it('return one elemento si', () => {
-    const arr= ['xd']
-    localStorage.setItem('si', JSON.stringify(arr));
-    expect(service.obtenerLS()).toEqual(arr);
-    expect(service.obtenerLS()).toHaveSize(1);
 
+  it('return an array with one object', () => {
+    const arr = ['First Todo'];
+    localStorage.setItem('todos', JSON.stringify(arr));
+    expect(service.getTodos()).toEqual(arr);
+    expect(service.getTodos()).toHaveSize(1);
   });
 });
