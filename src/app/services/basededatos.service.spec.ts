@@ -12,8 +12,21 @@ describe('BasededatosService', () => {
     });
     service = TestBed.inject(BasededatosService);
   });
-
+  afterEach(()=>{
+    localStorage.removeItem('si');
+    service = null;
+  })
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+  it('should return si empty', () => {
+    expect(service.obtenerLS()).toEqual([]);
+  });
+  it('return one elemento si', () => {
+    const arr= ['xd']
+    localStorage.setItem('si', JSON.stringify(arr));
+    expect(service.obtenerLS()).toEqual(arr);
+    expect(service.obtenerLS()).toHaveSize(1);
+
   });
 });

@@ -26,15 +26,15 @@ describe('InicioSesionPage', () => {
     component = null;
   })
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-  it('return si empty', () => {
+  //it('should create', () => {
+  //  expect(component).toBeTruthy();
+  //});
+
+  it('should return si empty', () => {
     expect(component.obtenerLS()).toEqual([]);
   });
   it('return one elemento si', () => {
     const arr= ['xd']
-    
     localStorage.setItem('si', JSON.stringify(arr));
     expect(component.obtenerLS()).toEqual(['xd']);
     expect(component.obtenerLS()).toHaveSize(1);

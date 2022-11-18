@@ -435,7 +435,7 @@ export class BasededatosService {
   }
   buscarViajeCond(usuario){
     let data = [usuario];
-    return this.database.executeSql("select v.tA_patente from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje where v.tA_patente = ? and dv.estado = 'Empezado';", data).then(res => {
+      return this.database.executeSql("select u_correo from detalle_viaje where estado= 'Empezado' and u_correo= ?;", data).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: BuscarViajeC[] = [];
       //falta arreglar por que no tira nada
@@ -443,7 +443,7 @@ export class BasededatosService {
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
-            tA_patente: res.rows.item(i).tA_patente,
+            u_correo: res.rows.item(i).u_correo,
           })
         }
       }
@@ -710,5 +710,9 @@ export class BasededatosService {
       this.buscarAutos();
     });
   }
-
+  //Pruebas unitarias
+  obtenerLS():any []{
+    const arr = JSON.parse(localStorage.getItem('si'));
+    return arr || [];
+  }
 }

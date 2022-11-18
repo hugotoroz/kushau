@@ -16,7 +16,6 @@ export class MainconductorPage implements OnInit {
   boleano:any;
   crearViaje:boolean;
   usu = localStorage.getItem('usuario')
-  patente = localStorage.getItem('patente')
   arregloUsuario: any=[
     {
       correo4:'',
@@ -39,7 +38,7 @@ export class MainconductorPage implements OnInit {
   ]
   arregloViaje: any=[
     {
-      tA_patente:'',
+      u_correo:'',
 
     }
   ]
@@ -51,32 +50,30 @@ export class MainconductorPage implements OnInit {
     this.servicioDB.dbState().subscribe(res=>{
       this.servicioDB.buscarPerfilC(this.usu);
       this.servicioDB.buscarAutoC(this.usu);
+      this.servicioDB.buscarViajeCond(this.arregloViaje[0].u_correo);
       if(res){
         this.servicioDB.fetchPerfilC().subscribe(item=>{
           this.arregloUsuario = item;
         })
+
         this.servicioDB.fetchAutoC().subscribe(item=>{
           this.arregloAuto = item;
         })
-        
-      }
-    })       
-  }
-  ionViewDidEnter() {
-    this.servicioDB.dbState().subscribe(res=>{
-      this.servicioDB.buscarViajeCond(this.patente);
-      if(res){
+
         this.servicioDB.fetchbuscarViajeConductor().subscribe(item=>{
           this.arregloViaje= item;
-          if (this.arregloViaje[0] == undefined || this.arregloViaje[0].tA_patente == ""){
+          if (this.arregloViaje[0] == undefined || this.arregloViaje[0].u_correo != this.usu ){
             this.crearViaje=true;
           }
-          if(this.arregloViaje[0].tA_patente.length > 0 || this.arregloViaje[0].tA_patente != ""){
+          else if(this.arregloViaje[0].u_correo == this.usu){
             this.crearViaje=false;
           }
         })
       }
-    })   
+    })       
+  }
+  ionViewDidEnter() {
+  
     this.createMap();
   }
   iniciar(){
@@ -142,15 +139,12 @@ activo(){
   }
   handleRefresh(event) {
     setTimeout(() => {
-      this.servicioDB.fetchbuscarViajeConductor().subscribe(item=>{
-        this.arregloViaje= item;
-        if (this.arregloViaje[0] == undefined ||  this.arregloViaje[0].tA_patente == ""){
+        if (this.arregloViaje[0] == undefined || this.arregloViaje[0].u_correo != this.usu){
           this.crearViaje=true;
         }
-        if(this.arregloViaje[0].tA_patente.length > 0 ){
+        else if(this.arregloViaje[0].u_correo == this.usu){
           this.crearViaje=false;
         }
-      })
       event.target.complete();
     }, 2000);
   };
