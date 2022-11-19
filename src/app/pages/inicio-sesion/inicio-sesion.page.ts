@@ -42,29 +42,32 @@ export class InicioSesionPage implements OnInit {
   constructor(private geolocation: Geolocation, public toastController: ToastController,private router: Router,private alertController: AlertController,public navCtrl: NavController,public loading: LoadingController,private servicioDB: BasededatosService,public apirest:ApiRestService) { }
 
   ngOnInit() {
-    this.getGeolocation();
+    
     this.servicioDB.dbState().subscribe(res=>{
       if(res){
+        //Preguntar sobre la geo-localización.
+        this.getGeolocation();
         this.servicioDB.fetchLogin().subscribe(item=>{
           this.datos = item;
         })
-      }
+        this.apirest.getUsers().subscribe((item)=>{
+          this.apiUsuario = item;
+          //Usuario conductor.
+          this.servicioDB.insertarU(this.apiUsuario[0].nombre,'','',this.bono,this.apiUsuario[0].clave,this.bono,'../../assets/Imagenes/fotoblanco.jpg',this.apiUsuario[0].id_rol);
+          //Insertar auto al usuario conductor.
+          this.apirest.getAutos().subscribe((item)=>{
+            this.apiAuto = item;
+            this.servicioDB.insertarA(this.apiAuto[0].patente,this.apiAuto[0].marca,'',this.bono,this.apiAuto[0].id_usuario )
+    
+          });
+          //Usuarios pasajeros.
+          this.servicioDB.insertarU(this.apiUsuario[1].nombre,'','',this.bono,this.apiUsuario[1].clave,this.bono,'../../assets/Imagenes/fotoblanco.jpg',this.apiUsuario[1].id_rol);
+          this.servicioDB.insertarU(this.apiUsuario[2].nombre,'','',this.bono,this.apiUsuario[2].clave,this.bono,'../../assets/Imagenes/fotoblanco.jpg',this.apiUsuario[2].id_rol);
+        });
+      } 
     });
 
-    this.apirest.getUsers().subscribe((item)=>{
-      this.apiUsuario = item;
-      //Usuario conductor.
-      this.servicioDB.insertarU(this.apiUsuario[0].nombre,this.apiUsuario[0].clave,this.bono,this.apiUsuario[0].id_rol);
-      //Insertar auto al usuario conductor.
-      this.apirest.getAutos().subscribe((item)=>{
-        this.apiAuto = item;
-        this.servicioDB.insertarA(this.apiAuto[0].patente,this.apiAuto[0].marca,this.apiAuto[0].id_usuario )
-
-      });
-      //Usuarios pasajeros.
-      this.servicioDB.insertarU(this.apiUsuario[1].nombre,this.apiUsuario[1].clave,this.bono,this.apiUsuario[1].id_rol);
-      this.servicioDB.insertarU(this.apiUsuario[2].nombre,this.apiUsuario[2].clave,this.bono,this.apiUsuario[2].id_rol);
-    });
+    
 
     
     
@@ -78,7 +81,6 @@ validarUsuario(){
   
   }
   else{
-    this.getGeolocation();
     this.servicioDB.loginUsuario(usuarioValidado,this.clave);
     localStorage.setItem('usuario',"")
     localStorage.setItem('usuario',usuarioValidado)
