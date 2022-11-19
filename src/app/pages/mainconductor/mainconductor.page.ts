@@ -15,8 +15,10 @@ export class MainconductorPage implements OnInit {
   markerId: string; 
   boleano:any;
   crearViaje:boolean;
+  
   patente= localStorage.getItem('patente')
   usu = localStorage.getItem('usuario')
+  idViaje= localStorage.getItem('idDv');
   //borrar esta wea en caso de
   arregloUsuario: any=[
     {
@@ -79,19 +81,18 @@ export class MainconductorPage implements OnInit {
     this.createMap();
   }
   iniciar(){
-    if (this.arregloUsuario[0] == undefined || this.arregloUsuario[0].apellido4 == null){
+    if (this.arregloUsuario[0] == undefined ){
+      this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder crear un viaje.")
+    }
+    else if (this.arregloUsuario[0].apellido4 == null){
       this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder crear un viaje.")
     }
     else if(this.arregloAuto[0] == undefined || this.arregloAuto[0].modelo == null){
       this.servicioDB.presentAlert("Debe completar los datos de su vehículo para poder crear un viaje.")
     }else{
-      let navigationExtras: NavigationExtras = {
-        state: {
-          bol: this.boleano,
-        }
-      }
-      this.router.navigate(['/formv'],navigationExtras)
+      this.router.navigate(['/formv'])
     }
+    
   }
 activo(){
   let navigationExtras: NavigationExtras = {
@@ -141,7 +142,10 @@ activo(){
   }
   handleRefresh(event) {
     setTimeout(() => {
-      if (this.arregloViaje[0] == undefined || this.arregloViaje[0].tA_patente != this.patente ){
+      if (this.arregloViaje[0] == undefined ){
+        this.crearViaje=true;
+      }
+      else if (this.arregloViaje[0].tA_patente != this.patente){
         this.crearViaje=true;
       }
       else if(this.arregloViaje[0].tA_patente == this.patente){

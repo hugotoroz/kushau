@@ -1,10 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { GoogleMap } from '@capacitor/google-maps';
 import { AlertController, ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { BasededatosService } from 'src/app/services/basededatos.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-viajeactivo',
@@ -82,3 +80,26 @@ export class ViajeactivoPage implements OnInit {
   
   }
 }
+/*
+const alert = await this.alertController.create({
+  header: 'Salir del viaje',
+  cssClass:'boton-registro',
+  message: '¿Está seguro que desea salir del viaje?',
+  buttons: [
+    {
+      text: 'Salir del viaje',
+      cssClass: 'alert-button-confirm',
+      handler: () => {
+        this.servicioDB.cancelarViajeU(this.usu,this.arregloViaje[0].id_viaje2);
+        //this.servicioDB.salirDelViaje(this.arregloViaje[0].id_viaje2);
+        this.router.navigate(['/tabs']);
+        
+      }
+    },
+    {
+      text: 'No'
+     }
+ ]
+});
+await alert.present();
+*/

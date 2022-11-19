@@ -293,6 +293,28 @@ export class BasededatosService {
 
     })
   }
+  /*
+  //Validación si un usuario normal posee un viaje ya activo.
+  validarViajeU(usuario){
+    let data = [usuario];
+    return this.database.executeSql("select u_correo from detalle_viaje where estado= 'Empezado' and u_correo= ? ", data).then(res => {
+    //creo mi lista de objetos de noticias vacio
+    let items: [] = [];
+    //falta arreglar por que no tira nada
+    //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+    if (res.rows.length > 0) {
+      for (var i = 0; i < res.rows.length; i++) {
+        items.push({
+          u_correo: res.rows.item(i).u_correo,
+        })
+      }
+    }
+    //actualizamos el observable de las noticias
+    this.buscarViajeConductor.next(items);
+    })
+  }
+  */
+  
   mostrarViaje(x) {
     //retorno la ejecución del select
     let data = [x];
@@ -649,6 +671,14 @@ export class BasededatosService {
     return this.database.executeSql('UPDATE viaje set asientos_disp = asientos_disp - 1 where id_viaje = ?;', data).then((res) => {
       this.buscarViaje();
       this.presentToast("¡Viaje tomado exitosamente!")
+      console.log(res)
+    });
+  }
+  salirDelViaje(id){
+    let data =[id]
+    return this.database.executeSql('UPDATE viaje set asientos_disp = asientos_disp + 1 where id_viaje = ?;', data).then((res) => {
+      this.buscarViaje();
+      this.presentToast("Has salido del viaje exitosamente.");
       console.log(res)
     });
   }
