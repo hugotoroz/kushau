@@ -80,6 +80,7 @@ validarUsuario(){
   else{
     this.getGeolocation();
     this.servicioDB.loginUsuario(usuarioValidado,this.clave);
+    localStorage.setItem('usuario',"")
     localStorage.setItem('usuario',usuarioValidado)
     localStorage.setItem('patente',this.apiAuto[0].patente)
 

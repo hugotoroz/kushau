@@ -20,6 +20,7 @@ export class ViajeactivoPage implements OnInit {
       }
     })
    }
+   usu = localStorage.getItem('usuario');
   boleano:any;
   num: number= 2000;
   cambia:number =1;
@@ -49,6 +50,18 @@ export class ViajeactivoPage implements OnInit {
       }
     })
   }
+
+  cancelarViaje(){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        bol:this.nocambia
+  
+      }
+    }
+    this.servicioDB.cancelarViajeU(this.usu,this.arregloViaje[0].id_viaje2);
+    this.router.navigate(['/tabs'],navigationExtras);
+    this.presentToast();
+  }
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Tu viaje ha sido cancelado exitosamente.',
@@ -56,36 +69,8 @@ export class ViajeactivoPage implements OnInit {
     });
     toast.present();
   }
-  async alerta() {
-    const alert = await this.alertController.create({
-      header: 'Cancelar viaje',
-      cssClass:'boton-registro',
-      message: '¿Estás seguro que deseas cancelar tu viaje?',
-      buttons: [
-        {
-          text: 'Sí, quiero cancelarlo',
-          handler: () => {
-            let navigationExtras: NavigationExtras = {
-              state: {
-                bol:this.nocambia
-          
-              }
-            }
-            this.router.navigate(['/tabs'],navigationExtras);
-            this.presentToast();
-          }
-         }, {
-          text: 'No quiero cancelarlo',
-          cssClass: 'alert-button-confirm',
-          handler: () => {
-            this.navCtrl.navigateRoot('/tabs');
-          }
-        }
-     ]
-    });
 
-    await alert.present();
-  }
+
   volverMenu(){
     let navigationExtras: NavigationExtras = {
       state: {

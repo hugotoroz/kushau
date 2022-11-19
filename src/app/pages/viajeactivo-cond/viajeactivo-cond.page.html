@@ -8,32 +8,38 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <h1 style="text-align: center;">Mi viaje</h1>
-  <p style="text-align: center;">Este es el viaje que tienes activo:</p>
-  <ion-item *ngFor="let x of arregloDetalle">
-    <ion-label>
-      {{x.comuna}}
-    </ion-label>
-    <div class="ictxt">
-      <p style="font-size: 11px;">En dirección a...</p>
+  <div *ngIf="prueba == true">
+    <h1 style="text-align: center;">Mi viaje</h1>
+    <p style="text-align: center;">Este es el viaje que tienes activo:</p>
+    <ion-item *ngFor="let x of arregloDetalle">
+      <ion-label>
+        {{x.comuna}}
+      </ion-label>
+      <div class="ictxt">
+        <p style="font-size: 11px;">En dirección a...</p>
+      </div>
+    </ion-item>
+    <ion-item *ngFor="let x of arregloDetalle">
+      <ion-label>
+        {{ x.precio | currency: 'CLP' }}
+      </ion-label>
+      <div class="ictxt">
+        <p style="font-size: 11px;">Precio</p>
+      </div>
+    </ion-item>
+    <!--******************************************************* MAPA *******************************************************-->
+    <div style="text-align: center;">
+      <ion-button class="boton" (click)="terminarViaje()">Terminar Viaje</ion-button>
     </div>
-  </ion-item>
-  <ion-item *ngFor="let x of arregloDetalle">
-    <ion-label>
-      {{ x.precio | currency: 'CLP' }}
-    </ion-label>
-    <div class="ictxt">
-      <p style="font-size: 11px;">Precio</p>
+    <div style="text-align: center;">
+      <ion-button class="boton" (click)="terminarViaje()">Cancelar viaje</ion-button>
     </div>
-  </ion-item>
-  <!--******************************************************* MAPA *******************************************************-->
+  </div>
+  <div *ngIf="prueba == false">
+    <p>No haz realizado viajes hasta el momento :(</p>
+  </div>
   <div style="text-align: center;">
     <ion-button class="boton"(click)="volverMenu()">Menú principal</ion-button>
   </div>
-  <div style="text-align: center;">
-    <ion-button class="boton" (click)="terminarViaje()">Terminar Viaje</ion-button>
-  </div>
-  <div style="text-align: center;">
-    <ion-button class="boton" (click)="terminarViaje()">Cancelar viaje</ion-button>
-  </div>
+  
 </ion-content>

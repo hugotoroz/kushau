@@ -17,6 +17,8 @@ export class ViajeactivoCondPage implements OnInit {
   cambia:number =1;
   nocambia:number =0;
 
+  prueba:boolean;
+
   latitude = localStorage.getItem('laat');
   long= localStorage.getItem('lng');
   arregloDetalle: any=[{
@@ -37,12 +39,19 @@ export class ViajeactivoCondPage implements OnInit {
     this.servicioDB.dbState().subscribe(res=>{
       this.idV = this.servicioDB.idDV;
       this.servicioDB.filtrarDetalle(this.idDD)
+
       this.servicioDB.fetchDetalleV().subscribe(item=>{
         this.arregloDetalle = item
+        if(this.idDD.length < 1){
+          this.prueba = true
+          
+        }
+        else{
+          this.prueba = false
+        }
       })
       
     })
-    
   }
   async presentToast(msj) {
     const toast = await this.toastController.create({
@@ -51,6 +60,7 @@ export class ViajeactivoCondPage implements OnInit {
     });
     toast.present();
   }
+
 volverMenu(){
   let navigationExtras: NavigationExtras = {
     state: {
@@ -59,7 +69,6 @@ volverMenu(){
     }
   }
   this.router.navigate(['/tabconductor'],navigationExtras);
-
 }
 cancelarViaje(){
   let navigationExtras: NavigationExtras = {
@@ -84,7 +93,7 @@ terminarViaje(){
   this.servicioDB.terminarViaje(this.idDD);
   this.servicioDB.darBono(this.usuario); 
   this.presentToast("Tu viaje ha terminado.")
-  localStorage.setItem('idDv', "");
+  localStorage.setItem('idDv',"");
   this.router.navigate(['/tabconductor'],navigationExtras);
   
 }
@@ -97,13 +106,7 @@ terminarViaje(){
 
     await alert.present();
   }
-  doRefresh(event) {
-    console.log('Begin async operation');
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 2000);
-  }
+  
+  
 
 }

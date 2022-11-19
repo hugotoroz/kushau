@@ -20,4 +20,8 @@ export class ApiRestService {
   constructor(private http: HttpClient) { }
   apiUsers = 'https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos';
   apiAutos = 'https://my-json-server.typicode.com/victorrosendo/repoListadoAutos'
+
+  getUsuarios(){
+    return this.http.get('https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos')
+  }
 }

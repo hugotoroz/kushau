@@ -17,6 +17,7 @@ export class MainconductorPage implements OnInit {
   crearViaje:boolean;
   patente= localStorage.getItem('patente')
   usu = localStorage.getItem('usuario')
+  //borrar esta wea en caso de
   arregloUsuario: any=[
     {
       correo4:'',

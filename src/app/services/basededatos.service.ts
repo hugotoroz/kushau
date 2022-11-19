@@ -638,6 +638,12 @@ export class BasededatosService {
       this.buscarDetalle();
     });
   }
+  cancelarViajeU(usuario,id){
+    let data = [usuario,id];
+    return this.database.executeSql('DELETE u_correo from detalle_Viaje where u_correo  =? and where tV_idViaje =?', data).then(res=>{
+      this.buscarDetalle();
+    });
+  }
   tomarViaje(u_correo,id){
     let data =[u_correo,id]
     return this.database.executeSql('INSERT INTO detalle_Viaje(u_correo, tV_idViaje) VALUES (?,?);', data).then((res) => {

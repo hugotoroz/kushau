@@ -62,6 +62,7 @@ export class AutosPage implements OnInit {
       }
     })
   }
+
   viaje(x){
     if (this.arregloUsuario[0] == undefined || this.arregloUsuario[0].apellido2 == null) {
       this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder tomar un viaje.")
