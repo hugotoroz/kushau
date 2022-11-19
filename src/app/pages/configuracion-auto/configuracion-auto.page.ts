@@ -32,18 +32,16 @@ export class ConfiguracionAutoPage implements OnInit {
     if(this.patente == "" || this.modelo == "" ||this.marca == ""||this.annio == ""){
       this.presentToast("Debe completar todos los campos.");
     }
-    /*
-    else if (this.patente['length'] < 6 || this.patente['length'] > 6){
-      this.presentToast("La patente debe contener solo 6 dígitos.");
-    }*/
-    /*
-    else if (this.annio['length'] < 4 || this.patente['length'] > 4){
+    
+    else if (this.annio['length'] < 4 || this.annio['length'] > 4){
       this.presentToast("Escriba un año válido.");
-    }*/
-    /*
-    else if(this.annio > 2022){
-      this.presentToast("El año del vehiculo no puede ser mayor a 2022");
-    }*/
+    }
+    else if (this.annio < 2000){
+      this.presentToast("El año no puede ser menor a 2000.");
+    }
+    else if(this.annio > 2023){
+      this.presentToast("El año del vehículo no puede ser mayor a 2023.");
+    }
     else{
       this.servicioDB.actAuto(this.modelo,this.marca,this.annio,this.usuario);
       this.router.navigate(['tabconductor/']);

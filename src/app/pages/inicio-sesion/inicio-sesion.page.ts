@@ -57,7 +57,7 @@ export class InicioSesionPage implements OnInit {
           //Insertar auto al usuario conductor.
           this.apirest.getAutos().subscribe((item)=>{
             this.apiAuto = item;
-            this.servicioDB.insertarA(this.apiAuto[0].patente,this.apiAuto[0].marca,'',this.bono,this.apiAuto[0].id_usuario )
+            this.servicioDB.insertarA(this.apiAuto[0].patente,this.apiAuto[0].marca,'',this.bono,this.apiUsuario[0].nombre )
     
           });
           //Usuarios pasajeros.
