@@ -42,7 +42,7 @@ export class ViajeactivoCondPage implements OnInit {
 
       this.servicioDB.fetchDetalleV().subscribe(item=>{
         this.arregloDetalle = item
-        if(this.idDD.length < 1){
+        if(this.idDD.length > 0){
           this.prueba = true
           
         }
