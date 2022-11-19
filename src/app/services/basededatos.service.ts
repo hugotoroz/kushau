@@ -270,7 +270,7 @@ export class BasededatosService {
   filtrarViaje() {
     //retorno la ejecución del select
 
-    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio, v.asientos_disp, u.nombre, u.foto,a.patente,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna join detalle_viaje dv on v.id_viaje = dv.tv_idviaje where dv.estado = 'Empezado';", []).then(res => {
+    return this.database.executeSql("select v.id_viaje, v.descripcion, v.precio, v.asientos_disp, u.nombre, u.foto,a.patente,c.nombre_comuna from viaje v inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna join detalle_viaje dv on v.id_viaje = dv.tv_idviaje where dv.estado = 'Empezado' and v.asientos_disp > 0;", []).then(res => {
       //select v.id_viaje, v.descripcion, v.fecha_viaje, v.precio, v.asientos_disp, u.nombre, a.patente, c.nombre_comuna, dv.estado from viaje v inner join detalle_viaje dv on v.id_viaje = dv.tv_idviaje inner join auto a on v.ta_patente = a.patente inner join usuario u on a.tu_correo= u.correo inner join comuna c on  v.v_idcomuna= c.id_comuna where dv.estado = 'Comenzado';
       //creo mi lista de objetos de noticias vacio
       let items: Activos[] = [];
@@ -644,10 +644,19 @@ export class BasededatosService {
       this.buscarDetalle();
     });
   }
+  tomarAsiento(id){
+    let data =[id]
+    return this.database.executeSql('UPDATE viaje set asientos_disp = asientos_disp - 1 where id_viaje = ?;', data).then((res) => {
+      this.buscarViaje();
+      this.presentToast("¡Viaje tomado exitosamente!")
+      console.log(res)
+    });
+  }
   tomarViaje(u_correo,id){
     let data =[u_correo,id]
     return this.database.executeSql('INSERT INTO detalle_Viaje(u_correo, tV_idViaje) VALUES (?,?);', data).then((res) => {
-      this.buscarDetalle();
+      this.filtrarViaje();
+      this.buscarViaje();
       this.presentToast("¡Viaje tomado exitosamente!")
       console.log(res)
     });

@@ -51,6 +51,7 @@ export class TomarautoPage implements OnInit {
   }
   Tomar(){
     this.servicioDB.tomarViaje(this.usuario,this.arregloViaje[0].id_viaje2)
+    this.servicioDB.tomarAsiento(this.arregloViaje[0].id_viaje2)
     this.router.navigate(['/viajeactivo'])
   }
 

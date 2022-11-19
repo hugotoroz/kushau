@@ -31,7 +31,7 @@
     </ion-item>
     <ion-item class="items" matRipple [matRippleCentered]="centered">
       <ion-label color="sucess" class="bold">Teléfono</ion-label>
-      <ion-input [(ngModel)]="tel">{{area}}</ion-input>
+      <ion-input type="number"[(ngModel)]="tel">{{area}}</ion-input>
     </ion-item>
     <p class="suggestions"> 
       * Debe escribir 8 dígitos <b>(sin el dígito verificador).</b><br> 
