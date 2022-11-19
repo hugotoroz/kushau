@@ -49,16 +49,34 @@ export class ViajeactivoPage implements OnInit {
     })
   }
 
-  cancelarViaje(){
+  async cancelarViaje(){
     let navigationExtras: NavigationExtras = {
       state: {
         bol:this.nocambia
   
       }
     }
-    this.servicioDB.cancelarViajeU(this.usu,this.arregloViaje[0].id_viaje2);
-    this.router.navigate(['/tabs'],navigationExtras);
-    this.presentToast();
+    const alert = await this.alertController.create({
+      header: 'Salir del viaje',
+      cssClass:'boton-registro',
+      message: '¿Está seguro que desea salir del viaje?',
+      buttons: [
+        {
+          text: 'Salir del viaje',
+          cssClass: 'alert-button-confirm',
+          handler: () => {
+            this.servicioDB.cancelarViajeU(this.usu,this.arregloViaje[0].id_viaje2);
+            this.servicioDB.salirDelViaje(this.arregloViaje[0].id_viaje2);
+            this.router.navigate(['/tabs'],navigationExtras);
+            
+          }
+        },
+        {
+          text: 'No'
+         }
+     ]
+    });
+    await alert.present();
   }
   async presentToast() {
     const toast = await this.toastController.create({
@@ -80,26 +98,5 @@ export class ViajeactivoPage implements OnInit {
   
   }
 }
-/*
-const alert = await this.alertController.create({
-  header: 'Salir del viaje',
-  cssClass:'boton-registro',
-  message: '¿Está seguro que desea salir del viaje?',
-  buttons: [
-    {
-      text: 'Salir del viaje',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.servicioDB.cancelarViajeU(this.usu,this.arregloViaje[0].id_viaje2);
-        //this.servicioDB.salirDelViaje(this.arregloViaje[0].id_viaje2);
-        this.router.navigate(['/tabs']);
-        
-      }
-    },
-    {
-      text: 'No'
-     }
- ]
-});
-await alert.present();
-*/
+
+
