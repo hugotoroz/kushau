@@ -62,8 +62,8 @@ export class InicioSesionPage implements OnInit {
 
       });
       //Usuarios pasajeros.
-      this.servicioDB.insertarU(JSON.stringify(this.apiUsuario[1].id),this.apiUsuario[1].nombre,this.apiUsuario[1].clave,this.bono,this.apiUsuario[1].id_rol);
-      this.servicioDB.insertarU(JSON.stringify(this.apiUsuario[2].id),this.apiUsuario[2].nombre,this.apiUsuario[2].clave,this.bono,this.apiUsuario[2].id_rol);
+      this.servicioDB.insertarU(this.apiUsuario[1].nombre,this.apiUsuario[1].clave,this.bono,this.apiUsuario[1].id_rol);
+      this.servicioDB.insertarU(this.apiUsuario[2].nombre,this.apiUsuario[2].clave,this.bono,this.apiUsuario[2].id_rol);
     });
 
     

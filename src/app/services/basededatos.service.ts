@@ -744,8 +744,8 @@ export class BasededatosService {
 
     await alert.present();
   }
-  insertarU(correo,nombre,pass,bono,rol){
-    let data= [correo,nombre,pass,bono,rol]
+  insertarU(correo,pass,bono,rol){
+    let data= [correo,pass,bono,rol]
     return this.database.executeSql('INSERT INTO usuario(correo,nombre,apellido,telefono,contrasennia,bonificacion,foto,tR_idRol) VALUES (?,"","","",?,?,?,?);', data).then(res => {
       this.buscarUsuarios();
     });
