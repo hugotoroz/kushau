@@ -310,7 +310,7 @@ export class BasededatosService {
       }
     }
     //actualizamos el observable de las noticias
-    this.buscarViajeConductor.next(items);
+    this..next(items);
     })
   }
   */
@@ -746,14 +746,14 @@ export class BasededatosService {
   }
   insertarU(correo,nombre,pass,bono,rol){
     let data= [correo,nombre,pass,bono,rol]
-    return this.database.executeSql('INSERT INTO usuario(correo,nombre,contrasennia,bonificacion,tR_idRol) VALUES (?,?,?,?,?);', data).then(res => {
+    return this.database.executeSql('INSERT INTO usuario(correo,nombre,apellido,telefono,contrasennia,bonificacion,foto,tR_idRol) VALUES (?,"","","",?,?,?,?);', data).then(res => {
       this.buscarUsuarios();
     });
   }
   
   insertarA(patente,marca,usuario){
     let data= [patente,marca,usuario]
-    return this.database.executeSql('INSERT INTO auto(patente,marca,tU_correo) VALUES (?,?,?);', data).then(res => {
+    return this.database.executeSql('INSERT INTO auto(patente,modelo,marca,annio,tU_correo) VALUES (?,?,"","",?);', data).then(res => {
       this.buscarAutos();
     });
   }

@@ -146,12 +146,6 @@ validarUsuario(){
     });
   }
 
-
-  //Pruebas unitarias
-  obtenerLS():any []{
-    const arr = JSON.parse(localStorage.getItem('si'));
-    return arr || [];
-  }
 }
 
 
