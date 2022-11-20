@@ -25,7 +25,7 @@ describe('ApiRestService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should make an API call', () => {
+  it('should make an API call Usuarios', () => {
     const mockResponse = [
       {
         id:1,
@@ -44,6 +44,30 @@ describe('ApiRestService', () => {
     });
     const mockRequest = httpTestingController.expectOne(
       'https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos'
+    );
+
+    expect(mockRequest.request.method).toEqual('GET');
+
+    mockRequest.flush(mockResponse);
+  });
+  it('should make an API call Autitos', () => {
+    const mockResponse = [
+      {
+        patente:'FF-HH-22',
+        id_usuario: 1,
+        marca: 'marca'
+      },
+    ];
+
+    service.getAutitos().subscribe((res)=>{
+      console.log('result', res);
+      expect(res).toBeTruthy();
+      expect(res).toHaveSize(1);
+      const user = res[0];
+      expect(user).toBe(mockResponse[0]);
+    });
+    const mockRequest = httpTestingController.expectOne(
+      'https://my-json-server.typicode.com/victorrosendo/repoListadoAutos'
     );
 
     expect(mockRequest.request.method).toEqual('GET');

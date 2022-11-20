@@ -7,8 +7,9 @@ describe('new App', () => {
     page = new AppPage();
   });
 
-  it('should be blank', () => {
+  it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toContain('Start with Ionic UI Components');
+    expect(page.getPageTitle()).toContain('kushauber');
+
   });
 });

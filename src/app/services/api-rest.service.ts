@@ -24,4 +24,7 @@ export class ApiRestService {
   getUsuarios(){
     return this.http.get('https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos')
   }
+  getAutitos(){
+    return this.http.get('https://my-json-server.typicode.com/victorrosendo/repoListadoAutos')
+  }
 }
