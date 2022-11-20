@@ -11,7 +11,6 @@ export class AutosPage implements OnInit {
   usu = localStorage.getItem('usuario');
   boleano:any;
   noViajes: boolean=false;
-
   id:string="";
   arregloViaje: any=[
     {
@@ -34,56 +33,71 @@ export class AutosPage implements OnInit {
       foto2:''
     }
   ]
+  arregloViajeAct: any=[
+    {
+      u_correo:''
+    }
+  ]
 
 
   constructor(private sisi: ActivatedRoute, private router: Router,private servicioDB: BasededatosService) {
-    console.log(this.boleano);
-    this.sisi.queryParams.subscribe(params =>{
-      if(this.router.getCurrentNavigation().extras.state){
-        this.boleano= this.router.getCurrentNavigation().extras.state.bol;
-        
-      }
-    })
+    
    }
 
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       this.servicioDB.buscarPerfil(this.usu);
+      this.servicioDB.validarViajeU(this.usu);
       if(res){
         this.servicioDB.fetchActivos().subscribe(item=>{
           this.arregloViaje = item;
-          if (this.arregloViaje[0] == undefined){
+          if (this.arregloViaje[0] == undefined || this.arregloViaje[0].id_viaje3 == '') {
             this.noViajes=true;
           }
+          
         })
         this.servicioDB.fetchperfil().subscribe(item=>{
           this.arregloUsuario = item;
+        })
+        this.servicioDB.fetchValidarViajeUsuario().subscribe(item=>{
+          this.arregloViajeAct= item;
+
         })
       }
     })
   }
 
   viaje(x){
-    if (this.arregloUsuario[0] == undefined || this.arregloUsuario[0].apellido2 == null) {
+
+    if (this.arregloUsuario[0].nombre2 == '' || this.arregloUsuario[0].apellido2 == '' || this.arregloUsuario[0].apellido2 == 0) {
       this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder tomar un viaje.")
-    }else{
+    }
+    //else if (this.arregloViajeAct[0] != undefined){
+    //  this.servicioDB.presentAlert("Usted ya ha ingresado a un viaje.");
+    //}
+    else if (this.arregloViajeAct[0].u_correo == this.usu){
+      this.servicioDB.presentAlert("Usted ya ha ingresado a un viaje.");
+    }
+    
+    else{
       this.servicioDB.mostrarViaje(x.id_viaje3);
-      let navigationExtras: NavigationExtras = {
-        state: {
-          bol: this.boleano,
-        }
-      }
-      this.router.navigate(['/tomarauto'],navigationExtras);
+      this.router.navigate(['/tomarauto']);
+      
+      
     }
   }
   activo(){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        bol: this.boleano,
-  
-      }
+    
+    if (this.arregloViajeAct[0] == undefined){
+      this.servicioDB.presentAlert("Usted todavía no ha ingresado a un viaje.");
     }
-    this.router.navigate(['/viajeactivo'],navigationExtras);
+    else if (this.arregloViajeAct[0].u_correo != this.usu){
+      this.servicioDB.presentAlert("Usted todavía no ha ingresado a un viaje.");
+
+    }
+    else{
+      this.router.navigate(['/viajeactivo']);
+    }
   }
 
 }

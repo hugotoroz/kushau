@@ -81,15 +81,21 @@ export class MainconductorPage implements OnInit {
     this.createMap();
   }
   iniciar(){
-    if (this.arregloUsuario[0] == undefined ){
+    this.idViaje= localStorage.getItem('idDv');
+    console.log(this.idViaje);
+    if (this.arregloUsuario[0].apellido4 == '' || this.arregloUsuario[0].nombre4 == '' || this.arregloUsuario[0].telefonoC == 0){
       this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder crear un viaje.")
     }
-    else if (this.arregloUsuario[0].apellido4 == null){
-      this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder crear un viaje.")
-    }
-    else if(this.arregloAuto[0] == undefined || this.arregloAuto[0].modelo == null){
+    else if(this.arregloAuto[0].patente == '' || this.arregloAuto[0].marca == '' || this.arregloAuto[0].annio == 0){
       this.servicioDB.presentAlert("Debe completar los datos de su vehículo para poder crear un viaje.")
-    }else{
+    }
+    else if (this.idViaje== null){
+      localStorage.setItem('idDv',"");
+    }
+    else if (this.idViaje != ""){
+      this.servicioDB.presentAlert("Usted ya tiene un viaje activo. Revise el botón 'Mi viaje actual' para ver su viaje actual. ");
+    }
+    else{
       this.router.navigate(['/formv'])
     }
     

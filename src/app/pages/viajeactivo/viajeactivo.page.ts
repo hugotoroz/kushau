@@ -12,19 +12,9 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 export class ViajeactivoPage implements OnInit {
 
   constructor(private sisi:ActivatedRoute,private alertController: AlertController,public navCtrl: NavController, public toastController: ToastController,private servicioDB: BasededatosService, private router: Router) {
-    this.sisi.queryParams.subscribe(params =>{
-      if(this.router.getCurrentNavigation().extras.state){
-        this.boleano= this.router.getCurrentNavigation().extras.state.bol;
-      }
-    })
+    
    }
-   usu = localStorage.getItem('usuario');
-  boleano:any;
-  num: number= 2000;
-  cambia:number =1;
-  nocambia:number =0;
-  latGet=localStorage.getItem('lat');
-  longGet=localStorage.getItem('lng');
+  usu = localStorage.getItem('usuario');
   arregloViaje: any=[
     {
       id_viaje2:'',
@@ -50,12 +40,6 @@ export class ViajeactivoPage implements OnInit {
   }
 
   async cancelarViaje(){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        bol:this.nocambia
-  
-      }
-    }
     const alert = await this.alertController.create({
       header: 'Salir del viaje',
       cssClass:'boton-registro',
@@ -67,7 +51,7 @@ export class ViajeactivoPage implements OnInit {
           handler: () => {
             this.servicioDB.cancelarViajeU(this.usu,this.arregloViaje[0].id_viaje2);
             this.servicioDB.salirDelViaje(this.arregloViaje[0].id_viaje2);
-            this.router.navigate(['/tabs'],navigationExtras);
+            this.router.navigate(['/tabs']);
             
           }
         },
@@ -88,13 +72,8 @@ export class ViajeactivoPage implements OnInit {
 
 
   volverMenu(){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        bol:this.cambia
-  
-      }
-    }
-    this.router.navigate(['/tabs'],navigationExtras);
+    
+    this.router.navigate(['/tabs']);
   
   }
 }

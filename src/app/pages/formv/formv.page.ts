@@ -80,7 +80,7 @@ export class FormvPage implements OnInit {
     }
   }
   validar(){
-    if(this.direccion == "" || this.fila == NaN || this.precio == NaN || this.descrip == ""){
+    if(this.direccion == "" || this.fila == NaN || this.precio == NaN || this.descrip == ""|| this.asientos== null){
       this.presentToast("Debe completar todos los campos.");
     }
     else if (this.fila < 1 || this.fila >8){
@@ -90,7 +90,7 @@ export class FormvPage implements OnInit {
     else if(this.precio < 1000){
       this.presentToast("El precio debe ser mayor a $1000 pesos.");
     }
-    else if(this.asientos > 6 || this.asientos < 1){
+    else if(this.asientos== 0 || this.asientos > 6 ){
       this.presentToast("La cantidad de asientos debe ser entre 1 a 6");
     }
     else{

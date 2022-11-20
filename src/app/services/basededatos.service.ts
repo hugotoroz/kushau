@@ -20,6 +20,7 @@ import { MotrarV } from './motrar-v';
 import { DetalleConductor } from './detalle-conductor';
 import { Bono } from './bono';
 import { BuscarViajeC } from './buscar-viaje-c';
+import { ValidarViajeUsuario } from './validar-viaje-usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,7 @@ export class BasededatosService {
   listaMostrarV = new BehaviorSubject([]);
   listaBono = new BehaviorSubject([]);
   buscarViajeConductor = new BehaviorSubject([]);
+  validarViajeUsuario = new BehaviorSubject([]);
 
   // variable para manipular la conexion a la base de datos
   public database: SQLiteObject;
@@ -156,6 +158,9 @@ export class BasededatosService {
   }
   fetchbuscarViajeConductor(): Observable<BuscarViajeC[]> {
     return this.buscarViajeConductor.asObservable();
+  }
+  fetchValidarViajeUsuario(): Observable<ValidarViajeUsuario[]> {
+    return this.validarViajeUsuario.asObservable();
   }
   crearBD() {
     //verificamos que la plataforma este lista
@@ -293,13 +298,13 @@ export class BasededatosService {
 
     })
   }
-  /*
+  
   //Validación si un usuario normal posee un viaje ya activo.
   validarViajeU(usuario){
     let data = [usuario];
     return this.database.executeSql("select u_correo from detalle_viaje where estado= 'Empezado' and u_correo= ? ", data).then(res => {
     //creo mi lista de objetos de noticias vacio
-    let items: [] = [];
+    let items: ValidarViajeUsuario[] = [];
     //falta arreglar por que no tira nada
     //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
     if (res.rows.length > 0) {
@@ -310,10 +315,10 @@ export class BasededatosService {
       }
     }
     //actualizamos el observable de las noticias
-    this..next(items);
+    this.validarViajeUsuario.next(items);
     })
   }
-  */
+  
   
   mostrarViaje(x) {
     //retorno la ejecución del select
