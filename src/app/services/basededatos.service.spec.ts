@@ -16,14 +16,16 @@ describe('BasededatosService', () => {
     localStorage.removeItem('todos');
     service = null;
   })
-  it('should be created', () => {
+
+  it('Servicio se crea exitosamente', () => {
     expect(service).toBeTruthy();
   });
-  it('should return an empty array', () => {
+
+  it('Deberia retornar un array vacio', () => {
     expect(service.getTodos()).toEqual([]);
   });
 
-  it('return an array with one object', () => {
+  it('retorna un array con un objeto', () => {
     const arr = ['First Todo'];
     localStorage.setItem('todos', JSON.stringify(arr));
     expect(service.getTodos()).toEqual(arr);

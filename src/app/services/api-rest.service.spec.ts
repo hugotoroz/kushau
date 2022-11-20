@@ -25,7 +25,7 @@ describe('ApiRestService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should make an API call Usuarios', () => {
+  it('Deberia traer el usuario v.rosendo5', () => {
     const mockResponse = [
       {
         id:1,
@@ -50,12 +50,36 @@ describe('ApiRestService', () => {
 
     mockRequest.flush(mockResponse);
   });
-  it('should make an API call Autitos', () => {
+  it('Deberia traer el auto audi', () => {
     const mockResponse = [
       {
         patente:'FF-HH-22',
         id_usuario: 1,
-        marca: 'marca'
+        marca: 'audi'
+      },
+    ];
+
+    service.getAutitos().subscribe((res)=>{
+      console.log('result', res);
+      expect(res).toBeTruthy();
+      expect(res).toHaveSize(1);
+      const user = res[0];
+      expect(user).toBe(mockResponse[0]);
+    });
+    const mockRequest = httpTestingController.expectOne(
+      'https://my-json-server.typicode.com/victorrosendo/repoListadoAutos'
+    );
+
+    expect(mockRequest.request.method).toEqual('GET');
+
+    mockRequest.flush(mockResponse);
+  });
+  it('Deberia traer el auto BMW', () => {
+    const mockResponse = [
+      {
+        patente:'GG-11-RR',
+        id_usuario: 1,
+        marca: 'BMW'
       },
     ];
 
