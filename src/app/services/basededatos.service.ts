@@ -682,8 +682,10 @@ export class BasededatosService {
   salirDelViaje(id){
     let data =[id]
     return this.database.executeSql('UPDATE viaje set asientos_disp = asientos_disp + 1 where id_viaje = ?;', data).then((res) => {
+      this.filtrarViaje();
       this.buscarViaje();
       this.presentToast("Has salido del viaje exitosamente.");
+      localStorage.setItem('usuViaje',"");
       console.log(res)
     });
   }
@@ -692,7 +694,8 @@ export class BasededatosService {
     return this.database.executeSql('INSERT INTO detalle_Viaje(u_correo, tV_idViaje) VALUES (?,?);', data).then((res) => {
       this.filtrarViaje();
       this.buscarViaje();
-      this.presentToast("¡Viaje tomado exitosamente!")
+      this.presentToast("¡Viaje tomado exitosamente!");
+      localStorage.setItem('usuViaje',u_correo);
       console.log(res)
     });
   }

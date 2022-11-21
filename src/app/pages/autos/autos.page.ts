@@ -9,6 +9,7 @@ import { BasededatosService } from 'src/app/services/basededatos.service';
 })
 export class AutosPage implements OnInit {
   usu = localStorage.getItem('usuario');
+  validarViajeActivo= localStorage.getItem('usuViaje');
   boleano:any;
   noViajes: boolean=false;
   id:string="";
@@ -47,7 +48,6 @@ export class AutosPage implements OnInit {
   ngOnInit() {
     this.servicioDB.dbState().subscribe(res=>{
       this.servicioDB.buscarPerfil(this.usu);
-      this.servicioDB.validarViajeU(this.usu);
       if(res){
         this.servicioDB.fetchActivos().subscribe(item=>{
           this.arregloViaje = item;
@@ -63,37 +63,38 @@ export class AutosPage implements OnInit {
           this.arregloViajeAct= item;
 
         })
+        this.servicioDB.validarViajeU(this.usu);
+
       }
     })
   }
 
   viaje(x){
-
+    this.validarViajeActivo= localStorage.getItem('usuViaje');
     if (this.arregloUsuario[0].nombre2 == '' || this.arregloUsuario[0].apellido2 == '' || this.arregloUsuario[0].apellido2 == 0) {
       this.servicioDB.presentAlert("Debe completar los datos de su perfil para poder tomar un viaje.")
     }
-    //else if (this.arregloViajeAct[0] != undefined){
-    //  this.servicioDB.presentAlert("Usted ya ha ingresado a un viaje.");
-    //}
-    else if (this.arregloViajeAct[0].u_correo == this.usu){
-      this.servicioDB.presentAlert("Usted ya ha ingresado a un viaje.");
+    
+    else if (this.validarViajeActivo == null){
+      localStorage.setItem('usuViaje', "");
+    }
+    else if (this.validarViajeActivo!= ''){
+      this.servicioDB.presentAlert("Usted ya tiene un viaje activo. Revise el botón 'Viaje activo' para ver su viaje actual. ");
     }
     
     else{
       this.servicioDB.mostrarViaje(x.id_viaje3);
       this.router.navigate(['/tomarauto']);
       
-      
     }
   }
   activo(){
-    
-    if (this.arregloViajeAct[0] == undefined){
-      this.servicioDB.presentAlert("Usted todavía no ha ingresado a un viaje.");
+    this.validarViajeActivo= localStorage.getItem('usuViaje');
+    if (this.validarViajeActivo == null){
+      localStorage.setItem('usuViaje', "");
     }
-    else if (this.arregloViajeAct[0].u_correo != this.usu){
-      this.servicioDB.presentAlert("Usted todavía no ha ingresado a un viaje.");
-
+    else if (this.validarViajeActivo == ''){
+      this.servicioDB.presentAlert("Usted todavía no tiene un viaje activo. ");
     }
     else{
       this.router.navigate(['/viajeactivo']);

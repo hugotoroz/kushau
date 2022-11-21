@@ -13,7 +13,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule],
+  imports: [BrowserModule, IonicModule.forRoot({
+    rippleEffect: true,
+    mode: 'md'
+  }), AppRoutingModule,HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },SQLite,Camera,NativeStorage],
   bootstrap: [AppComponent],
 })

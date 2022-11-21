@@ -56,6 +56,7 @@ export class MiperfilPage implements OnInit {
             this.navCtrl.navigateRoot('/inicio-sesion');
             this.presentToast("Has cerrado sesión.");
             localStorage.removeItem('usuario');
+            localStorage.removeItem('usuViaje');
           }
         },
         {
